@@ -1,0 +1,130 @@
+@{
+    ViewBag.Title = "Medical Consultation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="consult-bg-blue">
+    <div class="consult-frame-imgbg">
+        <div class="consult-content-overlay">
+            <h1 class="consult-title-blue">ARE YOUR EYES IRRITATED?</h1>
+            <div class="consult-subtitle-blue">Book a quick consultation!</div>
+            <form class="consult-form-blue">
+                <input type="tel" class="consult-input-blue" placeholder="Your phone number" required />
+                <button type="submit" class="consult-btn-blue">SEND</button>
+            </form>
+            <div class="consult-note-blue">
+                By submitting the form, you agree to the site's <a href="/TermsAndConds" class="consult-link">terms and conditions</a>.
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .consult-bg-blue {
+        min-height: 100vh;
+        background: linear-gradient(120deg, #e3f0ff 0%, #6ec6ff 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    .consult-frame-imgbg {
+        background: url('/Content/MedicalConsultation/MedicalConsultation.jpg') center center/cover no-repeat;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(26,53,94,0.13);
+        padding: 0;
+        max-width: 700px;
+        width: 100%;
+        min-height: 480px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    .consult-content-overlay {
+        background: rgba(255,255,255,0.82);
+        border-radius: 18px;
+        padding: 2.5rem 2.5rem 2.2rem 2.5rem;
+        max-width: 480px;
+        width: 100%;
+        margin: 2.5rem;
+        text-align: center;
+        box-shadow: 0 4px 18px rgba(58,123,213,0.10);
+        position: relative;
+        z-index: 2;
+    }
+    .consult-title-blue {
+        color: #1a355e;
+        font-size: 2.2rem;
+        font-weight: 800;
+        letter-spacing: 2px;
+        margin-bottom: 1.2rem;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .consult-subtitle-blue {
+        color: #28527a;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .consult-form-blue {
+        display: flex;
+        width: 100%;
+        gap: 1rem;
+        margin-bottom: 1.2rem;
+    }
+    .consult-input-blue {
+        flex: 1;
+        padding: 0.9rem 1.2rem;
+        border: 2px solid #6ec6ff;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        background: #f4f8fb;
+        color: #1a355e;
+        outline: none;
+        transition: border 0.2s, background 0.2s;
+    }
+    .consult-input-blue::placeholder {
+        color: #28527a;
+        opacity: 1;
+    }
+    .consult-input-blue:focus {
+        border: 2px solid #2196f3;
+        background: #e3f0ff;
+    }
+    .consult-btn-blue {
+        background: linear-gradient(180deg, #2196f3 60%, #1565c0 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 0.9rem 2.2rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s;
+        box-shadow: 0 2px 8px rgba(33,150,243,0.10);
+    }
+    .consult-btn-blue:hover {
+        background: linear-gradient(180deg, #1565c0 80%, #2196f3 100%);
+    }
+    .consult-note-blue {
+        color: #1a355e;
+        font-size: 1rem;
+        margin-top: 1.2rem;
+        opacity: 0.85;
+    }
+    .consult-note-blue a {
+        color: #1565c0;
+        text-decoration: underline;
+        font-weight: bold;
+    }
+    @@media (max-width: 900px) {
+        .consult-frame-imgbg {
+            min-height: 320px;
+        }
+        .consult-content-overlay {
+            padding: 1.2rem 0.5rem 1.2rem 0.5rem;
+            margin: 1rem;
+        }
+        .consult-title-blue { font-size: 1.3rem; }
+        .consult-subtitle-blue { font-size: 1rem; }
+    }
+</style> 

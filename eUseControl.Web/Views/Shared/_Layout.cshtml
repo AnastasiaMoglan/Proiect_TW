@@ -7,32 +7,124 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <style>
+        body {
+            background: #f4f8fb;
+            color: #1a355e;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        .navbar-custom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1a355e;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(26,53,94,0.08);
+        }
+        .logo {
+            font-size: 2rem;
+            color: #fff;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        .navbar-center {
+            display: flex;
+            gap: 1rem;
+        }
+        .nav-btn {
+            background: #3a7bd5;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            box-shadow: 0 2px 8px rgba(58,123,213,0.08);
+        }
+        .nav-btn:hover {
+            background: #28527a;
+        }
+        .products-btn {
+            border-bottom: 4px solid #28527a;
+            font-weight: bold;
+        }
+        .login-btn {
+            background: #3a7bd5;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .login-btn:hover {
+            background: #28527a;
+        }
+        .home-hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(90deg, #e3f0ff 60%, #b3cfff 100%);
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 2rem;
+        }
+        .hero-content {
+            max-width: 50%;
+        }
+        .hero-content h1 {
+            font-size: 2.5rem;
+            color: #1a355e;
+            margin-bottom: 1rem;
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        .hero-image img {
+            max-width: 350px;
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(26,53,94,0.12);
+        }
+        .footer-custom {
+            text-align: center;
+            padding: 1.5rem 0 0.5rem 0;
+            background: #e3f0ff;
+            color: #1a355e;
+            margin-top: 2rem;
+            border-radius: 0 0 20px 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+    <header>
+        <nav class="navbar-custom">
+            <div class="navbar-left">
+                <span class="logo">BlueVision</span>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
+            <div class="navbar-center">
+                <button class="nav-btn products-btn">Products</button>
+                <button class="nav-btn">Shops</button>
+                <button class="nav-btn">About Us</button>
+                <button class="nav-btn">Contact Us</button>
             </div>
-        </div>
-    </div>
-
-    <div class="container body-content">
+            <div class="navbar-right">
+                <button class="login-btn">Login</button>
+            </div>
+        </nav>
+    </header>
+    <main>
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    </main>
+    <footer class="footer-custom">
+        <p>&copy; @DateTime.Now.Year - BlueVision Optical</p>
+    </footer>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>

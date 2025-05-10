@@ -93,12 +93,122 @@
             box-shadow: 0 4px 24px rgba(26,53,94,0.12);
         }
         .footer-custom {
-            text-align: center;
-            padding: 1.5rem 0 0.5rem 0;
-            background: #e3f0ff;
-            color: #1a355e;
-            margin-top: 2rem;
+            background: #142850;
+            color: #fff;
+            padding: 2rem 0 0.5rem 0;
             border-radius: 0 0 20px 20px;
+            margin-top: 2rem;
+        }
+        .footer-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            margin-bottom: 1.5rem;
+        }
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        .footer-icon {
+            font-size: 2rem;
+            color: #fff;
+        }
+        .footer-link {
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .footer-link:hover {
+            color: #3a7bd5;
+        }
+        .footer-bottom {
+            text-align: center;
+            color: #fff;
+            font-size: 0.95rem;
+            opacity: 0.85;
+            border-top: 1px solid #27496d;
+            padding-top: 1rem;
+        }
+        @@media (max-width: 800px) {
+            .footer-row {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+        .nav-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .products-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: bold;
+            border-bottom: none;
+            background: #fff;
+            color: #1a355e;
+            box-shadow: none;
+            border-radius: 25px 25px 0 0;
+            padding-right: 1.2rem;
+            padding-left: 1.2rem;
+        }
+        .products-btn .nav-icon {
+            font-size: 1.3rem;
+        }
+        .dropdown-arrow {
+            font-size: 1rem;
+            margin-left: 0.3rem;
+        }
+        .products-btn:hover, .nav-dropdown:hover .products-btn {
+            background: #e3f0ff;
+            color: #3a7bd5;
+        }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            min-width: 220px;
+            background: #fff;
+            box-shadow: 0 4px 24px rgba(26,53,94,0.12);
+            border-radius: 0 0 16px 16px;
+            z-index: 100;
+            padding: 1rem 0.5rem;
+        }
+        .nav-dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: 1.1rem;
+            color: #444;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .dropdown-item:hover {
+            background: #e3f0ff;
+            color: #3a7bd5;
+        }
+        .dropdown-icon {
+            font-size: 1.4rem;
+        }
+        .medical-btn {
+            background: #3a7bd5;
+            color: #fff;
+            font-weight: bold;
+            border-bottom: 4px solid #28527a;
+        }
+        .medical-btn:hover {
+            background: #28527a;
+            color: #fff;
         }
     </style>
 </head>
@@ -109,10 +219,22 @@
                 <span class="logo">BlueVision</span>
             </div>
             <div class="navbar-center">
-                <button class="nav-btn products-btn">Products</button>
+                <div class="nav-dropdown">
+                    <button class="nav-btn products-btn">
+                        <span class="nav-icon">&#128083;</span>
+                        Produse <span class="dropdown-arrow">&#9662;</span>
+                    </button>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item"><span class="dropdown-icon">&#128083;</span> Ochelari de soare</div>
+                        <div class="dropdown-item"><span class="dropdown-icon">&#128085;</span> Rame optice</div>
+                        <div class="dropdown-item"><span class="dropdown-icon">&#128065;</span> Lentile de contact</div>
+                        <div class="dropdown-item"><span class="dropdown-icon">&#128137;</span> Accesorii și întreținere</div>
+                    </div>
+                </div>
                 <button class="nav-btn">Shops</button>
                 <button class="nav-btn">About Us</button>
                 <button class="nav-btn">Contact Us</button>
+                <button class="nav-btn medical-btn">Medical Consultation</button>
             </div>
             <div class="navbar-right">
                 <button class="login-btn">Login</button>
@@ -123,7 +245,27 @@
         @RenderBody()
     </main>
     <footer class="footer-custom">
-        <p>&copy; @DateTime.Now.Year - BlueVision Optical</p>
+        <div class="footer-row">
+            <div class="footer-item">
+                <span class="footer-icon">&#8505;</span>
+                <span class="footer-link">Termeni si conditii</span>
+            </div>
+            <div class="footer-item">
+                <span class="footer-icon">&#128100;</span>
+                <span class="footer-link">Echipa noastra</span>
+            </div>
+            <div class="footer-item">
+                <span class="footer-icon">&#128273;</span>
+                <span class="footer-link">Cont utilizator</span>
+            </div>
+            <div class="footer-item">
+                <span class="footer-icon">&#128205;</span>
+                <span class="footer-link">Magazine</span>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; @DateTime.Now.Year BlueVision Optical. Toate drepturile rezervate.</p>
+        </div>
     </footer>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>

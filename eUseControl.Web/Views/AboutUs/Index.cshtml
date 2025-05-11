@@ -1,0 +1,84 @@
+@{
+    ViewBag.Title = "About Us";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="aboutus-bg py-5">
+    <div class="container">
+        <div class="aboutus-frame mx-auto">
+            <h2 class="aboutus-title mb-4">ABOUT US</h2>
+            <p class="aboutus-lead">Welcome to BlueVision Optical where clarity meets care</p>
+            <p>At BlueVision Optical we believe that good vision goes hand in hand with confidence and comfort. Founded with a passion for eye health and a commitment to style, our mission is to provide high quality eyewear and trusted eye care services for individuals of all ages.</p>
+            <p>Whether you are looking for prescription glasses, stylish sunglasses, or contact lenses tailored to your lifestyle, we combine cutting edge optical technology with the expertise of licensed professionals to ensure you see and feel your best.</p>
+            <p>Every pair of glasses at BlueVision Optical reflects our core values which are quality, precision, and personalization. We are more than just a shop, we are a vision care partner that listens, advises, and supports your needs from first consultation to final frame.</p>
+            <p>With conveniently located branches in Chisinau and a growing community of loyal clients, BlueVision Optical is proud to be a trusted name in modern and affordable eye care.</p>
+            <p class="aboutus-mission">Your vision is our mission</p>
+            <img src="~/Content/AboutUs/AboutUs.jpg" alt="About Us" class="aboutus-image-center" />
+        </div>
+    </div>
+</div>
+
+<style>
+.aboutus-bg {
+    background: #eaf6fb;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.aboutus-frame {
+    background: url('/Content/AboutUs/AboutUs2.jpg') center center/cover no-repeat;
+    position: relative;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(30,64,175,0.10);
+    max-width: 700px;
+    padding: 2.5rem 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    border: 2px solid #3ec6e0;
+    color: #fff;
+    overflow: hidden;
+}
+.aboutus-frame::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(62, 198, 224, 0.35);
+    z-index: 0;
+    border-radius: 18px;
+}
+.aboutus-frame > * {
+    position: relative;
+    z-index: 1;
+}
+.aboutus-title {
+    text-align: center;
+    color: #1e3a8a;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 2rem;
+}
+.aboutus-lead {
+    font-size: 1.2rem;
+    color: #eaf3fb;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+.aboutus-mission {
+    font-size: 1.1rem;
+    color: #1e3a8a;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 2rem;
+}
+.aboutus-image-center {
+    display: block;
+    margin: 2rem auto 0 auto;
+    max-width: 320px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(30,64,175,0.10);
+}
+</style> 

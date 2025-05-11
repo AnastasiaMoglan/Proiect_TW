@@ -88,6 +88,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AboutUs\AboutUs.jpg" />
+    <Content Include="Content\AboutUs\AboutUs2.jpg" />
     <Content Include="Content\Home\homepage.jpg" />
     <Content Include="Content\MedicalConsultation\MedicalConsultation.jpg" />
     <Content Include="Content\OurTeam\oftalmolog1.jpg" />
@@ -101,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AboutUsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MedicalConsultationController.cs" />
     <Compile Include="Controllers\OurTeamController.cs" />
@@ -128,6 +131,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\AboutUs\" />
     <Folder Include="Views\MedicalConsultation\" />
     <Folder Include="Views\OurTeam\" />
     <Folder Include="Views\TermsAndConds\" />

@@ -1,2 +1,284 @@
-<a href="/TermsAndConds" class="footer-link">Terms and Conditions</a>
-<a href="/MedicalConsultation" class="nav-btn">Medical Consultation</a> 
+.our-team-bg {
+    background: #eaf3fb; /* light blue-navy */
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.doctors-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -1rem;
+}
+
+.oph-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(30,64,175,0.08);
+    overflow: hidden;
+    height: 100%;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.oph-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(30,64,175,0.15);
+}
+
+.img-wrapper {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.oph-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.oph-card:hover .oph-img {
+    transform: scale(1.05);
+}
+
+.oph-info {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.oph-name {
+    color: #1e3a8a;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.oph-title {
+    color: #3b82f6;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.oph-desc {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.oph-hours {
+    color: #64748b;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-top: auto;
+}
+
+@media (max-width: 991px) {
+    .img-wrapper {
+        height: 250px;
+    }
+}
+
+@media (max-width: 767px) {
+    .doctors-row {
+        margin: 0;
+    }
+    .oph-card {
+        margin-bottom: 2rem;
+    }
+    .img-wrapper {
+        height: 200px;
+    }
+}
+
+.oph-card-simple {
+    background: #fff;
+    border: 1px solid #e0e7ef;
+    border-radius: 0;
+    width: 100%;
+    max-width: 350px;
+    min-height: 410px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 0.5rem;
+}
+.oph-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+}
+.oph-icon img {
+    width: 32px;
+    height: 32px;
+}
+.oph-img-simple {
+    width: 100%;
+    height: 220px;
+    object-fit: contain;
+    background: #f6fafd;
+    border-bottom: 1px solid #e0e7ef;
+}
+.oph-info-simple {
+    width: 100%;
+    padding: 1.2rem 1rem 0.5rem 1rem;
+    text-align: center;
+}
+.oph-name-simple {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #222b45;
+    margin-bottom: 0.3rem;
+}
+.oph-spec-simple {
+    font-size: 1.1rem;
+    color: #2563eb;
+    font-weight: 400;
+    margin-bottom: 0.2rem;
+}
+@media (max-width: 991px) {
+    .oph-card-simple { max-width: 100%; }
+    .oph-img-simple { height: 180px; }
+}
+@media (max-width: 767px) {
+    .oph-card-simple { margin-bottom: 2rem; }
+    .oph-img-simple { height: 140px; }
+}
+
+.oph-img-clean {
+    width: 100%;
+    max-width: 340px;
+    height: 320px;
+    object-fit: cover;
+    background: #fff;
+    margin-bottom: 1.2rem;
+    border: none;
+    box-shadow: none;
+}
+.oph-name-clean {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #3b82f6;
+    text-align: center;
+    margin-bottom: 0.3rem;
+}
+.oph-desc-clean {
+    font-size: 1.1rem;
+    color: #222b45;
+    text-align: center;
+    margin-bottom: 0.2rem;
+}
+.oph-hours-clean {
+    font-size: 1.05rem;
+    color: #444;
+    text-align: center;
+    margin-bottom: 0.2rem;
+}
+@media (max-width: 991px) {
+    .oph-img-clean { max-width: 100%; height: 220px; }
+}
+@media (max-width: 767px) {
+    .oph-img-clean { height: 160px; }
+    .col-md-4 { margin-bottom: 2rem; }
+}
+
+.oph-horizontal-card {
+    display: flex;
+    align-items: center;
+    background: #e3f0ff;
+    border: 1px solid #b6d0f7;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(30,64,175,0.04);
+    padding: 1.5rem 2rem;
+    max-width: 800px;
+    width: 100%;
+    min-height: 220px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.oph-img-horizontal {
+    width: 180px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+    margin-right: 2rem;
+    border: 1px solid #b6d0f7;
+    background: #fff;
+    display: block;
+}
+.oph-info-horizontal {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.oph-name-horizontal {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #2563eb;
+    margin-bottom: 0.2rem;
+    text-align: center;
+}
+.oph-prof-horizontal {
+    font-size: 1.1rem;
+    color: #1e293b;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    text-align: center;
+}
+.oph-desc-horizontal {
+    font-size: 1.05rem;
+    color: #444;
+    margin-bottom: 0.3rem;
+    text-align: center;
+}
+.oph-hours-horizontal {
+    font-size: 1.05rem;
+    color: #64748b;
+    font-style: italic;
+    text-align: center;
+}
+@media (max-width: 991px) {
+    .oph-horizontal-card {
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        min-height: unset;
+    }
+    .oph-img-horizontal {
+        margin-right: 0;
+        margin-bottom: 1rem;
+        width: 100%;
+        max-width: 320px;
+        height: 180px;
+    }
+    .oph-info-horizontal {
+        align-items: center;
+    }
+}
+@media (max-width: 767px) {
+    .oph-horizontal-card {
+        padding: 0.7rem;
+    }
+    .oph-img-horizontal {
+        height: 120px;
+    }
+}
+
+.our-team-title {
+    text-align: center;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #1e3a8a;
+}
+.oph-card-spacing {
+    margin-bottom: 2.5rem;
+} 

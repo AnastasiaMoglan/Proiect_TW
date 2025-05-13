@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace eUseControl.Web.Controllers
+namespace Lab_1.Controllers
 {
-    public class ProductsController : Controller
+    public class ObligatiuniController : Controller
     {
-            // GET: Products
+        // GET: Obligatiuni
         public ActionResult Index()
         {
             return View();

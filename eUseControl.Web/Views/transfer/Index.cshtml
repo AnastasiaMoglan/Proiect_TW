@@ -1,0 +1,185 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Tranzacții";
+}
+
+<style type="text/css">
+    body {
+        background: linear-gradient(180deg, white 62%, #0C9CA7 91%);
+        min-height: 100vh;
+    }
+
+    /* Main container */
+    .transactions-container {
+        width: 90%;
+        max-width: 1400px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    /* Title styling */
+    .transactions-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #163B3D;
+        margin-bottom: 40px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #163B3D;
+    }
+
+    /* Transactions grid */
+    .transaction-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
+        margin-bottom: 60px;
+    }
+
+    /* Individual transaction card */
+    .transaction-card {
+        background: #FFFFFF;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        height: 350px;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .transaction-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Card content */
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #163B3D;
+        margin-bottom: 20px;
+    }
+
+    .card-description {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #455B5D;
+        margin-bottom: 30px;
+        flex-grow: 1;
+    }
+
+    /* Button styling - Updated for black text */
+    .transfer-button {
+        width: 100%;
+        padding: 16px;
+        background: #05FFB9;
+        border: none;
+        border-radius: 30px;
+        color: #000000; /* Changed to black */
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .transfer-button:hover {
+        background: #00E6A8;
+    }
+
+    /* Card specific colors - Updated button colors */
+    .card-1 {
+        background: #67797A;
+        color: white;
+    }
+    .card-1 .card-title,
+    .card-1 .card-description {
+        color: white;
+    }
+    .card-1 .transfer-button {
+        background: white;
+        color: #000000; /* Changed to black */
+    }
+
+    .card-2 {
+        background: #EC6D7B;
+        color: white;
+    }
+    .card-2 .card-title,
+    .card-2 .card-description {
+        color: white;
+    }
+    .card-2 .transfer-button {
+        background: white;
+        color: #000000; /* Changed to black */
+    }
+
+    .card-3 {
+        background: #3FAFB7;
+    }
+    .card-3 .transfer-button {
+        background: #05FFB9;
+        color: #000000; /* Changed to black */
+    }
+
+    .card-4 {
+        background: #EEDC67;
+    }
+    .card-4 .transfer-button {
+        background: #05FFB9;
+        color: #000000; /* Changed to black */
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 1200px) {
+        .transaction-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .transaction-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .transactions-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+    }
+</style>
+
+<div class="transactions-container">
+    <h1 class="transactions-title">Tranzacții</h1>
+
+    <div class="transaction-grid">
+        <!-- Card 1 -->
+        <div class="transaction-card card-1">
+            <h2 class="card-title">transfer de la card la card P2P</h2>
+            <p class="card-description">transferă bani de la card la card în doar câteva minute, rapid și sigur</p>
+            <a class="transfer-button" href="@Url.Action("p2p", "transfer")">Transferă acum</a>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="transaction-card card-2">
+            <h2 class="card-title">transfer internațional la card T2CI</h2>
+            <p class="card-description">primește bani din străinătate direct pe card, oricând și oriunde te-ai afla</p>
+            <a class="transfer-button" href="@Url.Action("t2c", "transfer")">Transferă acum</a>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="transaction-card card-3">
+            <h2 class="card-title">transfer de la cont la cont A2A</h2>
+            <p class="card-description">transferă bani direct între conturi bancare, simplu și eficient</p>
+            <a class="transfer-button" href="@Url.Action("a2a", "transfer")">Transferă acum</a>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="transaction-card card-4">
+            <h2 class="card-title">ask for money</h2>
+            <p class="card-description">transferă bani de la card la card în doar câteva minute, rapid și sigur</p>
+            <a class="transfer-button" href="@Url.Action("afm", "transfer")">Transferă acum</a>
+        </div>
+    </div>
+</div>

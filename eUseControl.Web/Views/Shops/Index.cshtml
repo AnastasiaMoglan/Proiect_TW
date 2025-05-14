@@ -1,0 +1,328 @@
+@{
+    ViewBag.Title = "Our Shops";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="shops-container">
+    <h1 class="shops-title">Our Shops</h1>
+    <div class="shops-cards">
+        <!-- Shop 1 Card -->
+        <div class="shop-card">
+            <img src="/Content/Shops/Shop1.png" alt="Shop 1" class="shop-img" />
+            <div class="shop-info">
+                <h2 class="shop-name">Sfatul Tarii 29</h2>
+                <p class="shop-detail"><strong>Phone:</strong> 068 123 456</p>
+                <p class="shop-detail"><strong>Working Hours:</strong> Monday to Friday, 9:00 - 18:00</p>
+                <div class="shop-buttons">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Sfatul+Tarii+29" target="_blank" class="shop-btn">View on map</a>
+                    <a href="#" class="shop-btn shop-btn-secondary" onclick="openModal('Sfatul Tarii 29');return false;">Book an appointment</a>
+                </div>
+            </div>
+        </div>
+        <!-- Shop 2 Card -->
+        <div class="shop-card">
+            <img src="/Content/Shops/Shop2.png" alt="Shop 2" class="shop-img" />
+            <div class="shop-info">
+                <h2 class="shop-name">Strada Studentilor 1</h2>
+                <p class="shop-detail"><strong>Phone:</strong> 068 987 654</p>
+                <p class="shop-detail"><strong>Working Hours:</strong> Monday to Saturday, 10:00 - 19:00</p>
+                <div class="shop-buttons">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Strada+Studentilor+1" target="_blank" class="shop-btn">View on map</a>
+                    <a href="#" class="shop-btn shop-btn-secondary" onclick="openModal('Strada Studentilor 1');return false;">Book an appointment</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="appointment-modal" class="modal-overlay" style="display:none;">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <h2 class="modal-title">Book an Appointment</h2>
+        <form id="appointment-form" autocomplete="off" onsubmit="return submitAppointment(event)">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" required />
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" name="phone" required />
+            </div>
+            <div class="form-group">
+                <label for="email">Email (optional)</label>
+                <input type="email" id="email" name="email" />
+            </div>
+            <div class="form-group">
+                <label for="date">Preferred Date</label>
+                <input type="date" id="date" name="date" required />
+            </div>
+            <div class="form-group">
+                <label for="time">Preferred Time</label>
+                <input type="time" id="time" name="time" required />
+            </div>
+            <div class="form-group">
+                <label for="doctor">Select Doctor</label>
+                <select id="doctor" name="doctor" required>
+                    <option value="">-- Select Doctor --</option>
+                    <option>Tanurcov Fiodor Piotr</option>
+                    <option>Cosciuc Alexandr Fiodor</option>
+                    <option>Cuciuc Veronica Vladimir</option>
+                    <option>Gherman Natalia Alexandr</option>
+                    <option>Balan Victoria Mihail</option>
+                    <option>Gobjila Olga Andrei</option>
+                </select>
+            </div>
+            <button type="submit" class="modal-submit-btn">Submit</button>
+            <div id="success-message" class="success-message" style="display:none;">
+                ✅ Thank you! Your appointment has been submitted successfully.
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+var selectedShop = '';
+function openModal(shop) {
+    selectedShop = shop;
+    document.getElementById('appointment-modal').style.display = 'flex';
+    document.getElementById('appointment-form').reset();
+    document.getElementById('success-message').style.display = 'none';
+}
+function closeModal() {
+    document.getElementById('appointment-modal').style.display = 'none';
+}
+function submitAppointment(event) {
+    event.preventDefault();
+    document.getElementById('success-message').style.display = 'block';
+    setTimeout(closeModal, 2000);
+    return false;
+}
+window.onclick = function(event) {
+    var modal = document.getElementById('appointment-modal');
+    if (event.target == modal) {
+        closeModal();
+    }
+}
+</script>
+
+<style>
+    .shops-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2.5rem 1rem 3rem 1rem;
+    }
+    .shops-title {
+        text-align: center;
+        color: #1a355e;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 2.5rem;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .shops-cards {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 2.5rem;
+    }
+    .shop-card {
+        background: linear-gradient(120deg, #e3f0ff 0%, #d6eaff 100%);
+        border-radius: 20px;
+        box-shadow: 0 4px 24px rgba(26,53,94,0.10);
+        overflow: hidden;
+        max-width: 350px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: box-shadow 0.2s, transform 0.2s;
+        position: relative;
+    }
+    .shop-card:hover {
+        box-shadow: 0 8px 32px rgba(26,53,94,0.18);
+        transform: translateY(-4px) scale(1.02);
+    }
+    .shop-img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+    .shop-info {
+        padding: 1.5rem 1.2rem 1.2rem 1.2rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .shop-name {
+        color: #1a355e;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 0.7rem;
+    }
+    .shop-detail {
+        color: #28527a;
+        font-size: 1.05rem;
+        margin-bottom: 0.3rem;
+    }
+    .shop-buttons {
+        display: flex;
+        gap: 0.7rem;
+        margin-top: 1.1rem;
+    }
+    .shop-btn {
+        background: #3a7bd5;
+        color: #fff;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 12px;
+        font-size: 1rem;
+        cursor: pointer;
+        font-weight: 600;
+        box-shadow: 0 2px 8px rgba(58,123,213,0.08);
+        transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+        text-decoration: none;
+        outline: none;
+    }
+    .shop-btn:hover {
+        background: #28527a;
+        color: #fff;
+        box-shadow: 0 4px 16px #3a7bd5;
+        transform: translateY(-2px);
+    }
+    .shop-btn-secondary {
+        background: linear-gradient(180deg, #3a7bd5 60%, #28527a 100%);
+        color: #fff;
+    }
+    @@media (max-width: 900px) {
+        .shops-cards {
+            flex-direction: column;
+            align-items: center;
+        }
+        .shop-card {
+            max-width: 95vw;
+        }
+    }
+    @@media (max-width: 600px) {
+        .shops-title {
+            font-size: 1.5rem;
+        }
+        .shop-card {
+            border-radius: 14px;
+        }
+        .shop-img {
+            height: 120px;
+        }
+        .shop-info {
+            padding: 1rem 0.7rem 0.7rem 0.7rem;
+        }
+        .modal-content {
+            padding: 1.2rem 0.5rem 1rem 0.5rem;
+            max-width: 98vw;
+        }
+        .modal-title {
+            font-size: 1.1rem;
+        }
+    }
+    .modal-overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(26,53,94,0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+    .modal-content {
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(26,53,94,0.18);
+        padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+        max-width: 400px;
+        width: 95vw;
+        position: relative;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .modal-title {
+        color: #1a355e;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1.2rem;
+        text-align: center;
+    }
+    .modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1.2rem;
+        font-size: 2rem;
+        color: #3a7bd5;
+        cursor: pointer;
+        font-weight: bold;
+        transition: color 0.2s;
+    }
+    .modal-close:hover {
+        color: #d32f2f;
+    }
+    .form-group {
+        margin-bottom: 1.1rem;
+        display: flex;
+        flex-direction: column;
+    }
+    .form-group label {
+        color: #1a355e;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.3rem;
+    }
+    .form-group input,
+    .form-group select {
+        padding: 0.5rem 0.7rem;
+        border-radius: 8px;
+        border: 1px solid #b3cfff;
+        font-size: 1rem;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: #f4f8fb;
+        color: #1a355e;
+        outline: none;
+        transition: border 0.2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+        border: 1.5px solid #3a7bd5;
+    }
+    .modal-submit-btn {
+        background: #3a7bd5;
+        color: #fff;
+        border: none;
+        padding: 0.7rem 1.5rem;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        font-weight: 700;
+        margin-top: 0.5rem;
+        box-shadow: 0 2px 8px rgba(58,123,213,0.08);
+        transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    }
+    .modal-submit-btn:hover {
+        background: #28527a;
+        color: #fff;
+        box-shadow: 0 4px 16px #3a7bd5;
+        transform: translateY(-2px);
+    }
+    .success-message {
+        color: #1a8f3a;
+        background: #e3fbe8;
+        border-radius: 8px;
+        padding: 0.7rem 1rem;
+        margin-top: 1rem;
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+</style> 

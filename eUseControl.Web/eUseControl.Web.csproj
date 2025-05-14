@@ -99,6 +99,8 @@
     <Content Include="Content\OurTeam\oftalmolog4.jpg" />
     <Content Include="Content\OurTeam\oftalmolog5.jpg" />
     <Content Include="Content\OurTeam\oftalmolog6.jpg" />
+    <Content Include="Content\Shops\Shop1.png" />
+    <Content Include="Content\Shops\Shop2.png" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -110,6 +112,7 @@
     <Compile Include="Controllers\MedicalConsultationController.cs" />
     <Compile Include="Controllers\OurTeamController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\ShopsController.cs" />
     <Compile Include="Controllers\TermsAndCondsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -90,6 +90,7 @@
   <ItemGroup>
     <Content Include="Content\AboutUs\AboutUs.jpg" />
     <Content Include="Content\AboutUs\AboutUs2.jpg" />
+    <Content Include="Content\Account\Account.jpg" />
     <Content Include="Content\Contact\glasses.png" />
     <Content Include="Content\Home\homepage.jpg" />
     <Content Include="Content\MedicalConsultation\MedicalConsultation.jpg" />

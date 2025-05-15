@@ -92,6 +92,12 @@
     <Content Include="Content\AboutUs\AboutUs2.jpg" />
     <Content Include="Content\Account\Account.jpg" />
     <Content Include="Content\Contact\glasses.png" />
+    <Content Include="Content\Frames\rame1.jpg" />
+    <Content Include="Content\Frames\rame2.jpg" />
+    <Content Include="Content\Frames\rame3.jpg" />
+    <Content Include="Content\Frames\rame4.jpg" />
+    <Content Include="Content\Frames\rame5.jpg" />
+    <Content Include="Content\Frames\rame6.jpg" />
     <Content Include="Content\Home\homepage.jpg" />
     <Content Include="Content\MedicalConsultation\MedicalConsultation.jpg" />
     <Content Include="Content\OurTeam\oftalmolog1.jpg" />

@@ -18,5 +18,10 @@ namespace eUseControl.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult OpticalFrames()
+        {
+            return View();
+        }
     }
 }

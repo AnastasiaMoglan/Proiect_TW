@@ -13,5 +13,10 @@ namespace eUseControl.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Sunglasses()
+        {
+            return View();
+        }
     }
 }

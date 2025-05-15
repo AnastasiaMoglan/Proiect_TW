@@ -102,6 +102,12 @@
     <Content Include="Content\OurTeam\oftalmolog6.jpg" />
     <Content Include="Content\Shops\Shop1.png" />
     <Content Include="Content\Shops\Shop2.png" />
+    <Content Include="Content\Sunglasses\soare1.jpg" />
+    <Content Include="Content\Sunglasses\soare2.jpg" />
+    <Content Include="Content\Sunglasses\soare3.jpg" />
+    <Content Include="Content\Sunglasses\soare4.jpg" />
+    <Content Include="Content\Sunglasses\soare5.jpg" />
+    <Content Include="Content\Sunglasses\soare6.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>

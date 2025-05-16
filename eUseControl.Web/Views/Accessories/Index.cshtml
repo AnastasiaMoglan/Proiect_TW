@@ -31,20 +31,20 @@
 
 <div class="accessories-bg">
     <div class="accessories-header-row accessories-header-flex">
-        <div class="accessories-title-wrap">
+        <div class="accessories-title-wrap" style="display: flex; align-items: center; gap: 2rem;">
             <h1 class="accessories-title">Accessories</h1>
-        </div>
-        <div class="filter-bar">
-            <button class="filter-toggle" id="filterBtn" onclick="toggleFilterDropdown()">
-                <span class="filter-icon">&#128269;</span>
-                <span class="filter-text">Filter</span>
-            </button>
-            <div class="filter-dropdown" id="filterDropdown">
-                @foreach (var cat in categories)
-                {
-                    var filterVal = cat.ToLower();
-                    <div class="filter-option" data-filter="@filterVal" onclick="filterAccessories('@filterVal')">@cat</div>
-                }
+            <div class="filter-bar">
+                <button class="filter-toggle" id="filterBtn" onclick="toggleFilterDropdown()">
+                    <span class="filter-icon">&#128269;</span>
+                    <span class="filter-text">Filter</span>
+                </button>
+                <div class="filter-dropdown" id="filterDropdown">
+                    @foreach (var cat in categories)
+                    {
+                        var filterVal = cat.ToLower();
+                        <div class="filter-option" data-filter="@filterVal" onclick="filterAccessories('@filterVal')">@cat</div>
+                    }
+                </div>
             </div>
         </div>
     </div>
@@ -190,36 +190,43 @@
     }
     
     .product-card {
-        background: #e3f0ff; /* Match Sunglasses card background */
-        border-radius: 16px;
+        flex: 1 1 260px;
+        max-width: 300px;
+        min-width: 260px;
         border: 1px solid #1a355e;
-        box-shadow: 0 2px 12px rgba(13,26,58,0.2);
+        border-radius: 16px;
+        padding: 1.2rem 1rem 1.5rem 1rem;
+        background: #e3f0ff;
+        box-shadow: 0 2px 12px #0d1a3a33;
+        text-align: center;
+        color: #1a355e;
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 1.5rem 1rem;
-        min-height: 370px;
-        transition: all 0.3s ease;
+        cursor: pointer;
+        transition: opacity 0.3s, transform 0.3s;
+        min-height: unset;
     }
-    
     .product-card:hover {
         box-shadow: 0 6px 24px #6ec6ff;
         transform: translateY(-2px) scale(1.03);
     }
-    
+    .product-card.hide {
+        display: none !important;
+    }
     .product-img-wrap {
         width: 100%;
-        height: 180px;
+        max-width: 180px;
+        height: 140px;
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 1.2rem;
+        margin-bottom: 1rem;
     }
-    
     .product-card img {
-        max-width: 90%;
-        max-height: 170px;
-        border-radius: 12px;
+        max-width: 100%;
+        max-height: 140px;
+        border-radius: 8px;
         background: #fff;
         box-shadow: 0 2px 8px rgba(179,207,255,0.27);
     }
@@ -272,10 +279,6 @@
     
     .heart-icon:hover {
         color: #a31515;
-    }
-    
-    .product-card.hide {
-        display: none;
     }
     
     .product-description {

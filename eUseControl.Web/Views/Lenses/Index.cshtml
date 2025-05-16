@@ -1,14 +1,17 @@
+<div style="color: green; font-size: 2rem; font-weight: bold;">THIS IS LENSES/INDEX.CSHTML - UNIQUE TEST MESSAGE</div>
 @{
     ViewBag.Title = "Lenses";
     var lenses = new[] {
-        new { Img = Url.Content("~/Content/Lenses/Lentila1.png"), Name = "Essilor Single Vision", Price = 120.00m, Discounted = 60.00m, Desc = "Clear single vision lenses with UV protection", Category = "Single" },
+        new { Img = Url.Content("~/Content/Lenses/Lentila1.png"), Name = "Essilor Single Vision", Price = 120.00m, Discounted = 60.00m, Desc = "Clear single vision lenses with UV protection", Category = "Single Vision" },
         new { Img = Url.Content("~/Content/Lenses/Lentila2.png"), Name = "Zeiss Progressive", Price = 280.00m, Discounted = 280.00m, Desc = "Premium progressive lenses with digital design", Category = "Progressive" },
         new { Img = Url.Content("~/Content/Lenses/Lentila3.png"), Name = "Hoya Bifocal", Price = 160.00m, Discounted = 160.00m, Desc = "Traditional bifocal lenses with clear segment", Category = "Bifocal" },
         new { Img = Url.Content("~/Content/Lenses/Lentila4.png"), Name = "Varilux Progressive", Price = 320.00m, Discounted = 320.00m, Desc = "Advanced progressive lenses with smooth transitions", Category = "Progressive" },
-        new { Img = Url.Content("~/Content/Lenses/Lentila6.png"), Name = "Eyezen Single Vision", Price = 140.00m, Discounted = 70.00m, Desc = "Digital-friendly lenses for daily eye comfort", Category = "Single" }
+        new { Img = Url.Content("~/Content/Lenses/Lentila6.png"), Name = "Eyezen Single Vision", Price = 140.00m, Discounted = 70.00m, Desc = "Digital-friendly lenses for daily eye comfort", Category = "Single Vision" }
     };
-    var categories = new[] { "All", "Single", "Progressive", "Bifocal", "Discounts" };
+    var categories = new[] { "All", "Single Vision", "Progressive", "Bifocal", "Discounts" };
 }
+
+<h1 style="color:blue;">LENSES INDEX.CSHTML - UNIQUE TEST MESSAGE</h1>
 
 <style>
     body {
@@ -195,16 +198,17 @@
         <div class="filter-dropdown-custom" id="filterDropdownCustom">
             @foreach (var cat in categories)
             {
-                <button class="filter-option-custom" onclick="filterLenses('@cat.ToLower()'); event.stopPropagation();">@cat</button>
+                <button class="filter-option-custom" onclick="filterLenses('@cat.ToLower().Replace(" ", "")'); event.stopPropagation();">@cat</button>
             }
         </div>
     </div>
 </div>
+<div style="color: red; font-weight: bold;">DEBUG: Categories = @string.Join(", ", categories)</div>
 <div class="lenses-grid" id="lensesGrid">
     @foreach (var lens in lenses)
     {
         var isDiscounted = lens.Discounted < lens.Price;
-        <div class="lens-card" data-category="@lens.Category.ToLower()" data-discounted="@(isDiscounted ? "true" : "false")">
+        <div class="lens-card" data-category="@lens.Category.ToLower().Replace(" ", "")" data-discounted="@(isDiscounted ? "true" : "false")">
             <img class="lens-img" src="@lens.Img" alt="@lens.Name" />
             <div class="lens-name">@lens.Name</div>
             <div class="lens-price">
@@ -226,6 +230,24 @@
         </div>
     }
 </div>
+<div style="margin: 2rem 0; color: #d32f2f; font-weight: bold;">
+    <h4>Debug: Rendered data-category values</h4>
+    <ul>
+    @foreach (var lens in lenses)
+    {
+        <li>@lens.Name: @lens.Category.ToLower().Replace(" ", "")</li>
+    }
+    </ul>
+</div>
+<div style="margin: 2rem 0; color: #d32f2f; font-weight: bold;">
+    <h4>Debug: Rendered Lenses</h4>
+    <ul>
+    @foreach (var lens in lenses)
+    {
+        <li>@lens.Name - @lens.Category</li>
+    }
+    </ul>
+</div>
 <script>
     function toggleFilterDropdown() {
         const btn = document.getElementById('filterBtn');
@@ -235,7 +257,9 @@
     }
     function filterLenses(category) {
         const cards = document.querySelectorAll('.lens-card');
+        console.log('Filtering for category:', category);
         cards.forEach(card => {
+            console.log('Card:', card.querySelector('.lens-name').textContent, 'data-category:', card.dataset.category);
             if (category === 'all') {
                 card.classList.remove('hide');
             } else if (category === 'discounts') {

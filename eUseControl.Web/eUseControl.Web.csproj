@@ -96,6 +96,22 @@
   <ItemGroup>
     <Content Include="Content\AboutUs\AboutUs.jpg" />
     <Content Include="Content\AboutUs\AboutUs2.jpg" />
+    <Content Include="Content\Accessories\Case1.png" />
+    <Content Include="Content\Accessories\Case2.png" />
+    <Content Include="Content\Accessories\Case3.png" />
+    <Content Include="Content\Accessories\Case4.png" />
+    <Content Include="Content\Accessories\Cloth.png" />
+    <Content Include="Content\Accessories\Cloth2.png" />
+    <Content Include="Content\Accessories\Cloth3.png" />
+    <Content Include="Content\Accessories\Cloth4.png" />
+    <Content Include="Content\Accessories\Cloth5.png" />
+    <Content Include="Content\Accessories\Cord1.png" />
+    <Content Include="Content\Accessories\Cord2.png" />
+    <Content Include="Content\Accessories\Cord3.png" />
+    <Content Include="Content\Accessories\Spray1.png" />
+    <Content Include="Content\Accessories\Spray2.png" />
+    <Content Include="Content\Accessories\Spray3.png" />
+    <Content Include="Content\Accessories\Spray4.png" />
     <Content Include="Content\Account\Account.jpg" />
     <Content Include="Content\Contact\glasses.png" />
     <Content Include="Content\Frames\rame1.jpg" />
@@ -131,6 +147,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AboutUsController.cs" />
+    <Compile Include="Controllers\AccessoriesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AmcController.cs" />
@@ -149,11 +166,17 @@
     <Compile Include="Controllers\ShopsController.cs" />
     <Compile Include="Controllers\SupportController.cs" />
     <Compile Include="Controllers\TermsAndCondsController.cs" />
+    <Compile Include="Controllers\TermsController.cs" />
+    <Compile Include="Controllers\transferController.cs" />
+    <Compile Include="Data\ApplicationDbContext.cs" />
+    <Compile Include="Data\DatabaseInitializer.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\AccessoriesProduct.cs" />
+    <Compile Include="Services\TransferCardService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -164,6 +187,24 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\Obligatiuni\Index.cshtml" />
+    <Content Include="Views\Shops\Index.cshtml" />
+    <Content Include="Views\AboutUs\Index.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Accessories\Index.cshtml" />
+    <Content Include="Views\Admin\Dashboard.cshtml" />
+    <Content Include="Views\Amc\aboutus.cshtml" />
+    <Content Include="Views\Card\Index.cshtml" />
+    <Content Include="Views\exchange_rate\Index.cshtml" />
+    <Content Include="Views\history\Index.cshtml" />
+    <Content Include="Views\login\Index.cshtml" />
+    <Content Include="Views\login\ViewLoginHistory.cshtml" />
+    <Content Include="Views\profile\cards.cshtml" />
+    <Content Include="Views\profile\Index.cshtml" />
+    <Content Include="Views\register\index.cshtml" />
+    <Content Include="Views\register\ViewDatabase.cshtml" />
+    <Content Include="Views\Support\ViewSupportMessages.cshtml" />
+    <Content Include="Views\Terms\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -176,8 +217,6 @@
     <Folder Include="Content\App_LocalResources\" />
     <Folder Include="Content\NewFolder1\" />
     <Folder Include="Content\NewFolder2\" />
-    <Folder Include="Models\" />
-    <Folder Include="Views\AboutUs\" />
     <Folder Include="Views\MedicalConsultation\" />
     <Folder Include="Views\OurTeam\" />
     <Folder Include="Views\TermsAndConds\" />
@@ -238,4 +277,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <Content Include="Views/Accessories/Index.cshtml" />
+  </ItemGroup>
 </Project>

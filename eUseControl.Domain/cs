@@ -1,0 +1,32 @@
+namespace eUseControl.Domain.Models
+{
+    public enum ProductType
+    {
+        Sunglasses,
+        OpticalFrames
+    }
+
+    public class Money
+    {
+        public decimal Amount { get; set; }
+        public string Currency { get; set; }
+        public Money(decimal amount, string currency)
+        {
+            Amount = amount;
+            Currency = currency;
+        }
+        public override string ToString() => $"{Amount} {Currency}";
+    }
+
+    public class Product
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Money Price { get; set; }
+        public string ImageUrl { get; set; }
+        public ProductType Type { get; set; }
+        public string VisionType { get; set; } // "Near" or "Distance"
+        public string Gender { get; set; } // "Men" or "Women"
+    }
+} 

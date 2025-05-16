@@ -1,10 +1,10 @@
-﻿@{
-    ViewBag.Title = "Sunglasses";
+@{
+    ViewBag.Title = "Frames";
 }
 
 <div class="container">
     <div class="header">
-        <h1>Sunglasses Collection</h1>
+        <h1>Frames Collection</h1>
         <div class="filters">
             <button class="filter-btn" onclick="filterProducts('all')">All</button>
             <button class="filter-btn" onclick="filterProducts('men')">Men</button>
@@ -18,12 +18,12 @@
         @{
             var products = new[]
             {
-                new { image = "/Content/Sunglasses/soare1.jpg", name = "Ray-Ban Aviator", price = 160.00m, discountedPrice = 80.00m, description = "Classic aviator style with gold frame and green lenses", type = "men" },
-                new { image = "/Content/Sunglasses/soare2.jpg", name = "Oakley Holbrook", price = 140.00m, discountedPrice = 140.00m, description = "Matte black frame with polarized lenses", type = "men" },
-                new { image = "/Content/Sunglasses/soare3.jpg", name = "Gucci Square", price = 320.00m, discountedPrice = 320.00m, description = "Luxury square frame with logo details", type = "women" },
-                new { image = "/Content/Sunglasses/soare4.jpg", name = "Prada Cat Eye", price = 280.00m, discountedPrice = 140.00m, description = "Elegant cat-eye design with crystal details", type = "women" },
-                new { image = "/Content/Sunglasses/soare5.jpg", name = "Tommy Hilfiger Round", price = 120.00m, discountedPrice = 120.00m, description = "Classic round frame with logo arm", type = "kids" },
-                new { image = "/Content/Sunglasses/soare6.jpg", name = "Nike Sport", price = 100.00m, discountedPrice = 100.00m, description = "Sporty design with rubber nose pads", type = "kids" }
+                new { image = "/Content/Frames/rame1.jpg", name = "Ray-Ban Round", price = 180.00m, discountedPrice = 90.00m, description = "Classic round frame with gold finish", type = "men" },
+                new { image = "/Content/Frames/rame2.jpg", name = "Oakley Square", price = 160.00m, discountedPrice = 160.00m, description = "Modern square frame with matte black finish", type = "men" },
+                new { image = "/Content/Frames/rame3.jpg", name = "Gucci Cat Eye", price = 340.00m, discountedPrice = 340.00m, description = "Luxury cat-eye frame with crystal details", type = "women" },
+                new { image = "/Content/Frames/rame4.jpg", name = "Prada Rectangle", price = 300.00m, discountedPrice = 150.00m, description = "Elegant rectangle frame with logo details", type = "women" },
+                new { image = "/Content/Frames/rame5.jpg", name = "Tommy Hilfiger Oval", price = 140.00m, discountedPrice = 140.00m, description = "Classic oval frame with logo arm", type = "kids" },
+                new { image = "/Content/Frames/rame6.jpg", name = "Nike Sport", price = 120.00m, discountedPrice = 120.00m, description = "Sporty design with rubber nose pads", type = "kids" }
             };
         }
 
@@ -266,5 +266,4 @@
             modal.style.display = 'none';
         }
     }
-</script>
-
+</script> 

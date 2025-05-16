@@ -23,5 +23,10 @@ namespace eUseControl.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Lenses()
+        {
+            return View();
+        }
     }
 }

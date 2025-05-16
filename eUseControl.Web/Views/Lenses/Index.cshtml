@@ -1,0 +1,261 @@
+@{
+    ViewBag.Title = "Lenses";
+    var lenses = new[] {
+        new { Img = Url.Content("~/Content/Lenses/Lentila1.png"), Name = "Essilor Single Vision", Price = 120.00m, Discounted = 60.00m, Desc = "Clear single vision lenses with UV protection", Category = "Single" },
+        new { Img = Url.Content("~/Content/Lenses/Lentila2.png"), Name = "Zeiss Progressive", Price = 280.00m, Discounted = 280.00m, Desc = "Premium progressive lenses with digital design", Category = "Progressive" },
+        new { Img = Url.Content("~/Content/Lenses/Lentila3.png"), Name = "Hoya Bifocal", Price = 160.00m, Discounted = 160.00m, Desc = "Traditional bifocal lenses with clear segment", Category = "Bifocal" },
+        new { Img = Url.Content("~/Content/Lenses/Lentila4.png"), Name = "Varilux Progressive", Price = 320.00m, Discounted = 320.00m, Desc = "Advanced progressive lenses with smooth transitions", Category = "Progressive" },
+        new { Img = Url.Content("~/Content/Lenses/Lentila6.png"), Name = "Eyezen Single Vision", Price = 140.00m, Discounted = 70.00m, Desc = "Digital-friendly lenses for daily eye comfort", Category = "Single" }
+    };
+    var categories = new[] { "All", "Single", "Progressive", "Bifocal", "Discounts" };
+}
+
+<style>
+    body {
+        background: #6ec6ff !important;
+    }
+    .lenses-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+        flex-wrap: wrap;
+        margin-top: 2.5rem;
+    }
+    .lenses-title {
+        color: #1a355e;
+        font-size: 2.7rem;
+        font-family: 'Fredoka One', 'Segoe UI', Arial, sans-serif;
+        letter-spacing: 2px;
+        text-shadow: 0 4px 18px #b3cfff;
+        margin: 0;
+        flex-shrink: 0;
+    }
+    .lenses-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        max-width: 900px;
+        margin: 0 auto;
+        justify-content: center;
+    }
+    .lens-card {
+        flex: 1 1 260px;
+        max-width: 300px;
+        min-width: 260px;
+        border: 1px solid #1a355e;
+        border-radius: 16px;
+        padding: 1.2rem 1rem 1.5rem 1rem;
+        background: #e3f0ff;
+        box-shadow: 0 2px 12px #0d1a3a33;
+        text-align: center;
+        color: #1a355e;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        transition: opacity 0.3s, transform 0.3s;
+    }
+    .lens-card:hover {
+        box-shadow: 0 6px 24px #6ec6ff;
+        transform: translateY(-2px) scale(1.03);
+    }
+    .lens-card.hide {
+        display: none !important;
+    }
+    .lens-img {
+        width: 100%;
+        max-width: 180px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        background: #fff;
+    }
+    .lens-name {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #28527a;
+        margin-bottom: 0.5rem;
+    }
+    .lens-price {
+        color: #2563eb;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+    }
+    .lens-actions {
+        display: flex;
+        gap: 0.7rem;
+        justify-content: center;
+    }
+    .add-to-cart {
+        padding: 0.5rem 1.1rem;
+        border: none;
+        border-radius: 6px;
+        background: #1a355e;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .add-to-cart:hover {
+        background: #2563eb;
+        color: #fff;
+    }
+    .add-to-favorites {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 1.6rem;
+        color: #f44336;
+        transition: color 0.2s;
+        margin-left: 0.2rem;
+    }
+    .add-to-favorites:hover {
+        color: #d32f2f;
+    }
+    .lens-desc {
+        display: block;
+        margin-top: 0.8rem;
+        color: #666;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        padding: 0 0.5rem;
+    }
+    @@media (max-width: 900px) {
+        .lenses-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    @@media (max-width: 600px) {
+        .lenses-header {
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        .lenses-title {
+            font-size: 2rem;
+        }
+        .lenses-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    @@keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    .filter-btn-custom {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #3a7bd5;
+        color: #fff;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 25px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        box-shadow: 0 2px 8px rgba(58,123,213,0.08);
+        margin-left: 1.5rem;
+    }
+    .filter-btn-custom:hover, .filter-btn-custom.active {
+        background: #28527a;
+    }
+    .filter-dropdown-custom { display: none; }
+    .filter-btn-custom.show + .filter-dropdown-custom { display: block; }
+    .filter-option-custom {
+        display: block;
+        width: 100%;
+        padding: 0.7rem 1.2rem;
+        font-size: 1rem;
+        color: #1a355e;
+        background: none;
+        border: none;
+        text-align: left;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: background 0.2s, color 0.2s;
+    }
+    .filter-option-custom:hover, .filter-option-custom.selected {
+        background: #e3f0ff;
+        color: #2563eb;
+    }
+</style>
+
+<div class="lenses-header">
+    <h2 class="lenses-title">Lenses</h2>
+    <div style="position:relative;">
+        <button class="filter-btn-custom" id="filterBtn" onclick="toggleFilterDropdown()">
+            <span style="font-size: 1.4rem;">&#128269;</span>
+            <span style="font-weight:bold; font-size:1.2rem;">Filter</span>
+        </button>
+        <div class="filter-dropdown-custom" id="filterDropdownCustom">
+            @foreach (var cat in categories)
+            {
+                <button class="filter-option-custom" onclick="filterLenses('@cat.ToLower()'); event.stopPropagation();">@cat</button>
+            }
+        </div>
+    </div>
+</div>
+<div class="lenses-grid" id="lensesGrid">
+    @foreach (var lens in lenses)
+    {
+        var isDiscounted = lens.Discounted < lens.Price;
+        <div class="lens-card" data-category="@lens.Category.ToLower()" data-discounted="@(isDiscounted ? "true" : "false")">
+            <img class="lens-img" src="@lens.Img" alt="@lens.Name" />
+            <div class="lens-name">@lens.Name</div>
+            <div class="lens-price">
+                @if (isDiscounted)
+                {
+                    <span style="text-decoration:line-through;color:#888;margin-right:8px;">@lens.Price$</span>
+                    <span style="color:#d32f2f;font-weight:bold;">@lens.Discounted$</span>
+                }
+                else
+                {
+                    <span>@lens.Price$</span>
+                }
+            </div>
+            <div class="lens-desc">@lens.Desc</div>
+            <div class="lens-actions">
+                <button class="add-to-cart">Add to Cart</button>
+                <button class="add-to-favorites">&#10084;</button>
+            </div>
+        </div>
+    }
+</div>
+<script>
+    function toggleFilterDropdown() {
+        const btn = document.getElementById('filterBtn');
+        const dropdown = document.getElementById('filterDropdownCustom');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        btn.classList.toggle('show');
+    }
+    function filterLenses(category) {
+        const cards = document.querySelectorAll('.lens-card');
+        cards.forEach(card => {
+            if (category === 'all') {
+                card.classList.remove('hide');
+            } else if (category === 'discounts') {
+                if (card.dataset.discounted === 'true') card.classList.remove('hide');
+                else card.classList.add('hide');
+            } else if (card.dataset.category === category) {
+                card.classList.remove('hide');
+            } else {
+                card.classList.add('hide');
+            }
+        });
+        document.getElementById('filterDropdownCustom').style.display = 'none';
+        document.getElementById('filterBtn').classList.remove('show');
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('click', function(e) {
+            if (!e.target.closest('#filterBtn') && !e.target.closest('#filterDropdownCustom')) {
+                document.getElementById('filterDropdownCustom').style.display = 'none';
+                document.getElementById('filterBtn').classList.remove('show');
+            }
+        });
+    });
+</script> 

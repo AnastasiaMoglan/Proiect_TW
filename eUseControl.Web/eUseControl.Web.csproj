@@ -99,6 +99,11 @@
     <Content Include="Content\Frames\rame5.jpg" />
     <Content Include="Content\Frames\rame6.jpg" />
     <Content Include="Content\Home\homepage.jpg" />
+    <Content Include="Content\Lenses\Lentila1.png" />
+    <Content Include="Content\Lenses\Lentila2.png" />
+    <Content Include="Content\Lenses\Lentila3.png" />
+    <Content Include="Content\Lenses\Lentila4.png" />
+    <Content Include="Content\Lenses\Lentila6.png" />
     <Content Include="Content\MedicalConsultation\MedicalConsultation.jpg" />
     <Content Include="Content\OurTeam\oftalmolog1.jpg" />
     <Content Include="Content\OurTeam\oftalmolog2.jpg" />
@@ -123,24 +128,29 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LensesController.cs" />
     <Compile Include="Controllers\MedicalConsultationController.cs" />
     <Compile Include="Controllers\OurTeamController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\ShopsController.cs" />
     <Compile Include="Controllers\TermsAndCondsController.cs" />
+    <Compile Include="Controllers\AccessoriesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\AccessoriesProduct.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
     <Content Include="Views\Contact\Index.cshtml" />
+    <Content Include="Views\Lenses\Index.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\Accessories\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -150,9 +160,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\App_LocalResources\" />
+    <Folder Include="Content\NewFolder1\" />
+    <Folder Include="Content\NewFolder2\" />
     <Folder Include="Models\" />
     <Folder Include="Views\AboutUs\" />
-    <Folder Include="Views\Account\" />
     <Folder Include="Views\MedicalConsultation\" />
     <Folder Include="Views\OurTeam\" />
     <Folder Include="Views\TermsAndConds\" />

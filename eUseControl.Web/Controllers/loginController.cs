@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using eUseControl.Web.Models;
+using eUseControl.Domain.Models;
 using eUseControl.Web.Data;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity;

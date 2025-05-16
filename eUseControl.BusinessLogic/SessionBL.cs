@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using eUseControl.Domain.Models;
+using eUseControl.BusinessLogic.Interfaces;
+using eUseControl.BusinessLogic.Core;
 
-namespace eUseControl.Domain
+namespace eUseControl.BusinessLogic
 {
     public class SessionBL : UserApi, ISession
     {

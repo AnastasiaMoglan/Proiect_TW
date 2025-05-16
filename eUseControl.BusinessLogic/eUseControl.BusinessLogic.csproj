@@ -44,10 +44,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\eUseControl.Domain\eUseControl.Domain.csproj">
+      <Project>{437FD447-44DE-4893-AE7A-286647DA4DB7}</Project>
+      <Name>eUseControl.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\eUseControl.Helpers\eUseControl.Helpers.csproj">
+      <Project>{cb40c91d-4585-4343-a8e8-efb20aeec8bd}</Project>
+      <Name>eUseControl.Helpers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BussinesLogic.cs" />
+    <Compile Include="Core\AdminApi.cs" />
+    <Compile Include="Core\UserApi.cs" />
+    <Compile Include="Interfaces\ISession.cs" />
+    <Compile Include="Interfaces\IUser.cs" />
+    <Compile Include="Logic\CartBL.cs" />
+    <Compile Include="Logic\FavoritesBL.cs" />
+    <Compile Include="Logic\ProductBL.cs" />
+    <Compile Include="Logic\RegistrationBL.cs" />
+    <Compile Include="Logic\UserBL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionBL.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

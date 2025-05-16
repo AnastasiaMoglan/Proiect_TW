@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using eUseControl.Web.Models;
+using eUseControl.Domain.Models;
+using eUseControl.Web.Data;
 using eUseControl.Web.Services;
 using System.Web.Security;
-using eUseControl.Web.Data;
 
-
-namespace Lab_1.Controllers
+namespace eUseControl.Web.Controllers
 {
     public class transferController : Controller
     {
-        private readonly TransferCardService _transferCardService;
+        private readonly ApplicationDbContext _context;
+        private readonly TransferCardService _transferService;
 
         public transferController()
         {
-            _transferCardService = new TransferCardService();
+            _context = new ApplicationDbContext();
+            _transferService = new TransferCardService();
         }
 
         private bool IsUserAuthenticated()
@@ -80,28 +81,28 @@ namespace Lab_1.Controllers
             return View();
         }
 
-        public ActionResult a2a()
+        public ActionResult A2A()
         {
             if (!IsUserAuthenticated())
                 return RedirectToLogin();
             return View();
         }
 
-        public ActionResult p2p()
+        public ActionResult P2P()
         {
             if (!IsUserAuthenticated())
                 return RedirectToLogin();
             return View();
         }
 
-        public ActionResult afm()
+        public ActionResult T2C()
         {
             if (!IsUserAuthenticated())
                 return RedirectToLogin();
             return View();
         }
 
-        public ActionResult t2c()
+        public ActionResult AFM()
         {
             if (!IsUserAuthenticated())
                 return RedirectToLogin();
@@ -112,7 +113,7 @@ namespace Lab_1.Controllers
         {
             if (Session["UserRole"]?.ToString() != "Admin")
                 return RedirectToAction("Index", "Login", new { returnUrl = Request.RawUrl });
-            var transfers = _transferCardService.GetAllTransfers();
+            var transfers = _transferService.GetAllTransfers();
             return View(transfers);
         }
 
@@ -151,7 +152,7 @@ namespace Lab_1.Controllers
                     transfer.BankBeneficiary = "Maib";
                     transfer.TransferDate = DateTime.Now;
 
-                    _transferCardService.CreateTransfer(transfer);
+                    _transferService.CreateTransfer(transfer);
                     return Json(new { success = true, message = "Transfer created successfully" });
                 }
                 var errors = ModelState.Values
@@ -183,7 +184,7 @@ namespace Lab_1.Controllers
                     // Uncomment if you add TransferType to the model:
                     // transfer.TransferType = "P2P";
 
-                    _transferCardService.CreateTransfer(transfer);
+                    _transferService.CreateTransfer(transfer);
                     return Json(new { success = true, message = "Transfer created successfully" });
                 }
                 var errors = ModelState.Values
@@ -214,7 +215,7 @@ namespace Lab_1.Controllers
                     if (!string.IsNullOrEmpty(Request.Form["Bank"]))
                         transfer.BankBeneficiary = Request.Form["Bank"];
                     transfer.TransferDate = DateTime.Now;
-                    _transferCardService.CreateTransfer(transfer);
+                    _transferService.CreateTransfer(transfer);
                     return Json(new { success = true, message = "Transfer created successfully" });
                 }
                 var errors = ModelState.Values

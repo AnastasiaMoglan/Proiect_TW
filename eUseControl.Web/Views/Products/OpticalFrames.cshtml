@@ -1,13 +1,6 @@
+@model List<eUseControl.Domain.Models.Product>
 @{
     ViewBag.Title = "Optical Frames";
-    var frames = new[] {
-        new { Img = Url.Content("~/Content/Frames/rame1.jpg"), Name = "Urban Classic", Price = 140, Desc = "Sleek and timeless for everyday wear.", Gender = "Near" },
-        new { Img = Url.Content("~/Content/Frames/rame2.jpg"), Name = "Elegant Oval", Price = 178, Desc = "Elegant oval frames for a refined look.", Gender = "Distance" },
-        new { Img = Url.Content("~/Content/Frames/rame3.jpg"), Name = "Bold Rectangle", Price = 167, Desc = "Bold rectangular design for a modern style.", Gender = "Near" },
-        new { Img = Url.Content("~/Content/Frames/rame4.jpg"), Name = "Chic Cat Eye", Price = 189, Desc = "Chic cat eye frames for a fashionable statement.", Gender = "Distance" },
-        new { Img = Url.Content("~/Content/Frames/rame5.jpg"), Name = "Minimalist Round", Price = 177, Desc = "Minimalist round frames for a subtle touch.", Gender = "Near" },
-        new { Img = Url.Content("~/Content/Frames/rame6.jpg"), Name = "Trendy Square", Price = 134, Desc = "Trendy square frames for a bold impression.", Gender = "Distance" }
-    };
 }
 
 <style>
@@ -206,18 +199,17 @@
 </div>
 
 <div class="frames-grid" id="framesGrid">
-    @for (int i = 0; i < frames.Length; i++)
+    @foreach (var item in Model)
     {
-        var item = frames[i];
-        <div class="frame-card" data-gender="@item.Gender" onclick="toggleDesc(this)">
-            <img src="@item.Img" alt="@item.Name" class="frame-img" />
+        <div class="frame-card" data-vision="@item.VisionType" onclick="toggleDesc(this)">
+            <img class="frame-img" src="@item.ImageUrl" alt="@item.Name" />
             <div class="frame-name">@item.Name</div>
-            <div class="frame-price">@item.Price$</div>
+            <div class="frame-price">@item.Price.Amount @item.Price.Currency</div>
             <div class="frame-actions">
                 <button class="add-to-cart" onclick="event.stopPropagation();">Add to Cart</button>
                 <button class="add-to-favorites" title="Add to Favorites" onclick="event.stopPropagation();">&#10084;</button>
             </div>
-            <div class="frame-desc">@item.Desc</div>
+            <div class="frame-desc">@item.Description</div>
         </div>
     }
 </div>
@@ -237,16 +229,16 @@
         });
         applyFilter('All');
     });
-    function applyFilter(gender, e) {
+    function applyFilter(vision, e) {
         if (e) e.stopPropagation();
         var cards = document.querySelectorAll('.frame-card');
         var options = document.querySelectorAll('.filter-option-custom');
         options.forEach(function(opt) {
             opt.classList.remove('selected');
-            if (opt.textContent === gender || (gender === 'All' && opt.textContent === 'All')) opt.classList.add('selected');
+            if (opt.textContent === vision || (vision === 'All' && opt.textContent === 'All')) opt.classList.add('selected');
         });
         cards.forEach(function(card) {
-            if (gender === 'All' || card.getAttribute('data-gender') === gender) {
+            if (vision === 'All' || card.getAttribute('data-vision') === vision) {
                 card.classList.remove('hide');
             } else {
                 card.classList.add('hide');

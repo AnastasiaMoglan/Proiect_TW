@@ -1,6 +1,6 @@
 using System.Data.Entity.Migrations;
+using eUseControl.Domain.Models;
 using eUseControl.Web.Data;
-using eUseControl.Web.Models;
 using System.Linq;
 
 namespace eUseControl.Web.Migrations

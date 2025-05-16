@@ -1,13 +1,6 @@
+@model List<eUseControl.Domain.Models.Product>
 @{
     ViewBag.Title = "Sunglasses";
-    var sunglasses = new[] {
-        new { Img = Url.Content("~/Content/Sunglasses/soare1.jpg"), Name = "Classic Aviator", Price = 100, Desc = "Timeless aviator style with UV protection.", Gender = "Men" },
-        new { Img = Url.Content("~/Content/Sunglasses/soare2.jpg"), Name = "Retro Round", Price = 120, Desc = "Vintage round frames for a classic look.", Gender = "Women" },
-        new { Img = Url.Content("~/Content/Sunglasses/soare3.jpg"), Name = "Modern Square", Price = 124, Desc = "Bold square design, perfect for any outfit.", Gender = "Men" },
-        new { Img = Url.Content("~/Content/Sunglasses/soare4.jpg"), Name = "Sporty Wrap", Price = 156, Desc = "Sporty wrap-around for active lifestyles.", Gender = "Men" },
-        new { Img = Url.Content("~/Content/Sunglasses/soare5.jpg"), Name = "Vintage Cat Eye", Price = 434, Desc = "Chic cat eye frames for a retro vibe.", Gender = "Women" },
-        new { Img = Url.Content("~/Content/Sunglasses/soare6.jpg"), Name = "Trendy Oversized", Price = 123, Desc = "Oversized lenses for maximum coverage.", Gender = "Women" }
-    };
 }
 
 <style>
@@ -210,18 +203,17 @@
 </div>
 
 <div class="sunglasses-grid" id="sunglassesGrid">
-    @for (int i = 0; i < sunglasses.Length; i++)
+    @foreach (var item in Model)
     {
-        var item = sunglasses[i];
         <div class="sunglass-card" data-gender="@item.Gender" onclick="toggleDesc(this)">
-            <img src="@item.Img" alt="@item.Name" class="sunglass-img" />
+            <img class="sunglass-img" src="@item.ImageUrl" alt="@item.Name" />
             <div class="sunglass-name">@item.Name</div>
-            <div class="sunglass-price">@item.Price$</div>
+            <div class="sunglass-price">@item.Price.Amount @item.Price.Currency</div>
             <div class="sunglass-actions">
                 <button class="add-to-cart" onclick="event.stopPropagation();">Add to Cart</button>
                 <button class="add-to-favorites" title="Add to Favorites" onclick="event.stopPropagation();">&#10084;</button>
             </div>
-            <div class="sunglass-desc">@item.Desc</div>
+            <div class="sunglass-desc">@item.Description</div>
         </div>
     }
 </div>

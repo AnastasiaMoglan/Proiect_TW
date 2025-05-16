@@ -1,5 +1,5 @@
 using System.Web.Mvc;
-using eUseControl.Web.Models;
+using eUseControl.Domain.Models;
 using System.Web;
 using System.Linq;
 

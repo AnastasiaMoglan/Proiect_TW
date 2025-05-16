@@ -1,5 +1,5 @@
 using System.Data.Entity;
-using eUseControl.Web.Models;
+using eUseControl.Domain.Models;
 using System.Linq;
 
 namespace eUseControl.Web.Data

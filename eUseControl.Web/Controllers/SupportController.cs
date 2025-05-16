@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Web.Mvc;
-using eUseControl.Web.Models;
+using eUseControl.Domain.Models;
 using eUseControl.Web.Data;
 using System.Text;
 
@@ -9,7 +9,12 @@ namespace eUseControl.Web.Controllers
 {
     public class SupportController : Controller
     {
-        private readonly ApplicationDbContext _context = new ApplicationDbContext();
+        private readonly ApplicationDbContext _context;
+
+        public SupportController()
+        {
+            _context = new ApplicationDbContext();
+        }
 
         private void EnsureSessionFromAuthCookie()
         {
@@ -67,7 +72,7 @@ namespace eUseControl.Web.Controllers
                     CreatedAt = DateTime.Now
                 };
 
-                _context.SupportTable.Add(supportMessage);
+                _context.SupportTables.Add(supportMessage);
                 _context.SaveChanges();
 
                 return Json(new { success = true, debug = debugInfo.ToString() });
@@ -86,11 +91,23 @@ namespace eUseControl.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var messages = _context.SupportTable
+            var messages = _context.SupportTables
                 .OrderByDescending(m => m.CreatedAt)
                 .ToList();
 
             return View(messages);
+        }
+
+        [HttpPost]
+        public ActionResult CreateSupportMessage(SupportTable model)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.SupportTables.Add(model);
+                _context.SaveChanges();
+                return RedirectToAction("ViewSupportMessages");
+            }
+            return View(model);
         }
     }
 } 

@@ -1,7 +1,7 @@
 using System.Data.Entity;
-using Proiect_TW.Domain.Entities;
+using eUseControl.Domain.Entities;
 
-namespace Proiect_TW.Data
+namespace Proiect_TW.Data.Context
 {
     public class AppDbContext : DbContext
     {

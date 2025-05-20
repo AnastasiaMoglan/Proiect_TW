@@ -104,7 +104,6 @@
     <Compile Include="Entities\ULoginData.cs" />
     <Compile Include="Models\Money.cs" />
     <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\Userr.cs" />
     <Compile Include="Models\RegisterData.cs" />
     <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\ProductType.cs" />

@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using eUseControl.Domain.Entities;
 using eUseControl.Domain.Models;
 
 namespace eUseControl.BusinessLogic.Logic
@@ -7,10 +9,10 @@ namespace eUseControl.BusinessLogic.Logic
     public class RegistrationBL
     {
         // Simulated user store (shared for registration)
-        private static List<Userr> _users = new List<Userr>
+        private static List<User> _users = new List<User>
         {
-            new Userr { Id = 1, Username = "admin", Password = "1234", Email = "admin@example.com", AccessLevel = 1 },
-            new Userr { Id = 2, Username = "user", Password = "pass", Email = "user@example.com", AccessLevel = 0 }
+            new User { Id = 1, Username = "admin", PasswordHash = "1234", Email = "admin@example.com", Role = "Admin", CreatedAt = DateTime.Now },
+            new User { Id = 2, Username = "user", PasswordHash = "pass", Email = "user@example.com", Role = "User", CreatedAt = DateTime.Now }
         };
 
         // Register a new user
@@ -37,19 +39,20 @@ namespace eUseControl.BusinessLogic.Logic
                 error = "Passwords do not match.";
                 return false;
             }
-            var newUser = new Userr
+            var newUser = new User
             {
                 Id = _users.Max(u => u.Id) + 1,
                 Username = data.Username,
-                Password = data.Password,
+                PasswordHash = data.Password,
                 Email = data.Email,
-                AccessLevel = 0
+                Role = "User",
+                CreatedAt = DateTime.Now
             };
             _users.Add(newUser);
             return true;
         }
 
         // For testing: get all users
-        public List<Userr> GetAllUsers() => _users;
+        public List<User> GetAllUsers() => _users;
     }
 } 

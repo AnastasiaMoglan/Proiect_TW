@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using eUseControl.Domain.Models;
+using eUseControl.Domain.Entities; // <-- Correct using for User
 using eUseControl.Web.Data;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity;
@@ -9,6 +9,7 @@ using System.Net;
 using System.Web.Security;
 using System.Web;
 using eUseControl.Helpers;
+using eUseControl.Domain.Models;
 
 namespace eUseControl.Web.Controllers
 {
@@ -40,8 +41,8 @@ namespace eUseControl.Web.Controllers
                     adminUser = new User
                     {
                         Email = "admin@admin",
-                        Password = PasswordHasher.HashPassword("admin1"),
-                        Name = "Administrator",
+                        PasswordHash = PasswordHasher.HashPassword("admin1"),
+                        Username = "Administrator",
                         Role = "Admin",
                         CreatedAt = DateTime.Now
                     };
@@ -58,17 +59,17 @@ namespace eUseControl.Web.Controllers
         private string GetClientIPAddress()
         {
             string ipAddress = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
-            
+
             if (string.IsNullOrEmpty(ipAddress))
             {
                 ipAddress = Request.ServerVariables["REMOTE_ADDR"];
             }
-            
+
             if (string.IsNullOrEmpty(ipAddress))
             {
                 ipAddress = Request.UserHostAddress;
             }
-            
+
             // If still empty or localhost, try to get the actual IP
             if (string.IsNullOrEmpty(ipAddress) || ipAddress == "::1" || ipAddress == "127.0.0.1")
             {
@@ -156,7 +157,7 @@ namespace eUseControl.Web.Controllers
                 }
 
                 // Verify the password using the hashed version
-                if (!PasswordHasher.VerifyPassword(password, user.Password))
+                if (!PasswordHasher.VerifyPassword(password, user.PasswordHash))
                 {
                     ModelState.AddModelError("", "Password incorrect.");
                     _context.LoginRecords.Add(loginRecord);
@@ -196,7 +197,7 @@ namespace eUseControl.Web.Controllers
                 // Set session variables
                 Session["UserId"] = user.Id;
                 Session["UserEmail"] = user.Email;
-                Session["UserName"] = user.Name;
+                Session["UserName"] = user.Username;
                 Session["UserRole"] = user.Role;
 
                 // If user is admin, redirect to admin dashboard

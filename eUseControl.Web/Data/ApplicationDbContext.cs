@@ -1,6 +1,7 @@
 using System;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using eUseControl.Domain.Entities;
 using eUseControl.Domain.Models;
 
 namespace eUseControl.Web.Data
@@ -12,7 +13,7 @@ namespace eUseControl.Web.Data
             Database.SetInitializer(new DatabaseInitializer());
         }
 
-        public DbSet<Userr> Users { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<LoginRecord> LoginRecords { get; set; }
         public DbSet<TransferCard> TransferCards { get; set; }
         public DbSet<SupportTable> SupportTables { get; set; }

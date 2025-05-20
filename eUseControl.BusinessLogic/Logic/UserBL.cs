@@ -1,22 +1,23 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using eUseControl.Domain.Models;
+using eUseControl.Domain.Entities;
 
 namespace eUseControl.BusinessLogic.Logic
 {
     public class UserBL
     {
         // Simulated user store (in a real app, this would come from a database)
-        private static List<Userr> _users = new List<Userr>
+        private static List<User> _users = new List<User>
         {
-            new Userr { Id = 1, Username = "admin", Password = "1234", Email = "admin@example.com", AccessLevel = 1 },
-            new Userr { Id = 2, Username = "user", Password = "pass", Email = "user@example.com", AccessLevel = 0 }
+            new User { Id = 1, Username = "admin", PasswordHash = "1234", Email = "admin@example.com", Role = "Admin", CreatedAt = DateTime.Now },
+            new User { Id = 2, Username = "user", PasswordHash = "pass", Email = "user@example.com", Role = "User", CreatedAt = DateTime.Now }
         };
 
-        public Userr Login(string username, string password)
+        public User Login(string username, string password)
         {
             // Check for a user with matching username and password
-            return _users.FirstOrDefault(u => u.Username == username && u.Password == password);
+            return _users.FirstOrDefault(u => u.Username == username && u.PasswordHash == password);
         }
     }
 } 

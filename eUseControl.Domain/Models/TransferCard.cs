@@ -1,4 +1,5 @@
 using System;
+using eUseControl.Domain.Entities;
 
 namespace eUseControl.Domain.Models
 {
@@ -15,7 +16,7 @@ namespace eUseControl.Domain.Models
         public DateTime TransferDate { get; set; }
         public int SenderId { get; set; }
         public int ReceiverId { get; set; }
-        public virtual Userr Sender { get; set; }
-        public virtual Userr Receiver { get; set; }
+        public virtual User Sender { get; set; }
+        public virtual User Receiver { get; set; }
     }
 } 

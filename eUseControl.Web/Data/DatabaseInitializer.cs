@@ -1,5 +1,5 @@
 using System.Data.Entity;
-using eUseControl.Domain.Models;
+using eUseControl.Domain.Entities;
 using System.Linq;
 
 namespace eUseControl.Web.Data
@@ -11,7 +11,7 @@ namespace eUseControl.Web.Data
             // Add a test user if the Users table is empty
             if (!context.Users.Any())
             {
-                context.Users.Add(new Userr 
+                context.Users.Add(new User 
                 { 
                     Name = "Test User",
                     Email = "test@example.com",

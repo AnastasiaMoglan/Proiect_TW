@@ -161,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\RouteConfig2.cs" />
     <Compile Include="Controllers\AboutUsController.cs" />
     <Compile Include="Controllers\AccessoriesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -171,6 +172,8 @@
     <Compile Include="Controllers\exchange_rateController.cs" />
     <Compile Include="Controllers\historyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LensesController.cs" />
+    <Compile Include="Controllers\loginController.cs" />
     <Compile Include="Controllers\MedicalConsultationController.cs" />
     <Compile Include="Controllers\ObligatiuniController.cs" />
     <Compile Include="Controllers\OurTeamController.cs" />
@@ -189,6 +192,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\LensesProduct.cs" />
+    <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\AccessoriesProduct.cs" />
     <Compile Include="Services\TransferCardService.cs" />

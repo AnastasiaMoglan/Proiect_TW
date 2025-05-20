@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Web.Mvc;
-using eUseControl.Domain.Models;
+using eUseControl.Domain.Entities;
 using eUseControl.Web.Data;
 using System.Linq;
 using System.Security.Cryptography;
@@ -21,7 +21,7 @@ namespace eUseControl.Web.Controllers
         // GET: Register
         public ActionResult Index()
         {
-            return View(new Userr());
+            return View(new User());
         }
 
         // GET: Register/ViewDatabase
@@ -72,7 +72,7 @@ namespace eUseControl.Web.Controllers
                 ViewBag.ErrorMessage = "An error occurred while accessing the database. Please try again later.";
                 ViewBag.DetailedError = errorMessage;
                 ViewBag.LastUpdated = DateTime.Now;
-                return View(new List<Userr>());
+                return View(new List<User>());
             }
         }
 
@@ -105,7 +105,7 @@ namespace eUseControl.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(Userr user)
+        public ActionResult Register(User user)
         {
             try
             {

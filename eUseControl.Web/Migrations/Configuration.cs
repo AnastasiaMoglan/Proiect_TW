@@ -1,4 +1,5 @@
 using System.Data.Entity.Migrations;
+using eUseControl.Domain.Entities;
 using eUseControl.Domain.Models;
 using eUseControl.Web.Data;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace eUseControl.Web.Migrations
             // Add a test user if the Users table is empty
             if (!context.Users.Any())
             {
-                context.Users.Add(new Userr 
+                context.Users.Add(new User 
                 { 
                     Name = "Test User",
                     Email = "test@example.com",

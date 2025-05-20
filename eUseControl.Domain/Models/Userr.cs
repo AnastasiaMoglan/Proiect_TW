@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace eUseControl.Domain.Models
 {
-    public class User
+    public class Userr
     {
         public int Id { get; set; }
 

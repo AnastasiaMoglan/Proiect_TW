@@ -100,12 +100,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\DbContext.cs" />
-    <Compile Include="Entities\User\ULoginData.cs" />
-    <Compile Include="Entities\User\User.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="Entities\ULoginData.cs" />
     <Compile Include="Models\Money.cs" />
     <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Userr.cs" />
     <Compile Include="Models\RegisterData.cs" />
     <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\ProductType.cs" />

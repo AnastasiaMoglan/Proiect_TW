@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace eUseControl.Domain.Entities.User
+namespace eUseControl.Domain.Entities
 {
     public class ULoginData
     {
@@ -19,4 +19,4 @@ namespace eUseControl.Domain.Entities.User
 
         public bool Success { get; set; }
     }
-}
+} 

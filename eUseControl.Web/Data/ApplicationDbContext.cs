@@ -12,7 +12,7 @@ namespace eUseControl.Web.Data
             Database.SetInitializer(new DatabaseInitializer());
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Userr> Users { get; set; }
         public DbSet<LoginRecord> LoginRecords { get; set; }
         public DbSet<TransferCard> TransferCards { get; set; }
         public DbSet<SupportTable> SupportTables { get; set; }

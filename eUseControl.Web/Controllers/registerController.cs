@@ -21,7 +21,7 @@ namespace eUseControl.Web.Controllers
         // GET: Register
         public ActionResult Index()
         {
-            return View(new User());
+            return View(new Userr());
         }
 
         // GET: Register/ViewDatabase
@@ -72,7 +72,7 @@ namespace eUseControl.Web.Controllers
                 ViewBag.ErrorMessage = "An error occurred while accessing the database. Please try again later.";
                 ViewBag.DetailedError = errorMessage;
                 ViewBag.LastUpdated = DateTime.Now;
-                return View(new List<User>());
+                return View(new List<Userr>());
             }
         }
 
@@ -105,7 +105,7 @@ namespace eUseControl.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(User user)
+        public ActionResult Register(Userr user)
         {
             try
             {

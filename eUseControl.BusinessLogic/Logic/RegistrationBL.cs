@@ -7,10 +7,10 @@ namespace eUseControl.BusinessLogic.Logic
     public class RegistrationBL
     {
         // Simulated user store (shared for registration)
-        private static List<User> _users = new List<User>
+        private static List<Userr> _users = new List<Userr>
         {
-            new User { Id = 1, Username = "admin", Password = "1234", Email = "admin@example.com", AccessLevel = 1 },
-            new User { Id = 2, Username = "user", Password = "pass", Email = "user@example.com", AccessLevel = 0 }
+            new Userr { Id = 1, Username = "admin", Password = "1234", Email = "admin@example.com", AccessLevel = 1 },
+            new Userr { Id = 2, Username = "user", Password = "pass", Email = "user@example.com", AccessLevel = 0 }
         };
 
         // Register a new user
@@ -37,7 +37,7 @@ namespace eUseControl.BusinessLogic.Logic
                 error = "Passwords do not match.";
                 return false;
             }
-            var newUser = new User
+            var newUser = new Userr
             {
                 Id = _users.Max(u => u.Id) + 1,
                 Username = data.Username,
@@ -50,6 +50,6 @@ namespace eUseControl.BusinessLogic.Logic
         }
 
         // For testing: get all users
-        public List<User> GetAllUsers() => _users;
+        public List<Userr> GetAllUsers() => _users;
     }
 } 

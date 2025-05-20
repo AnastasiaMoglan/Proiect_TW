@@ -10,6 +10,6 @@ namespace eUseControl.Domain.Models
         public string IPAddress { get; set; }
         public bool Success { get; set; }
         public int UserId { get; set; }
-        public virtual User User { get; set; }
+        public virtual Userr User { get; set; }
     }
 } 

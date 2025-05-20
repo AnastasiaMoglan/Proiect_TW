@@ -11,7 +11,7 @@ namespace eUseControl.Web.Data
             // Add a test user if the Users table is empty
             if (!context.Users.Any())
             {
-                context.Users.Add(new User 
+                context.Users.Add(new Userr 
                 { 
                     Name = "Test User",
                     Email = "test@example.com",

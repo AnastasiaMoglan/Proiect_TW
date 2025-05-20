@@ -1,16 +1,15 @@
 using System.Data.Entity;
-using eUseControl.Domain.Entities.User;
+using eUseControl.Domain.Entities;
 
-namespace eUseControl.Domain.Data
+namespace eUseControl.Data.Context
 {
-    public class DbContext : System.Data.Entity.DbContext
+    public class AppDbContext : DbContext
     {
-        public DbContext() : base("name=DefaultConnection")
+        public AppDbContext() : base("name=DefaultConnection")
         {
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<ULoginData> LoginHistory { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

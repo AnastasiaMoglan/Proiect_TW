@@ -12,6 +12,6 @@ namespace eUseControl.Domain.Models
         public DateTime CreatedAt { get; set; }
         public bool IsResolved { get; set; }
         public int UserId { get; set; }
-        public virtual User User { get; set; }
+        public virtual Userr User { get; set; }
     }
 } 

@@ -9,42 +9,40 @@
             <h2 class="account-title mb-4">My Account</h2>
             <div class="account-info mb-4">
                 <div class="account-row">
-                    <span class="account-label">Name:</span>
-                    <span class="account-value">John Doe</span>
+                    <span class="account-label">Username:</span>
+                    <span class="account-value">@Session["UserName"]</span>
                 </div>
                 <div class="account-row">
                     <span class="account-label">Email:</span>
-                    <span class="account-value">john.doe@gmail.com</span>
+                    <span class="account-value">@Session["UserEmail"]</span>
                 </div>
                 <div class="account-row">
-                    <span class="account-label">Phone:</span>
-                    <span class="account-value">+1234567890</span>
+                    <span class="account-label">Role:</span>
+                    <span class="account-value">@Session["UserRole"]</span>
                 </div>
             </div>
-            <form class="account-form mb-3">
+            
+            <form class="account-form mb-3" action="@Url.Action("ChangePassword", "Account")" method="post">
+                @Html.AntiForgeryToken()
                 <h4 class="account-section-title">Change Password</h4>
                 <div class="form-group mb-3">
                     <label for="currentPassword">Current Password</label>
-                    <input type="password" class="form-control" id="currentPassword" placeholder="Enter current password">
+                    <input type="password" class="form-control" id="currentPassword" name="currentPassword" placeholder="Enter current password" required>
                 </div>
                 <div class="form-group mb-3">
                     <label for="newPassword">New Password</label>
-                    <input type="password" class="form-control" id="newPassword" placeholder="Enter new password">
+                    <input type="password" class="form-control" id="newPassword" name="newPassword" placeholder="Enter new password" required>
                 </div>
                 <div class="form-group mb-4">
                     <label for="confirmPassword">Confirm New Password</label>
-                    <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm new password">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm new password" required>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Change Password</button>
             </form>
-            <form class="account-form">
-                <h4 class="account-section-title">Change Phone Number</h4>
-                <div class="form-group mb-3">
-                    <label for="newPhone">New Phone Number</label>
-                    <input type="text" class="form-control" id="newPhone" placeholder="Enter new phone number">
-                </div>
-                <button type="submit" class="btn btn-secondary w-100">Change Phone Number</button>
-            </form>
+            
+            <div class="mt-3 text-center">
+                <a href="@Url.Action("Logout", "Login")" class="btn btn-secondary">Logout</a>
+            </div>
         </div>
     </div>
 </div>
@@ -121,9 +119,11 @@
     background: #1e3a8a;
     border: none;
     font-weight: 600;
+    color: white;
+    padding: 0.5rem 2rem;
 }
 .btn-secondary:hover {
     background: #3ec6e0;
     color: #fff;
 }
-</style> 
+</style>

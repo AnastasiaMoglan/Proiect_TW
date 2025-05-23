@@ -13,12 +13,9 @@ namespace eUseControl.Web.Data
             {
                 context.Users.Add(new User 
                 { 
-                    Name = "Test User",
+                    Username = "Test User",
                     Email = "test@example.com",
-                    Password = "password123", // In real application, this should be hashed
-                    PhoneNumber = "1234567890",
-                    City = "Test City",
-                    Country = "Test Country"
+                    PasswordHash = "password123", // In real application, this should be hashed
                 });
                 
                 context.SaveChanges();

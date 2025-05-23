@@ -1,0 +1,136 @@
+@model List<eUseControl.Domain.Entities.Accessory>
+@{
+    ViewBag.Title = ViewBag.CategoryName ?? "Accessories";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .category-header {
+        background: linear-gradient(to right, #e0f2fe, #bae6fd);
+        padding: 2rem 0;
+        text-align: center;
+        margin-bottom: 2rem;
+        border-radius: 8px;
+    }
+    
+    .category-title {
+        color: #1e40af;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .product-card {
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+        margin-bottom: 1.5rem;
+        background: white;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .product-img {
+        height: 180px;
+        width: 100%;
+        object-fit: cover;
+    }
+    
+    .product-details {
+        padding: 1rem;
+    }
+    
+    .product-name {
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: #1e3a8a;
+        margin-bottom: 0.5rem;
+    }
+    
+    .product-price {
+        color: #0891b2;
+        font-weight: 700;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .view-btn {
+        background-color: #0ea5e9;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        font-weight: 500;
+        transition: background-color 0.2s;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    .view-btn:hover {
+        background-color: #0284c7;
+        color: white;
+    }
+    
+    .back-link {
+        display: inline-block;
+        margin-bottom: 1rem;
+        color: #0ea5e9;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    .back-link:hover {
+        text-decoration: underline;
+    }
+    
+    .no-products {
+        text-align: center;
+        padding: 3rem;
+        background: #f8fafc;
+        border-radius: 8px;
+        color: #64748b;
+    }
+</style>
+
+<div class="container">
+    <a href="@Url.Action("Index", "Accessories")" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to All Accessories
+    </a>
+    
+    <div class="category-header">
+        <h1 class="category-title">@ViewBag.CategoryName</h1>
+    </div>
+    
+    @if (Model.Any())
+    {
+        <div class="row">
+            @foreach (var accessory in Model)
+            {
+                <div class="col-md-3 col-sm-6">
+                    <div class="product-card">
+                        <img src="@accessory.ImagePath" alt="@accessory.Name" class="product-img">
+                        <div class="product-details">
+                            <h3 class="product-name">@accessory.Name</h3>
+                            <p class="product-price">$@accessory.Price.ToString("0.00")</p>
+                            <a href="@Url.Action("Detail", "Accessories", new { id = accessory.Id })" class="view-btn">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="no-products">
+            <h3>No products found in this category</h3>
+            <p>Please check back later or browse our other accessories.</p>
+            <a href="@Url.Action("Index", "Accessories")" class="btn btn-primary mt-3">
+                Browse All Accessories
+            </a>
+        </div>
+    }
+</div>

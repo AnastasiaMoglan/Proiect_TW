@@ -1,0 +1,97 @@
+@model eUseControl.Web.Models.AccessoriesViewModel
+@{
+    ViewBag.Title = "Eyewear Accessories";
+}
+
+<div class="container">
+    <!-- Page Header -->
+    <div class="row mb-5">
+        <div class="col-md-12 text-center">
+            <h1>Eyewear Accessories</h1>
+            <p class="lead">Enhance your eyewear experience with our premium accessories</p>
+        </div>
+    </div>
+
+    <!-- Featured Accessories Section -->
+    @if (Model.FeaturedAccessories != null && Model.FeaturedAccessories.Any())
+    {
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <h2 class="mb-4">Featured Accessories</h2>
+                <div class="row">
+                    @foreach (var accessory in Model.FeaturedAccessories)
+                    {
+                        <div class="col-md-3 mb-4">
+                            <div class="card h-100">
+                                <img src="@accessory.ImagePath  " class="card-img-top" alt="@accessory.Name">
+                                <div class="card-body">
+                                    <h5 class="card-title">@accessory.Name</h5>
+                                    <p class="card-text">@(accessory.Description.Length > 100 ? accessory.Description.Substring(0, 97) + "..." : accessory.Description)</p>
+                                    <p class="card-text font-weight-bold">$@accessory.Price.ToString("F2")</p>
+                                </div>
+                                <div class="card-footer bg-white border-top-0">
+                                    <a href="@Url.Action("Detail", "Accessories", new { id = accessory.Id })" class="btn btn-primary">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Error Message Display -->
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            <h4>Error</h4>
+            <p>@ViewBag.ErrorMessage</p>
+            @if (!string.IsNullOrEmpty(ViewBag.DetailedError))
+            {
+                <p><small>Details: @ViewBag.DetailedError</small></p>
+            }
+        </div>
+    }
+
+    <!-- Categories Section -->
+    @foreach (var category in Model.AccessoriesByCategory)
+    {
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <h2 class="mb-4">
+                    @{
+                        string categoryTitle = "Accessories";
+                        switch (category.Key.ToLower())
+                        {
+                            case "case": categoryTitle = "Eyewear Cases"; break;
+                            case "spray": categoryTitle = "Cleaning Sprays"; break;
+                            case "cloth": categoryTitle = "Cleaning Cloths"; break;
+                            case "cord": categoryTitle = "Cords & Chains"; break;
+                        }
+                    }
+                    @categoryTitle
+                    <a href="@Url.Action("Category", "Accessories", new { id = category.Key })" class="btn btn-sm btn-outline-secondary ml-2">View All</a>
+                </h2>
+                
+                <div class="row">
+                    @foreach (var accessory in category.Value.Take(4))
+                    {
+                        <div class="col-md-3 mb-4">
+                            <div class="card h-100">
+                                <img src="@accessory.ImagePath" class="card-img-top" alt="@accessory.Name">
+                                <div class="card-body">
+                                    <h5 class="card-title">@accessory.Name</h5>
+                                    <p class="card-text">@(accessory.Description.Length > 100 ? accessory.Description.Substring(0, 97) + "..." : accessory.Description)</p>
+                                    <p class="card-text font-weight-bold">$@accessory.Price.ToString("F2")</p>
+                                </div>
+                                <div class="card-footer bg-white border-top-0">
+                                    <a href="@Url.Action("Detail", "Accessories", new { id = accessory.Id })" class="btn btn-primary">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

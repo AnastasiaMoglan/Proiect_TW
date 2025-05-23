@@ -100,8 +100,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Accessory.cs" />
     <Compile Include="Entities\User.cs" />
-    <Compile Include="Entities\ULoginData.cs" />
     <Compile Include="Models\Money.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\RegisterData.cs" />

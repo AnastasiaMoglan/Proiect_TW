@@ -7,6 +7,7 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
 using System.Data.Entity;
+using eUseControl.Data.Context;
 using eUseControl.Data.Initializer;
 
 namespace eUseControl.Web

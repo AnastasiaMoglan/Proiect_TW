@@ -45,7 +45,7 @@ namespace eUseControl.Web.Controllers
                             {
                                 Session["UserId"] = user.Id;
                                 Session["UserEmail"] = user.Email;
-                                Session["UserName"] = user.Name;
+                                Session["UserName"] = user.Username;
                                 Session["UserRole"] = user.Role;
                                 return true;
                             }

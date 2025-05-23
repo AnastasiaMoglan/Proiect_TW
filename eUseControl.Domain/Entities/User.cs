@@ -1,30 +1,36 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eUseControl.Domain.Entities
 {
+    [Table("User")]
     public class User
     {
         [Key]
         public int Id { get; set; }
-
+        
         [Required]
-        [MaxLength(50)]
-        public string Username { get; set; }
-
-        [Required]
-        public string PasswordHash { get; set; }
-
+        [StringLength(100)]
         [EmailAddress]
+        [Index("IX_User_Email", IsUnique = true)]
         public string Email { get; set; }
-
-        // Additional properties for compatibility with the rest of the codebase
-        public string Name { get; set; }
-        public string Password { get; set; }
-        public string City { get; set; }
-        public string Country { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Role { get; set; }
-        public DateTime CreatedAt { get; set; }
+        
+        [Required]
+        [StringLength(255)]
+        public string PasswordHash { get; set; }
+        
+        [Required]
+        [StringLength(50)]
+        [Index("IX_User_Username", IsUnique = true)]
+        public string Username { get; set; }
+        
+        [Required]
+        [StringLength(20)]
+        public string Role { get; set; } = "User";
+        
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        
+        public DateTime? LastLogin { get; set; }
     }
 }

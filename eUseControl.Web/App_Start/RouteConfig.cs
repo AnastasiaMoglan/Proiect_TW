@@ -13,6 +13,21 @@ namespace eUseControl.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // Accessories Category Route
+            routes.MapRoute(
+                name: "AccessoriesCategory",
+                url: "Accessories/Category/{id}",
+                defaults: new { controller = "Accessories", action = "Category" }
+            );
+
+            // Accessories Detail Route
+            routes.MapRoute(
+                name: "AccessoriesDetail",
+                url: "Accessories/Detail/{id}",
+                defaults: new { controller = "Accessories", action = "Detail" }
+            );
+
+            // Default Route
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

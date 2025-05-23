@@ -1,98 +1,134 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using eUseControl.Data.Services;
+using eUseControl.Domain.Entities;
 using eUseControl.Web.Models;
 
 namespace eUseControl.Web.Controllers
 {
     public class AccessoriesController : Controller
     {
-        private readonly Dictionary<string, decimal> productPrices = new Dictionary<string, decimal>
+        private readonly IAccessoryService _accessoryService;
+
+        public AccessoriesController()
         {
-            // Cases
-            {"UrbanShield Hard Case", 24.99m},
-            {"VelvetTouch Soft Pouch", 19.99m},
-            {"Compact Zip Case", 22.99m},
-            {"TravelPro Protective Box", 29.99m},
-            // Sprays
-            {"CrystalClear Cleaning Spray", 12.99m},
-            {"AntiFog Pro Solution", 14.99m},
-            {"VisionFresh Mist", 11.99m},
-            {"LensGuard Cleaner", 13.99m},
-            // Cloths
-            {"MicroSilk Lens Cloth", 8.99m},
-            {"OptiWipe Premium", 9.99m},
-            {"GentleTouch Cleaner", 7.99m},
-            {"ClearView Microfiber", 8.99m},
-            {"SmartShine Cloth", 6.99m},
-            // Cords & Chains
-            {"ClassicLoop Cord", 15.99m},
-            {"GoldenLink Chain", 19.99m},
-            {"SportFlex Strap", 16.99m},
-            {"PearlGrace Eyewear Chain", 24.99m}
-        };
+            _accessoryService = new AccessoryService();
+            
+            // Ensure accessories are seeded in the database
+            EnsureAccessoriesExist();
+        }
+        
+        private void EnsureAccessoriesExist()
+        {
+            try
+            {
+                // Seed accessories if not already present
+                _accessoryService.SeedAccessories();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error seeding accessories: " + ex.ToString());
+                // Don't throw the exception - we'll let the database initializer handle this
+                // This is just a fallback mechanism in case the initializer didn't run
+            }
+        }
 
         // GET: Accessories
         public ActionResult Index()
         {
-            // Get all image files from Content/Accessories
-            var accessoriesDir = Server.MapPath("~/Content/Accessories");
-            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
-            var files = Directory.GetFiles(accessoriesDir)
-                .Where(f => allowedExtensions.Contains(Path.GetExtension(f).ToLower()))
-                .Select(f => Path.GetFileName(f))
-                .ToList();
-
-            var products = files.Select(f =>
+            try
             {
-                var name = GetProductName(f);
-                return new AccessoriesProduct
+                var viewModel = new AccessoriesViewModel
                 {
-                    Image = "/Content/Accessories/" + f,
-                    Category = InferCategory(f),
-                    Name = name,
-                    Price = productPrices.ContainsKey(name) ? productPrices[name] : 0m
+                    AccessoriesByCategory = _accessoryService.GetAccessoriesByCategories()
                 };
-            }).ToList();
+                
+                // Get a few featured accessories (random selection for this example)
+                var allAccessories = _accessoryService.GetAllAccessories();
+                if (allAccessories.Count > 0)
+                {
+                    Random random = new Random();
+                    viewModel.FeaturedAccessories = allAccessories
+                        .OrderBy(x => random.Next())
+                        .Take(Math.Min(4, allAccessories.Count))
+                        .ToList();
+                }
 
-            return View(products);
-        }
-
-        private string InferCategory(string filename)
-        {
-            var lower = filename.ToLower();
-            if (lower.StartsWith("case")) return "case";
-            if (lower.StartsWith("spray")) return "spray";
-            if (lower.StartsWith("cloth")) return "cloth";
-            if (lower.StartsWith("cord")) return "cord";
-            return "other";
-        }
-
-        private string GetProductName(string filename)
-        {
-            var name = System.IO.Path.GetFileNameWithoutExtension(filename).ToLower();
-            switch (name)
+                return View(viewModel);
+            }
+            catch (Exception ex)
             {
-                case "case1": return "UrbanShield Hard Case";
-                case "case2": return "VelvetTouch Soft Pouch";
-                case "case3": return "Compact Zip Case";
-                case "case4": return "TravelPro Protective Box";
-                case "spray1": return "CrystalClear Cleaning Spray";
-                case "spray2": return "AntiFog Pro Solution";
-                case "spray3": return "VisionFresh Mist";
-                case "spray4": return "LensGuard Cleaner";
-                case "cloth": return "MicroSilk Lens Cloth";
-                case "cloth2": return "OptiWipe Premium";
-                case "cloth3": return "GentleTouch Cleaner";
-                case "cloth4": return "ClearView Microfiber";
-                case "cloth5": return "SmartShine Cloth";
-                case "cord1": return "ClassicLoop Cord";
-                case "cord2": return "GoldenLink Chain";
-                case "cord3": return "SportFlex Strap";
-                default: return name;
+                ViewBag.ErrorMessage = "An error occurred while loading accessories.";
+                ViewBag.DetailedError = ex.Message;
+                return View(new AccessoriesViewModel());
+            }
+        }
+        
+        // GET: Accessories/Category/case
+        public ActionResult Category(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Index");
+            }
+
+            try
+            {
+                var accessories = _accessoryService.GetAccessoriesByCategory(id);
+                ViewBag.CategoryName = GetCategoryDisplayName(id);
+                return View(accessories);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An error occurred while loading accessories for this category.";
+                ViewBag.DetailedError = ex.Message;
+                return View(new List<Accessory>());
+            }
+        }
+        
+        // GET: Accessories/Detail/5
+        public ActionResult Detail(int id)
+        {
+            try
+            {
+                var accessory = _accessoryService.GetAccessoryById(id);
+                
+                if (accessory == null)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                var viewModel = new AccessoryDetailViewModel
+                {
+                    Accessory = accessory,
+                    RelatedAccessories = _accessoryService.GetAccessoriesByCategory(accessory.Category)
+                        .Where(a => a.Id != accessory.Id)
+                        .Take(4)
+                        .ToList()
+                };
+
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An error occurred while loading the accessory details.";
+                ViewBag.DetailedError = ex.Message;
+                return RedirectToAction("Index");
+            }
+        }
+        
+        private string GetCategoryDisplayName(string category)
+        {
+            switch (category.ToLower())
+            {
+                case "case": return "Eyewear Cases";
+                case "spray": return "Cleaning Sprays";
+                case "cloth": return "Cleaning Cloths";
+                case "cord": return "Cords & Chains";
+                default: return "Accessories";
             }
         }
     }
-} 
+}

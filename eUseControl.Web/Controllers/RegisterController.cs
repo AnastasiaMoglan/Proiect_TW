@@ -17,10 +17,8 @@ namespace eUseControl.Web.Controllers
             _userService = new UserService();
         }
         
-        // GET: Register
         public ActionResult Index()
         {
-            // If user is already logged in, redirect to home
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToAction("Index", "Home");
@@ -29,7 +27,6 @@ namespace eUseControl.Web.Controllers
             return View(new RegisterViewModel());
         }
         
-        // POST: Register
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index(RegisterViewModel model)
@@ -41,21 +38,18 @@ namespace eUseControl.Web.Controllers
             
             try
             {
-                // Check if email is already registered
                 if (_userService.IsEmailRegistered(model.Email))
                 {
                     ModelState.AddModelError("Email", "This email is already registered.");
                     return View(model);
                 }
                 
-                // Check if username is already taken
                 if (_userService.IsUserRegistered(model.Username))
                 {
                     ModelState.AddModelError("Username", "This username is already taken.");
                     return View(model);
                 }
                 
-                // Register the user
                 var user = _userService.RegisterUser(model.Email, model.Username, model.Password);
                 
                 if (user == null)
@@ -64,33 +58,27 @@ namespace eUseControl.Web.Controllers
                     return View(model);
                 }
                 
-                // Record successful registration
                 _userService.RecordLogin(user.Email, Request.UserHostAddress, true);
                 
-                // Create authentication ticket
                 var authTicket = new FormsAuthenticationTicket(
-                    1,                              // Version
-                    user.Email,                     // User name
-                    DateTime.Now,                   // Issue time
-                    DateTime.Now.AddDays(7),        // Expiration time (7 days)
-                    false,                          // Persistent
-                    user.Role                       // User data (role)
+                    1,                              
+                    user.Email,                     
+                    DateTime.Now,                  
+                    DateTime.Now.AddDays(7),     
+                    false,                        
+                    user.Role                       
                 );
 
-                // Encrypt the ticket
                 string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
 
-                // Create the cookie
                 var authCookie = new HttpCookie("UserAuth", encryptedTicket)
                 {
                     HttpOnly = true,
                     Secure = Request.IsSecureConnection
                 };
 
-                // Add the cookie to the response
                 Response.Cookies.Add(authCookie);
 
-                // Set session variables
                 Session["UserId"] = user.Id;
                 Session["UserEmail"] = user.Email;
                 Session["UserName"] = user.Username;

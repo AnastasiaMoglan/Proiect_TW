@@ -101,9 +101,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Accessory.cs" />
+    <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Models\Money.cs" />
-    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\RegisterData.cs" />
     <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\ProductType.cs" />
@@ -114,9 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enums\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

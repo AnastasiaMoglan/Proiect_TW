@@ -15,6 +15,9 @@ namespace eUseControl.Data.Context
         public DbSet<User> Users { get; set; }
         public DbSet<LoginRecord> LoginRecords { get; set; }
         public DbSet<Accessory> Accessories { get; set; }
+        
+        public virtual DbSet<Product> Products { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

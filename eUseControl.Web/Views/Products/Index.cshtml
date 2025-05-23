@@ -1,258 +1,118 @@
-﻿@{
-    ViewBag.Title = "Sunglasses";
+@model eUseControl.Web.Models.ProductsViewModel
+@{
+    ViewBag.Title = "Our Eyewear Collection";
 }
 
 <div class="container">
-    <div class="header">
-        <h1>Sunglasses Collection</h1>
-        <div class="filters">
-            <button class="filter-btn" onclick="filterProducts('all')">All</button>
-            <button class="filter-btn" onclick="filterProducts('men')">Men</button>
-            <button class="filter-btn" onclick="filterProducts('women')">Women</button>
-            <button class="filter-btn" onclick="filterProducts('kids')">Kids</button>
-            <button class="filter-btn discount-btn" onclick="showDiscountModal()">Discounts</button>
+    <!-- Page Header -->
+    <div class="row mb-5">
+        <div class="col-md-12 text-center">
+            <h1>Our Eyewear Collection</h1>
+            <p class="lead">Discover our premium selection of eyewear products</p>
         </div>
     </div>
 
-    <div class="products-grid" id="productsGrid">
-        @{
-            var products = new[]
+    <!-- Error Message Display -->
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            <h4>Error</h4>
+            <p>@ViewBag.ErrorMessage</p>
+            @if (!string.IsNullOrEmpty(ViewBag.DetailedError))
             {
-                new { image = "/Content/Sunglasses/soare1.jpg", name = "Ray-Ban Aviator", price = 160.00m, discountedPrice = 80.00m, description = "Classic aviator style with gold frame and green lenses", type = "men" },
-                new { image = "/Content/Sunglasses/soare2.jpg", name = "Oakley Holbrook", price = 140.00m, discountedPrice = 140.00m, description = "Matte black frame with polarized lenses", type = "men" },
-                new { image = "/Content/Sunglasses/soare3.jpg", name = "Gucci Square", price = 320.00m, discountedPrice = 320.00m, description = "Luxury square frame with logo details", type = "women" },
-                new { image = "/Content/Sunglasses/soare4.jpg", name = "Prada Cat Eye", price = 280.00m, discountedPrice = 140.00m, description = "Elegant cat-eye design with crystal details", type = "women" },
-                new { image = "/Content/Sunglasses/soare5.jpg", name = "Tommy Hilfiger Round", price = 120.00m, discountedPrice = 120.00m, description = "Classic round frame with logo arm", type = "kids" },
-                new { image = "/Content/Sunglasses/soare6.jpg", name = "Nike Sport", price = 100.00m, discountedPrice = 100.00m, description = "Sporty design with rubber nose pads", type = "kids" }
-            };
-        }
+                <p><small>Details: @ViewBag.DetailedError</small></p>
+            }
+        </div>
+    }
 
-        @foreach (var product in products)
-        {
-            <div class="product-card" data-type="@product.type" data-discounted="@(product.discountedPrice < product.price)">
-                <img src="@product.image" alt="@product.name">
-                <h3>@product.name</h3>
-                <div class="price-container">
-                    @if (product.discountedPrice < product.price)
-                    {
-                        <span class="original-price">$@product.price.ToString("F2")</span>
-                        <span class="discounted-price">$@product.discountedPrice.ToString("F2")</span>
-                    }
-                    else
-                    {
-                        <span class="price">$@product.price.ToString("F2")</span>
-                    }
-                </div>
-                <p class="description">@product.description</p>
+    <!-- Sunglasses Section -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <h2 class="mb-4">
+                Sunglasses
+                <a href="@Url.Action("Sunglasses", "Products")" class="btn btn-sm btn-outline-secondary ml-2">View All</a>
+            </h2>
+            
+            <div class="row">
+                @foreach (var product in Model.FeaturedSunglasses)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="@Url.Content(product.ImageUrl)" class="card-img-top" alt="@product.Name">
+                            <div class="card-body">
+                                <h5 class="card-title">@product.Name</h5>
+                                <p class="card-text">@(product.Description.Length > 100 ? product.Description.Substring(0, 97) + "..." : product.Description)</p>
+                                <p class="card-text font-weight-bold">$@product.Price.ToString("F2")</p>
+                                <p class="card-text"><small class="text-muted">For: @product.Gender</small></p>
+                            </div>
+                            <div class="card-footer bg-white border-top-0">
+                                <a href="@Url.Action("Detail", "Products", new { id = product.Id })" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
-        }
+        </div>
     </div>
-</div>
 
-<!-- Discount Modal -->
-<div id="discountModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeDiscountModal()">&times;</span>
-        <h2>Discounted Products</h2>
-        <div class="products-grid" id="discountProductsGrid">
-            <!-- Discounted products will be populated here -->
+    <!-- Optical Frames Section -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <h2 class="mb-4">
+                Optical Frames
+                <a href="@Url.Action("OpticalFrames", "Products")" class="btn btn-sm btn-outline-secondary ml-2">View All</a>
+            </h2>
+            
+            <div class="row">
+                @foreach (var product in Model.FeaturedOpticalFrames)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="@Url.Content(product.ImageUrl)" class="card-img-top" alt="@product.Name">
+                            <div class="card-body">
+                                <h5 class="card-title">@product.Name</h5>
+                                <p class="card-text">@(product.Description.Length > 100 ? product.Description.Substring(0, 97) + "..." : product.Description)</p>
+                                <p class="card-text font-weight-bold">$@product.Price.ToString("F2")</p>
+                                <p class="card-text"><small class="text-muted">Vision Type: @product.VisionType</small></p>
+                            </div>
+                            <div class="card-footer bg-white border-top-0">
+                                <a href="@Url.Action("Detail", "Products", new { id = product.Id })" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Lenses Section -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <h2 class="mb-4">
+                Lenses
+                <a href="@Url.Action("Lenses", "Products")" class="btn btn-sm btn-outline-secondary ml-2">View All</a>
+            </h2>
+            
+            <div class="row">
+                @foreach (var product in Model.FeaturedLenses)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <img src="@Url.Content(product.ImageUrl)" class="card-img-top" alt="@product.Name">
+                            <div class="card-body">
+                                <h5 class="card-title">@product.Name</h5>
+                                <p class="card-text">@(product.Description.Length > 100 ? product.Description.Substring(0, 97) + "..." : product.Description)</p>
+                                <div class="price-section">
+                                    <p class="card-text font-weight-bold">$@product.Price.ToString("F2")</p>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white border-top-0">
+                                <a href="@Url.Action("Detail", "Products", new { id = product.Id })" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 </div>
-
-<style>
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
-    }
-
-    .header {
-        text-align: center;
-        margin-bottom: 40px;
-    }
-
-    .header h1 {
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    .filters {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-
-    .filter-btn {
-        padding: 8px 16px;
-        border: none;
-        border-radius: 20px;
-        background-color: #f0f0f0;
-        color: #333;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .filter-btn:hover {
-        background-color: #e0e0e0;
-    }
-
-    .filter-btn.active {
-        background-color: #007bff;
-        color: white;
-    }
-
-    .discount-btn {
-        background-color: #ff6b6b;
-        color: white;
-    }
-
-    .discount-btn:hover {
-        background-color: #ff5252;
-    }
-
-    .products-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 30px;
-        padding: 20px 0;
-    }
-
-    .product-card {
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        overflow: hidden;
-        transition: transform 0.3s ease;
-    }
-
-    .product-card:hover {
-        transform: translateY(-5px);
-    }
-
-    .product-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-    }
-
-    .product-card h3 {
-        padding: 15px;
-        margin: 0;
-        color: #333;
-    }
-
-    .price-container {
-        padding: 0 15px;
-        margin-bottom: 10px;
-    }
-
-    .price {
-        font-size: 1.2em;
-        color: #333;
-        font-weight: bold;
-    }
-
-    .original-price {
-        text-decoration: line-through;
-        color: #999;
-        margin-right: 10px;
-    }
-
-    .discounted-price {
-        color: #ff6b6b;
-        font-weight: bold;
-        font-size: 1.2em;
-    }
-
-    .description {
-        padding: 0 15px 15px;
-        color: #666;
-        margin: 0;
-    }
-
-    /* Modal Styles */
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0,0,0,0.5);
-        z-index: 1000;
-    }
-
-    .modal-content {
-        position: relative;
-        background-color: white;
-        margin: 5% auto;
-        padding: 20px;
-        width: 90%;
-        max-width: 1200px;
-        max-height: 80vh;
-        overflow-y: auto;
-        border-radius: 10px;
-    }
-
-    .close-modal {
-        position: absolute;
-        right: 20px;
-        top: 10px;
-        font-size: 28px;
-        font-weight: bold;
-        color: #666;
-        cursor: pointer;
-    }
-
-    .close-modal:hover {
-        color: #333;
-    }
-</style>
-
-<script>
-    function filterProducts(type) {
-        const products = document.querySelectorAll('.product-card');
-        const buttons = document.querySelectorAll('.filter-btn');
-        
-        buttons.forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
-
-        products.forEach(product => {
-            if (type === 'all' || product.dataset.type === type) {
-                product.style.display = 'block';
-            } else {
-                product.style.display = 'none';
-            }
-        });
-    }
-
-    function showDiscountModal() {
-        const modal = document.getElementById('discountModal');
-        const discountGrid = document.getElementById('discountProductsGrid');
-        const products = document.querySelectorAll('.product-card[data-discounted="true"]');
-        
-        discountGrid.innerHTML = '';
-        products.forEach(product => {
-            const clone = product.cloneNode(true);
-            discountGrid.appendChild(clone);
-        });
-
-        modal.style.display = 'block';
-    }
-
-    function closeDiscountModal() {
-        const modal = document.getElementById('discountModal');
-        modal.style.display = 'none';
-    }
-
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-        const modal = document.getElementById('discountModal');
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    }
-</script>
-

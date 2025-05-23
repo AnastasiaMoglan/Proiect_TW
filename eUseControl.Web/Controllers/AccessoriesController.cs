@@ -16,7 +16,6 @@ namespace eUseControl.Web.Controllers
         {
             _accessoryService = new AccessoryService();
             
-            // Ensure accessories are seeded in the database
             EnsureAccessoriesExist();
         }
         
@@ -24,18 +23,14 @@ namespace eUseControl.Web.Controllers
         {
             try
             {
-                // Seed accessories if not already present
                 _accessoryService.SeedAccessories();
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Error seeding accessories: " + ex.ToString());
-                // Don't throw the exception - we'll let the database initializer handle this
-                // This is just a fallback mechanism in case the initializer didn't run
             }
         }
 
-        // GET: Accessories
         public ActionResult Index()
         {
             try
@@ -45,7 +40,6 @@ namespace eUseControl.Web.Controllers
                     AccessoriesByCategory = _accessoryService.GetAccessoriesByCategories()
                 };
                 
-                // Get a few featured accessories (random selection for this example)
                 var allAccessories = _accessoryService.GetAllAccessories();
                 if (allAccessories.Count > 0)
                 {
@@ -66,7 +60,6 @@ namespace eUseControl.Web.Controllers
             }
         }
         
-        // GET: Accessories/Category/case
         public ActionResult Category(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -88,7 +81,6 @@ namespace eUseControl.Web.Controllers
             }
         }
         
-        // GET: Accessories/Detail/5
         public ActionResult Detail(int id)
         {
             try

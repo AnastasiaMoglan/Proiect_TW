@@ -1,255 +1,75 @@
-@model List<eUseControl.Domain.Models.Product>
+@model List<eUseControl.Domain.Entities.Product>
 @{
-    ViewBag.Title = "Optical Frames";
+    ViewBag.Title = "Optical Frames Collection";
 }
 
-<style>
-    body {
-        background: #6ec6ff !important;
-    }
-    .frames-header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1.5rem;
-        margin-bottom: 2.5rem;
-        flex-wrap: wrap;
-        margin-top: 2.5rem;
-    }
-    .frames-title {
-        color: #1a355e;
-        font-size: 2.7rem;
-        font-family: 'Fredoka One', 'Segoe UI', Arial, sans-serif;
-        letter-spacing: 2px;
-        text-shadow: 0 4px 18px #b3cfff;
-        margin: 0;
-        flex-shrink: 0;
-    }
-    .frames-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        max-width: 900px;
-        margin: 0 auto;
-        justify-content: center;
-    }
-    .frame-card {
-        flex: 1 1 260px;
-        max-width: 300px;
-        min-width: 260px;
-        border: 1px solid #1a355e;
-        border-radius: 16px;
-        padding: 1.2rem 1rem 1.5rem 1rem;
-        background: #e3f0ff;
-        box-shadow: 0 2px 12px #0d1a3a33;
-        text-align: center;
-        color: #1a355e;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        cursor: pointer;
-        transition: opacity 0.3s, transform 0.3s;
-    }
-    .frame-card:hover {
-        box-shadow: 0 6px 24px #6ec6ff;
-        transform: translateY(-2px) scale(1.03);
-    }
-    .frame-card.hide {
-        display: none !important;
-    }
-    .frame-img {
-        width: 100%;
-        max-width: 180px;
-        height: 140px;
-        object-fit: cover;
-        border-radius: 8px;
-        margin-bottom: 1rem;
-        background: #fff;
-    }
-    .frame-name {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #28527a;
-        margin-bottom: 0.5rem;
-    }
-    .frame-price {
-        color: #2563eb;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        font-size: 1.1rem;
-    }
-    .frame-actions {
-        display: flex;
-        gap: 0.7rem;
-        justify-content: center;
-    }
-    .add-to-cart {
-        padding: 0.5rem 1.1rem;
-        border: none;
-        border-radius: 6px;
-        background: #1a355e;
-        color: #fff;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-    .add-to-cart:hover {
-        background: #2563eb;
-        color: #fff;
-    }
-    .add-to-favorites {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 1.6rem;
-        color: #f44336;
-        transition: color 0.2s;
-        margin-left: 0.2rem;
-    }
-    .add-to-favorites:hover {
-        color: #d32f2f;
-    }
-    .frame-desc {
-        display: none;
-        margin-top: 1rem;
-        color: #1a355e;
-        background: #fff;
-        border-radius: 8px;
-        padding: 0.7rem 1rem;
-        font-size: 1rem;
-        box-shadow: 0 2px 8px #b3cfff44;
-        animation: fadeIn 0.3s;
-    }
-    .frame-card.active .frame-desc {
-        display: block;
-    }
-    @@media (max-width: 900px) {
-        .frames-grid {
-            grid-template-columns: 1fr 1fr;
-        }
-    }
-    @@media (max-width: 600px) {
-        .frames-header {
-            flex-direction: column;
-            gap: 0.7rem;
-        }
-        .frames-title {
-            font-size: 2rem;
-        }
-        .frames-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-    @@keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-    .filter-btn-custom {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: #3a7bd5;
-        color: #fff;
-        border: none;
-        padding: 0.8rem 1.5rem;
-        border-radius: 25px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background 0.2s;
-        box-shadow: 0 2px 8px rgba(58,123,213,0.08);
-        margin-left: 1.5rem;
-    }
-    .filter-btn-custom:hover, .filter-btn-custom.active {
-        background: #28527a;
-    }
-    .filter-dropdown-custom { display: none; }
-    .filter-btn-custom.show + .filter-dropdown-custom { display: block; }
-    .filter-option-custom {
-        display: block;
-        width: 100%;
-        padding: 0.7rem 1.2rem;
-        font-size: 1rem;
-        color: #1a355e;
-        background: none;
-        border: none;
-        text-align: left;
-        cursor: pointer;
-        border-radius: 8px;
-        transition: background 0.2s, color 0.2s;
-    }
-    .filter-option-custom:hover, .filter-option-custom.selected {
-        background: #e3f0ff;
-        color: #2563eb;
-    }
-</style>
-
-<div class="frames-header">
-    <h2 class="frames-title">Optical Frames</h2>
-    <div style="position:relative;">
-        <button class="filter-btn-custom" id="filterBtnCustom" type="button">
-            <span style="font-size:1.3rem;">&#128269;</span> <span style="font-weight:bold;">Filter</span>
-        </button>
-        <div class="filter-dropdown-custom" id="filterDropdownCustom">
-            <button class="filter-option-custom" type="button" onclick="applyFilter('All', event)">All</button>
-            <button class="filter-option-custom" type="button" onclick="applyFilter('Near', event)">For near vision</button>
-            <button class="filter-option-custom" type="button" onclick="applyFilter('Distance', event)">For distance vision</button>
+<div class="container">
+    <!-- Page Header -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <h1>Optical Frames Collection</h1>
+            <p class="lead">Find the perfect frames for your prescription lenses</p>
         </div>
     </div>
-</div>
 
-<div class="frames-grid" id="framesGrid">
-    @foreach (var item in Model)
+    <!-- Error Message Display -->
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
     {
-        <div class="frame-card" data-vision="@item.VisionType" onclick="toggleDesc(this)">
-            <img class="frame-img" src="@item.ImageUrl" alt="@item.Name" />
-            <div class="frame-name">@item.Name</div>
-            <div class="frame-price">@item.Price.Amount @item.Price.Currency</div>
-            <div class="frame-actions">
-                <button class="add-to-cart" onclick="event.stopPropagation();">Add to Cart</button>
-                <button class="add-to-favorites" title="Add to Favorites" onclick="event.stopPropagation();">&#10084;</button>
-            </div>
-            <div class="frame-desc">@item.Description</div>
+        <div class="alert alert-danger">
+            <h4>Error</h4>
+            <p>@ViewBag.ErrorMessage</p>
+            @if (!string.IsNullOrEmpty(ViewBag.DetailedError))
+            {
+                <p><small>Details: @ViewBag.DetailedError</small></p>
+            }
         </div>
     }
-</div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var filterBtn = document.getElementById('filterBtnCustom');
-        var filterDropdown = document.getElementById('filterDropdownCustom');
-        filterBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            filterBtn.classList.toggle('show');
-        });
-        document.addEventListener('click', function(e) {
-            filterBtn.classList.remove('show');
-        });
-        filterDropdown.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-        applyFilter('All');
-    });
-    function applyFilter(vision, e) {
-        if (e) e.stopPropagation();
-        var cards = document.querySelectorAll('.frame-card');
-        var options = document.querySelectorAll('.filter-option-custom');
-        options.forEach(function(opt) {
-            opt.classList.remove('selected');
-            if (opt.textContent === vision || (vision === 'All' && opt.textContent === 'All')) opt.classList.add('selected');
-        });
-        cards.forEach(function(card) {
-            if (vision === 'All' || card.getAttribute('data-vision') === vision) {
-                card.classList.remove('hide');
-            } else {
-                card.classList.add('hide');
+
+    <!-- Product Filters -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Filter Options</h5>
+                    <div class="d-flex flex-wrap">
+                        <a href="#" class="btn btn-outline-secondary btn-sm m-1">All</a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm m-1">Near Vision</a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm m-1">Distance Vision</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var product in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="@Url.Content(product.ImageUrl)" class="card-img-top" alt="@product.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">@product.Description</p>
+                            <p class="card-text font-weight-bold">$@product.Price.ToString("F2")</p>
+                            <p class="card-text"><small class="text-muted">Vision Type: @product.VisionType</small></p>
+                        </div>
+                        <div class="card-footer bg-white border-top-0">
+                            <a href="@Url.Action("Detail", "Products", new { id = product.Id })" class="btn btn-primary">View Details</a>
+                            <button class="btn btn-outline-success ml-2">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
             }
-        });
-        document.getElementById('filterBtnCustom').classList.remove('show');
-    }
-    function toggleDesc(card) {
-        document.querySelectorAll('.frame-card').forEach(function(c) {
-            if (c !== card) c.classList.remove('active');
-        });
-        card.classList.toggle('active');
-    }
-</script> 
+        }
+        else
+        {
+            <div class="col-12 text-center py-5">
+                <h3>No optical frames found</h3>
+                <p>Please check back later for new products</p>
+            </div>
+        }
+    </div>
+</div>

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using eUseControl.Data.Context;
+using eUseControl.Data.Helpers;
 using eUseControl.Domain.Entities;
 using eUseControl.Domain.Models;
 
@@ -55,5 +56,40 @@ namespace eUseControl.Data.Repository
                 .OrderByDescending(l => l.LoginTime)
                 .ToList();
         }
+        
+         public void SeedUsers()
+        {
+            if (!_dbContext.Users.Any())
+            {
+                var adminUser = new User
+                {
+                    Username = "admin",
+                    Email = "admin@eyecare.com",
+                    PasswordHash = PasswordHasher.HashPassword("Admin123!"),
+                    Role = "Admin",
+                    CreatedAt = DateTime.Now,
+                };
+
+                var standardUser = new User
+                {
+                    Username = "user",
+                    Email = "user@example.com",
+                    PasswordHash = PasswordHasher.HashPassword("User123!"),
+                    Role = "User", // Standard user level
+                    CreatedAt = DateTime.Now,
+                };
+
+                _dbContext.Users.Add(adminUser);
+                _dbContext.Users.Add(standardUser);
+                _dbContext.SaveChanges();
+
+                Console.WriteLine("Default users created successfully.");
+            }
+            else
+            {
+                Console.WriteLine("Users already exist in the database. Skipping seed.");
+            }
+        }
+
     }
 }

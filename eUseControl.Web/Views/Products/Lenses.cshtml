@@ -1,248 +1,60 @@
-@model List<eUseControl.Domain.Models.Product>
+@model List<eUseControl.Domain.Entities.Product>
 @{
-    ViewBag.Title = "Lenses";
+    ViewBag.Title = "Lens Collection";
 }
 
-<style>
-    body {
-        background: #6ec6ff !important;
-    }
-    .lenses-header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1.5rem;
-        margin-bottom: 2.5rem;
-        flex-wrap: wrap;
-        margin-top: 2.5rem;
-    }
-    .lenses-title {
-        color: #1a355e;
-        font-size: 2.7rem;
-        font-family: 'Fredoka One', 'Segoe UI', Arial, sans-serif;
-        letter-spacing: 2px;
-        text-shadow: 0 4px 18px #b3cfff;
-        margin: 0;
-        flex-shrink: 0;
-    }
-    .lenses-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        max-width: 900px;
-        margin: 0 auto;
-        justify-content: center;
-    }
-    .lens-card {
-        flex: 1 1 260px;
-        max-width: 300px;
-        min-width: 260px;
-        border: 1px solid #1a355e;
-        border-radius: 16px;
-        padding: 1.2rem 1rem 1.5rem 1rem;
-        background: #e3f0ff;
-        box-shadow: 0 2px 12px #0d1a3a33;
-        text-align: center;
-        color: #1a355e;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        cursor: pointer;
-        transition: opacity 0.3s, transform 0.3s;
-    }
-    .lens-card:hover {
-        box-shadow: 0 6px 24px #6ec6ff;
-        transform: translateY(-2px) scale(1.03);
-    }
-    .lens-img {
-        width: 100%;
-        max-width: 180px;
-        height: 140px;
-        object-fit: cover;
-        border-radius: 8px;
-        margin-bottom: 1rem;
-        background: #fff;
-    }
-    .lens-name {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #28527a;
-        margin-bottom: 0.5rem;
-    }
-    .lens-price {
-        color: #2563eb;
-        font-weight: 700;
-        margin-bottom: 1rem;
-        font-size: 1.1rem;
-    }
-    .lens-actions {
-        display: flex;
-        gap: 0.7rem;
-        justify-content: center;
-    }
-    .add-to-cart {
-        padding: 0.5rem 1.1rem;
-        border: none;
-        border-radius: 6px;
-        background: #1a355e;
-        color: #fff;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-    .add-to-cart:hover {
-        background: #2563eb;
-        color: #fff;
-    }
-    .add-to-favorites {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 1.6rem;
-        color: #f44336;
-        transition: color 0.2s;
-        margin-left: 0.2rem;
-    }
-    .add-to-favorites:hover {
-        color: #d32f2f;
-    }
-    .lens-desc {
-        display: block;
-        margin-top: 0.8rem;
-        color: #666;
-        font-size: 0.9rem;
-        line-height: 1.4;
-        padding: 0 0.5rem;
-    }
-    .filter-btn-custom {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: #3a7bd5;
-        color: #fff;
-        border: none;
-        padding: 0.8rem 1.5rem;
-        border-radius: 25px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background 0.2s;
-        box-shadow: 0 2px 8px rgba(58,123,213,0.08);
-        margin-left: 1.5rem;
-    }
-    .filter-btn-custom:hover, .filter-btn-custom.active {
-        background: #28527a;
-    }
-    .filter-dropdown-custom {
-        display: none;
-        position: absolute;
-        background: #fff;
-        border: 1px solid #1a355e;
-        border-radius: 16px;
-        box-shadow: 0 2px 12px #0d1a3a33;
-        padding: 1rem;
-        z-index: 10;
-        min-width: 160px;
-        top: 110%;
-        left: 0;
-    }
-    .filter-btn-custom.show + .filter-dropdown-custom {
-        display: block;
-    }
-    .filter-option-custom {
-        display: block;
-        width: 100%;
-        padding: 0.7rem 1.2rem;
-        font-size: 1rem;
-        color: #1a355e;
-        background: none;
-        border: none;
-        text-align: left;
-        border-radius: 8px;
-        transition: background 0.2s, color 0.2s;
-    }
-    .filter-option-custom:hover, .filter-option-custom.selected {
-        background: #e3f0ff;
-        color: #2563eb;
-    }
-</style>
-
-<div class="lenses-header" style="display: flex; align-items: center; gap: 2rem;">
-    <h2 class="lenses-title">Lenses</h2>
-    <div style="position:relative;">
-        <button class="filter-btn-custom" id="filterBtnCustom" type="button">
-            <span style="font-size:1.3rem;">&#128269;</span> <span style="font-weight:bold;">Filter</span>
-        </button>
-        <div class="filter-dropdown-custom" id="filterDropdownCustom">
-            <button class="filter-option-custom" type="button" onclick="applyFilter('All', event)">All</button>
-            <button class="filter-option-custom" type="button" onclick="applyFilter('Single Vision', event)">Single Vision</button>
-            <button class="filter-option-custom" type="button" onclick="applyFilter('Progressive', event)">Progressive</button>
-            <button class="filter-option-custom" type="button" onclick="applyFilter('Bifocal', event)">Bifocal</button>
-            <button class="filter-option-custom" type="button" onclick="applyFilter('Discounts', event)">Discounts</button>
+<div class="container">
+    <!-- Page Header -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <h1>Lens Collection</h1>
+            <p class="lead">Premium quality lenses for all vision needs</p>
         </div>
     </div>
-</div>
 
-<div class="lenses-grid">
-    @foreach (var lens in Model)
+    <!-- Error Message Display -->
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
     {
-        var isDiscounted = lens.DiscountedPrice != null && lens.DiscountedPrice.Amount < lens.Price.Amount;
-        var category = lens.Name.ToLower().Contains("single vision") ? "single vision"
-            : lens.Name.ToLower().Contains("progressive") ? "progressive"
-            : lens.Name.ToLower().Contains("bifocal") ? "bifocal"
-            : "other";
-        <div class="lens-card" data-discounted="@(isDiscounted ? "true" : "false")" data-category="@category">
-            <img src="@lens.ImageUrl" alt="@lens.Name" class="lens-img">
-            <h3 class="lens-name">@lens.Name</h3>
-            <div class="lens-price">
-                @if (isDiscounted)
-                {
-                    <span style="text-decoration:line-through;color:#888;margin-right:8px;">@lens.Price.Amount@lens.Price.Currency</span>
-                    <span style="color:#d32f2f;font-weight:bold;">@lens.DiscountedPrice.Amount@lens.DiscountedPrice.Currency</span>
-                }
-                else
-                {
-                    <span>@lens.Price.Amount@lens.Price.Currency</span>
-                }
-            </div>
-            <div class="lens-actions">
-                <button class="add-to-cart">Add to Cart</button>
-                <button class="add-to-favorites">&#10084;</button>
-            </div>
-            <span class="lens-desc">@lens.Description</span>
+        <div class="alert alert-danger">
+            <h4>Error</h4>
+            <p>@ViewBag.ErrorMessage</p>
+            @if (!string.IsNullOrEmpty(ViewBag.DetailedError))
+            {
+                <p><small>Details: @ViewBag.DetailedError</small></p>
+            }
         </div>
     }
-</div>
 
-<script>
-    // Toggle filter dropdown
-    document.getElementById('filterBtnCustom').addEventListener('click', function(e) {
-        e.stopPropagation();
-        this.classList.toggle('show');
-        document.getElementById('filterDropdownCustom').style.display = this.classList.contains('show') ? 'block' : 'none';
-    });
-    document.addEventListener('click', function(e) {
-        document.getElementById('filterBtnCustom').classList.remove('show');
-        document.getElementById('filterDropdownCustom').style.display = 'none';
-    });
-    document.getElementById('filterDropdownCustom').addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
-    function applyFilter(type, event) {
-        document.querySelectorAll('.filter-option-custom').forEach(function(btn) {
-            btn.classList.remove('selected');
-        });
-        event.target.classList.add('selected');
-        var value = type.toLowerCase();
-        document.querySelectorAll('.lens-card').forEach(function(card) {
-            if (value === 'discounts') {
-                card.style.display = card.getAttribute('data-discounted') === 'true' ? '' : 'none';
-            } else if (value === 'all') {
-                card.style.display = '';
-            } else {
-                var category = card.getAttribute('data-category');
-                card.style.display = (category === value) ? '' : 'none';
+    <!-- Products Grid -->
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var product in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="@Url.Content(product.ImageUrl)" class="card-img-top" alt="@product.Name">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">@product.Description</p>
+                            <div class="price-section">
+                                <p class="card-text font-weight-bold">$@product.Price.ToString("F2")</p>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-white border-top-0">
+                            <a href="@Url.Action("Detail", "Products", new { id = product.Id })" class="btn btn-primary">View Details</a>
+                            <button class="btn btn-outline-success ml-2">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
             }
-        });
-    }
-</script> 
+        }
+        else
+        {
+            <div class="col-12 text-center py-5">
+                <h3>No lenses found</h3>
+                <p>Please check back later for new products</p>
+            </div>
+        }
+    </div>
+</div>

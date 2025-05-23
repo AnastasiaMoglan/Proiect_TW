@@ -14,5 +14,9 @@ namespace eUseControl.Data.Services
         void UpdateProduct(Product product);
         void DeleteProduct(int id);
         void SeedProducts();
+        List<Product> FilterSunglasses(decimal? minPrice, decimal? maxPrice);
+        List<Product> FilterOpticalFrames(decimal? minPrice, decimal? maxPrice);
+        List<Product> FilterLenses(decimal? minPrice, decimal? maxPrice);
+
     }
 }

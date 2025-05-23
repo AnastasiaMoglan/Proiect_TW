@@ -9,7 +9,5 @@ namespace eUseControl.Data.Services
         bool IsEmailRegistered(string email);
         User RegisterUser(string email, string username, string password);
         User ValidateUser(string email, string password);
-        void RecordLogin(string email, string ipAddress, bool success);
-        List<Domain.Models.LoginRecord> GetLoginHistory();
     }
 }

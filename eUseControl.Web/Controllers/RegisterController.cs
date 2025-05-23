@@ -58,8 +58,6 @@ namespace eUseControl.Web.Controllers
                     return View(model);
                 }
                 
-                _userService.RecordLogin(user.Email, Request.UserHostAddress, true);
-                
                 var authTicket = new FormsAuthenticationTicket(
                     1,                              
                     user.Email,                     

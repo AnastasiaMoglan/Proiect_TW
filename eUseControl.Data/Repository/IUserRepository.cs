@@ -10,7 +10,5 @@ namespace eUseControl.Data.Repository
         bool IsUserRegistered(string username);
         bool IsEmailRegistered(string email);
         User CreateUser(User user);
-        void SaveLoginRecord(Domain.Models.LoginRecord loginRecord);
-        List<Domain.Models.LoginRecord> GetLoginHistory();
     }
 }

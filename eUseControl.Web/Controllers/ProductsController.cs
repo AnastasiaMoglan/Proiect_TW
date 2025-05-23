@@ -52,48 +52,72 @@ namespace eUseControl.Web.Controllers
             }
         }
 
-        public ActionResult Sunglasses()
+        public ActionResult Sunglasses(decimal? minPrice, decimal? maxPrice)
         {
             try
             {
-                var sunglasses = _productService.GetSunglasses();
-                return View(sunglasses);
+                List<Product> sunglasses;
+                if (minPrice == null && maxPrice == null)
+                {
+                    sunglasses = _productService.GetSunglasses();
+                }
+                else
+                {
+                    sunglasses = _productService.FilterSunglasses(minPrice, maxPrice);
+                }
+                return View("Sunglasses", sunglasses);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while loading sunglasses.";
+                ViewBag.ErrorMessage = "An error occurred while filtering Sunglasses.";
                 ViewBag.DetailedError = ex.Message;
-                return View(new List<Product>());
+                return View("Sunglasses", new List<Product>());
             }
         }
 
-        public ActionResult OpticalFrames()
+        public ActionResult OpticalFrames(decimal? minPrice, decimal? maxPrice)
         {
             try
             {
-                var frames = _productService.GetOpticalFrames();
-                return View(frames);
+                List<Product> opticalFrames;;
+                if (minPrice == null && maxPrice == null)
+                {
+                    opticalFrames = _productService.GetOpticalFrames();
+                }
+                else
+                {
+                    opticalFrames = _productService.FilterOpticalFrames(minPrice, maxPrice);
+                }
+                return View("OpticalFrames", opticalFrames);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while loading optical frames.";
+                ViewBag.ErrorMessage = "An error occurred while filtering OpticalFrames.";
                 ViewBag.DetailedError = ex.Message;
-                return View(new List<Product>());
+                return View("OpticalFrames", new List<Product>());
             }
         }
 
-        public ActionResult Lenses()
+        public ActionResult Lenses(decimal? minPrice, decimal? maxPrice)
         {
             try
             {
-                var lenses = _productService.GetLenses();
-                return View(lenses);
+                List<Product> lenses;;
+                if (minPrice == null && maxPrice == null)
+                {
+                    lenses = _productService.GetLenses();
+                }
+                else
+                {
+                    lenses = _productService.FilterLenses(minPrice, maxPrice);
+                }
+                return View("Lenses", lenses);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while loading lenses.";
+                ViewBag.ErrorMessage = "An error occurred while filtering Lenses.";
                 ViewBag.DetailedError = ex.Message;
-                return View(new List<Product>());
+                return View("Lenses", new List<Product>());
             }
         }
         

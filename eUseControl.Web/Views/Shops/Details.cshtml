@@ -1,0 +1,185 @@
+
+@model eUseControl.Web.Models.ShopDetailViewModel
+@{
+    ViewBag.Title = Model.Shop.Name;
+}
+
+<div class="container">
+    <!-- Error Message Display -->
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger">
+            <h4>Error</h4>
+            <p>@ViewBag.ErrorMessage</p>
+            @if (!string.IsNullOrEmpty(ViewBag.DetailedError))
+            {
+                <p><small>Details: @ViewBag.DetailedError</small></p>
+            }
+        </div>
+    }
+
+    <!-- Breadcrumbs -->
+    <nav aria-label="breadcrumb" class="mt-3">
+        <ol class="breadcrumb bg-light">
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Shops")">Our Locations</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Shop.Name</li>
+        </ol>
+    </nav>
+
+    <!-- Shop Details -->
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <img src="@Url.Content(Model.Shop.ImageUrl)" class="img-fluid rounded" alt="@Model.Shop.Name">
+        </div>
+        <div class="col-md-6">
+            <h1 class="mb-3">@Model.Shop.Name</h1>
+            <p class="lead">@Model.Shop.Description</p>
+            
+            <!-- Shop Features -->
+            <div class="shop-features mb-4">
+                <div class="d-flex flex-wrap">
+                    @if (Model.Shop.HasOptician) { <span class="badge badge-primary mr-2 mb-2 p-2">Optician Available</span> }
+                    @if (Model.Shop.IsServiceCenter) { <span class="badge badge-success mr-2 mb-2 p-2">Service Center</span> }
+                    @if (Model.Shop.HasParkingAvailable) { <span class="badge badge-info mr-2 mb-2 p-2">Parking Available</span> }
+                </div>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="shop-contact mb-4">
+                <h4 class="mb-3">Contact Information</h4>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fa fa-map-marker mr-2"></i> @Model.Shop.Address, @Model.Shop.City</li>
+                    <li class="mb-2"><i class="fa fa-phone mr-2"></i> @Model.Shop.PhoneNumber</li>
+                    @if (!string.IsNullOrEmpty(Model.Shop.Email))
+                    {
+                        <li class="mb-2"><i class="fa fa-envelope mr-2"></i> @Model.Shop.Email</li>
+                    }
+                    <li class="mb-2"><i class="fa fa-clock-o mr-2"></i> @Model.Shop.OpeningHours</li>
+                </ul>
+            </div>
+            
+            <!-- Map Button -->
+            <div class="map-section mb-4">
+                <a href="https://www.google.com/maps?q=@Model.Shop.Latitude,@Model.Shop.Longitude" target="_blank" class="btn btn-primary">
+                    <i class="fa fa-map mr-2"></i> View on Google Maps
+                </a>
+                <a href="tel:@Model.Shop.PhoneNumber.Replace("(", "").Replace(")", "").Replace(" ", "").Replace("-", "")" class="btn btn-outline-secondary ml-2">
+                    <i class="fa fa-phone mr-2"></i> Call
+                </a>
+                @if (!string.IsNullOrEmpty(Model.Shop.Email))
+                {
+                    <a href="mailto:@Model.Shop.Email" class="btn btn-outline-secondary ml-2">
+                        <i class="fa fa-envelope mr-2"></i> Email
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <!-- Services Section -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Services Available</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5><i class="fa fa-eye"></i> Eye Examinations</h5>
+                            <p>Comprehensive eye exams using state-of-the-art equipment</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5><i class="fa fa-glasses"></i> Frame Fitting</h5>
+                            <p>Professional fitting service with our expert consultants</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5><i class="fa fa-tools"></i> Repairs & Adjustments</h5>
+                            <p>Quick repairs and adjustments to keep your eyewear in perfect condition</p>
+                        </div>
+                    </div>
+                    @if (Model.Shop.HasOptician)
+                    {
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <h5><i class="fa fa-id-card"></i> Contact Lens Fitting</h5>
+                                <p>Expert contact lens consultations and fittings</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h5><i class="fa fa-chart-line"></i> Visual Field Testing</h5>
+                                <p>Advanced tests to measure your entire scope of vision</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h5><i class="fa fa-microscope"></i> Retinal Imaging</h5>
+                                <p>High-resolution imaging to monitor eye health</p>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.Shop.IsServiceCenter)
+                    {
+                        <div class="row mt-4">
+                            <div class="col-md-4">
+                                <h5><i class="fa fa-clock"></i> Express Service</h5>
+                                <p>Same-day glasses for selected prescriptions</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h5><i class="fa fa-heart"></i> Children's Eye Care</h5>
+                                <p>Specialized services for children's visual health</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h5><i class="fa fa-check-circle"></i> Insurance Processing</h5>
+                                <p>We handle insurance claims for major providers</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="row mb-5">
+        <div class="col-md-12">
+            <h3>Location</h3>
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" 
+                        src="https://maps.google.com/maps?q=@Model.Shop.Latitude,@Model.Shop.Longitude&z=15&output=embed" 
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nearby Shops -->
+    @if (Model.NearbyShops != null && Model.NearbyShops.Any())
+    {
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <h3 class="mb-4">Other Locations in @Model.Shop.City</h3>
+                <div class="row">
+                    @foreach (var shop in Model.NearbyShops)
+                    {
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <img src="@Url.Content(shop.ImageUrl)" class="card-img-top" alt="@shop.Name" style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title">@shop.Name</h5>
+                                    <p class="card-text">@(shop.Description.Length > 100 ? shop.Description.Substring(0, 97) + "..." : shop.Description)</p>
+                                    <p class="card-text"><i class="fa fa-map-marker"></i> @shop.Address</p>
+                                    <p class="card-text">
+                                        @if (shop.HasOptician) { <span class="badge badge-primary mr-1">Optician</span> }
+                                        @if (shop.IsServiceCenter) { <span class="badge badge-success mr-1">Service Center</span> }
+                                        @if (shop.HasParkingAvailable) { <span class="badge badge-info mr-1">Parking</span> }
+                                    </p>
+                                </div>
+                                <div class="card-footer bg-white border-top-0">
+                                    <a href="@Url.Action("Details", "Shops", new { id = shop.Id })" class="btn btn-primary">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

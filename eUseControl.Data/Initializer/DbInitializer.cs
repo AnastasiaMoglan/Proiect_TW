@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using eUseControl.Data.Context;
-using eUseControl.Data.Helpers;
 using eUseControl.Data.Repository;
-using eUseControl.Domain.Entities;
 
 namespace eUseControl.Data.Initializer
 {
@@ -32,6 +28,11 @@ namespace eUseControl.Data.Initializer
                 var productRepository = new ProductRepository();
                 productRepository.SeedProducts();
                 
+                // Seed Shops
+                Console.WriteLine("Seeding shops...");
+                var shopRepository = new ShopRepository();
+                shopRepository.SeedShops();
+                
                 Console.WriteLine("Database seeding completed successfully.");
                 
                 base.Seed(context);
@@ -40,8 +41,6 @@ namespace eUseControl.Data.Initializer
             {
                 Console.WriteLine("Error in DB Initialization: " + ex.Message);
                 System.Diagnostics.Debug.WriteLine("Error in DB Initialization: " + ex.ToString());
-                // Log the exception, but don't rethrow to allow the application to continue
-                // In a production environment, you might want to implement more robust error handling
             }
         }
     }

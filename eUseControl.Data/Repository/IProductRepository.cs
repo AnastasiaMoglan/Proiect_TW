@@ -12,5 +12,6 @@ namespace eUseControl.Data.Repository
         void UpdateProduct(Product product);
         void DeleteProduct(int id);
         void SeedProducts();
+        List<Product> FilterProductsByType(string type, decimal? minPrice, decimal? maxPrice);
     }
 }

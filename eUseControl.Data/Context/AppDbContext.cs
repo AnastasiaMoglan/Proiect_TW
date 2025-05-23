@@ -12,12 +12,10 @@ namespace eUseControl.Data.Context
             Database.SetInitializer(new CreateDatabaseIfNotExists<AppDbContext>());
         }
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<LoginRecord> LoginRecords { get; set; }
-        public DbSet<Accessory> Accessories { get; set; }
-        
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Accessory> Accessories { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-
+        public virtual DbSet<Shop> Shops { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

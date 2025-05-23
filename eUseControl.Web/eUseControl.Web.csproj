@@ -146,6 +146,7 @@
     <Content Include="Global.asax" />
     <Content Include="Migrations\accessories.sql" />
     <Content Include="Migrations\products.sql" />
+    <Content Include="Migrations\shop.sql" />
     <Content Include="Migrations\user.sql" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -171,6 +172,7 @@
     <Content Include="Views\Products\Lenses.cshtml" />
     <Content Include="Views\Products\OpticalFrames.cshtml" />
     <Content Include="Views\Products\Sunglasses.cshtml" />
+    <Content Include="Views\Shops\Details.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -180,8 +182,6 @@
     <Compile Include="Controllers\AccessoriesController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\AmcController.cs" />
-    <Compile Include="Controllers\CardController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LensesController.cs" />
@@ -192,8 +192,6 @@
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ShopsController.cs" />
     <Compile Include="Controllers\SupportController.cs" />
-    <Compile Include="Controllers\TermsAndCondsController.cs" />
-    <Compile Include="Controllers\TermsController.cs" />
     <Compile Include="Data\ApplicationDbContext.cs" />
     <Compile Include="Data\DatabaseInitializer.cs" />
     <Compile Include="Global.asax.cs">
@@ -207,6 +205,8 @@
     <Compile Include="Models\ProductDetailViewModel.cs" />
     <Compile Include="Models\ProductsViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
+    <Compile Include="Models\ShopDetailViewModel.cs" />
+    <Compile Include="Models\ShopViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\AccessoriesProduct.cs" />
     <Compile Include="Services\TransferCardService.cs" />
@@ -221,15 +221,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shops\Index.cshtml" />
     <Content Include="Views\AboutUs\Index.cshtml" />
-    <Content Include="Views\Account\Index.cshtml" />
-    <Content Include="Views\Admin\Dashboard.cshtml" />
-    <Content Include="Views\Amc\aboutus.cshtml" />
-    <Content Include="Views\Card\Index.cshtml" />
-    <Content Include="Views\exchange_rate\Index.cshtml" />
-    <Content Include="Views\history\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Views\profile\cards.cshtml" />
-    <Content Include="Views\profile\Index.cshtml" />
     <Content Include="Views\Register\index.cshtml" />
     <Content Include="Views\Terms\Index.cshtml" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
@@ -246,18 +238,6 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\App_LocalResources\" />
-    <Folder Include="Content\NewFolder1\" />
-    <Folder Include="Content\NewFolder2\" />
-    <Folder Include="Views\MedicalConsultation\" />
-    <Folder Include="Views\OurTeam\" />
-    <Folder Include="Views\TermsAndConds\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\eUseControl.Data\eUseControl.Data.csproj">

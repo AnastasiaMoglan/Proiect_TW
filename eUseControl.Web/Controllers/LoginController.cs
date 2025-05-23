@@ -118,8 +118,6 @@ namespace eUseControl.Web.Controllers
             {
                 var user = _userService.ValidateUser(model.Email, model.Password);
                 
-                _userService.RecordLogin(model.Email, GetClientIPAddress(), user != null);
-                
                 if (user == null)
                 {
                     ModelState.AddModelError("", "Invalid email or password.");
@@ -195,27 +193,6 @@ namespace eUseControl.Web.Controllers
             Session.Abandon();
 
             return RedirectToAction("Index", "Home");
-        }
-        
-        public ActionResult ViewLoginHistory()
-        {
-            if (Session["UserRole"]?.ToString() != "Admin")
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
-            try
-            {
-                var loginRecords = _userService.GetLoginHistory();
-                ViewBag.LastUpdated = DateTime.Now;
-                return View(loginRecords);
-            }
-            catch (Exception ex)
-            {
-                ViewBag.ErrorMessage = "An error occurred while accessing the login history.";
-                ViewBag.DetailedError = ex.Message;
-                return View(new System.Collections.Generic.List<eUseControl.Domain.Models.LoginRecord>());
-            }
         }
     }
 }

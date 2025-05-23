@@ -63,23 +63,5 @@ namespace eUseControl.Data.Services
             
             return null;
         }
-        
-        public void RecordLogin(string email, string ipAddress, bool success)
-        {
-            var loginRecord = new LoginRecord
-            {
-                Email = email,
-                LoginTime = DateTime.Now,
-                IPAddress = ipAddress,
-                Success = success
-            };
-            
-            _userRepository.SaveLoginRecord(loginRecord);
-        }
-        
-        public List<LoginRecord> GetLoginHistory()
-        {
-            return _userRepository.GetLoginHistory();
-        }
     }
 }

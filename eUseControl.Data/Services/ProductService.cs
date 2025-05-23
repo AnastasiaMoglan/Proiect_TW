@@ -58,5 +58,26 @@ namespace eUseControl.Data.Services
         {
             _productRepository.SeedProducts();
         }
+        
+        public List<Product> FilterSunglasses(decimal? minPrice, decimal? maxPrice)
+        {
+            var sunglasses = _productRepository.FilterProductsByType("Sunglasses", minPrice, maxPrice);
+
+            return sunglasses;
+        }
+
+        public List<Product> FilterOpticalFrames(decimal? minPrice, decimal? maxPrice)
+        {
+            var opticalFrames = _productRepository.FilterProductsByType("OpticalFrames", minPrice, maxPrice);
+
+            return opticalFrames;
+        }
+
+        public List<Product> FilterLenses(decimal? minPrice, decimal? maxPrice)
+        {
+            var lenses = _productRepository.FilterProductsByType("Lenses", minPrice, maxPrice);
+
+            return lenses;
+        }
     }
 }

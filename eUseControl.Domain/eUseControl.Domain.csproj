@@ -102,6 +102,7 @@
   <ItemGroup>
     <Compile Include="Entities\Accessory.cs" />
     <Compile Include="Entities\Product.cs" />
+    <Compile Include="Entities\Shop.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Models\Money.cs" />
     <Compile Include="Models\RegisterData.cs" />

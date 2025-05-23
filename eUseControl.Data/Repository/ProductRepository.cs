@@ -114,5 +114,20 @@ namespace eUseControl.Data.Repository
                 _db.SaveChanges();
             }
         }
+
+        public List<Product> FilterProductsByType(string type, decimal? minPrice, decimal? maxPrice)
+        {
+            if (minPrice == null)
+            { 
+                return _db.Products.Where(p => p.Type == type && p.Price <= maxPrice).ToList();
+            } else if (maxPrice == null)
+            {
+                return _db.Products.Where(p => p.Type == type && p.Price >= minPrice).ToList();
+            }
+            else
+            {
+                return _db.Products.Where(p => p.Type == type && p.Price >= minPrice && p.Price <= maxPrice).ToList();
+            }
+        }
     }
 }

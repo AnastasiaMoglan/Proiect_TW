@@ -64,14 +64,18 @@
     <Compile Include="Repository\AccessoryRepository.cs" />
     <Compile Include="Repository\IAccessoryRepository.cs" />
     <Compile Include="Repository\IProductRepository.cs" />
+    <Compile Include="Repository\IShopRepository.cs" />
     <Compile Include="Repository\IUserRepository.cs" />
     <Compile Include="Repository\ProductRepository.cs" />
+    <Compile Include="Repository\ShopRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
     <Compile Include="Services\AccessoryService.cs" />
     <Compile Include="Services\IAccessoryService.cs" />
     <Compile Include="Services\IProductService.cs" />
+    <Compile Include="Services\IShopService.cs" />
     <Compile Include="Services\IUserService.cs" />
-    <Compile Include="Services\ProductInterface.cs" />
+    <Compile Include="Services\ProductService.cs" />
+    <Compile Include="Services\ShopService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>

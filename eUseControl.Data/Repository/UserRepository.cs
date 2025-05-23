@@ -44,19 +44,6 @@ namespace eUseControl.Data.Repository
             return user;
         }
         
-        public void SaveLoginRecord(LoginRecord loginRecord)
-        {
-            _dbContext.LoginRecords.Add(loginRecord);
-            _dbContext.SaveChanges();
-        }
-        
-        public List<LoginRecord> GetLoginHistory()
-        {
-            return _dbContext.LoginRecords
-                .OrderByDescending(l => l.LoginTime)
-                .ToList();
-        }
-        
          public void SeedUsers()
         {
             if (!_dbContext.Users.Any())

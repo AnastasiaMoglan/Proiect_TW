@@ -1,196 +1,86 @@
+@model eUseControl.Web.Models.ContactViewModel
+
 @{
     ViewBag.Title = "Contact Us";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="contact-bg">
-    <div class="contact-frame">
-        <h1 class="contact-title">Get in touch with us!</h1>
-        <div class="contact-content">
-            <div class="contact-info">
-                <div class="contact-item">
-                    <span class="contact-icon">&#128222;</span>
-                    <div class="contact-details">
-                        <h3>Phone</h3>
-                        <p><a href="tel:+37368271249" class="contact-link">+373 682 712 49</a></p>
-                    </div>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Send Us a Message</h4>
                 </div>
-                <div class="contact-item">
-                    <span class="contact-icon">&#9993;</span>
-                    <div class="contact-details">
-                        <h3>Email</h3>
-                        <p><a href="mailto:olari.veronica@gmail.com" class="contact-link">olari.veronica@gmail.com</a></p>
+                <div class="card-body">
+                    @using (Html.BeginForm("Index", "Contact", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FullName, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Subject, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Subject, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Message, new { @class = "control-label" })
+                            @Html.TextAreaFor(m => m.Message, new { @class = "form-control", rows = 6 })
+                            @Html.ValidationMessageFor(m => m.Message, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="submit" value="Send Message" class="btn btn-primary" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Contact Information</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>Address:</strong><br />123 Eye Care Street<br />Cityville, ST 12345</p>
+                    <p><strong>Phone:</strong><br />(123) 456-7890</p>
+                    <p><strong>Email:</strong><br />info@eyecare.com</p>
+                    <hr />
+                    <h5>Business Hours</h5>
+                    <p>Monday - Friday: 9:00 AM - 6:00 PM<br />
+                    Saturday: 10:00 AM - 4:00 PM<br />
+                    Sunday: Closed</p>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5>Connect With Us</h5>
+                    <div class="social-links">
+                        <a href="#" class="btn btn-outline-primary"><i class="fa fa-facebook"></i></a>
+                        <a href="#" class="btn btn-outline-info"><i class="fa fa-twitter"></i></a>
+                        <a href="#" class="btn btn-outline-danger"><i class="fa fa-instagram"></i></a>
+                        <a href="#" class="btn btn-outline-primary"><i class="fa fa-linkedin"></i></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Map Section -->
-<div class="contact-map-section">
-    <h2 class="map-title">Find us here</h2>
-    <div class="map-container">
-        <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1rcHxAuEEZyVuu6zL3ajzR-OMLHFuVZA&ehbc=2E312F" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-</div>
-
-<style>
-    .contact-bg {
-        min-height: 100vh;
-        background: url('/Content/Contact/glasses.png') no-repeat center center;
-        background-size: cover;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 2rem;
-        position: relative;
-    }
-    .contact-bg::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(5px);
-    }
-    .contact-frame {
-        background: linear-gradient(120deg, #e3f0ff 0%, #d6eaff 100%);
-        border-radius: 24px;
-        box-shadow: 0 8px 32px rgba(26, 53, 94, 0.15);
-        padding: 3rem;
-        max-width: 800px;
-        width: 100%;
-        text-align: center;
-        position: relative;
-        z-index: 1;
-    }
-    .contact-title {
-        color: #1a355e;
-        font-size: 2.5rem;
-        font-weight: 800;
-        margin-bottom: 2rem;
-        font-family: 'Segoe UI', Arial, sans-serif;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .contact-content {
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 16px;
-        padding: 2rem;
-        box-shadow: 0 4px 16px rgba(26, 53, 94, 0.1);
-    }
-    .contact-info {
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-        align-items: center;
-    }
-    .contact-item {
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-        background: url('/Content/Contact/glasses.png') no-repeat center center;
-        background-size: cover;
-        position: relative;
-        padding: 1.5rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(26, 53, 94, 0.08);
-        width: 100%;
-        max-width: 400px;
-        transition: transform 0.2s, box-shadow 0.2s;
-        overflow: hidden;
-    }
-    .contact-item::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(255,255,255,0.7);
-        z-index: 0;
-    }
-    .contact-item > * {
-        position: relative;
-        z-index: 1;
-    }
-    .contact-item:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(26, 53, 94, 0.12);
-    }
-    .contact-icon {
-        font-size: 2.5rem;
-        background: linear-gradient(120deg, #3a7bd5 0%, #6ec6ff 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    .contact-details h3 {
-        color: #1a355e;
-        font-size: 1.2rem;
-        margin-bottom: 0.5rem;
-        font-weight: 600;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-    }
-    .contact-details p {
-        color: #28527a;
-        font-size: 1.1rem;
-        margin: 0;
-        text-shadow: 0 1px 2px rgba(255,255,255,0.7), 0 1px 2px rgba(0,0,0,0.08);
-    }
-    .contact-link {
-        color: #28527a;
-        text-decoration: none;
-        transition: color 0.2s;
-        text-shadow: 0 1px 2px rgba(255,255,255,0.7), 0 1px 2px rgba(0,0,0,0.08);
-    }
-    .contact-link:hover {
-        color: #3a7bd5;
-    }
-    @@media (max-width: 768px) {
-        .contact-frame {
-            padding: 2rem 1.5rem;
-        }
-        .contact-title {
-            font-size: 2rem;
-        }
-        .contact-item {
-            padding: 1.2rem;
-        }
-    }
-    .contact-map-section {
-        margin-top: 2.5rem;
-        text-align: center;
-    }
-    .map-title {
-        color: #1a355e;
-        font-size: 1.6rem;
-        font-weight: 700;
-        margin-bottom: 1.2rem;
-        letter-spacing: 0.5px;
-    }
-    .map-container {
-        width: 100%;
-        max-width: 700px;
-        margin: 0 auto;
-        border-radius: 18px;
-        overflow: hidden;
-        box-shadow: 0 4px 24px rgba(26,53,94,0.10);
-        background: #e3f0ff;
-    }
-    .map-container iframe {
-        width: 100%;
-        min-height: 320px;
-        border: none;
-        display: block;
-    }
-    @@media (max-width: 800px) {
-        .map-container {
-            max-width: 100%;
-        }
-        .map-title {
-            font-size: 1.2rem;
-        }
-    }
-</style> 

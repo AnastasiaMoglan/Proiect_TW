@@ -70,6 +70,9 @@
     <Reference Include="System.Web.Mvc, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.3.0\lib\net45\System.Web.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Razor.3.3.0\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
@@ -167,6 +170,11 @@
     <Content Include="Views\Accessories\Category.cshtml" />
     <Content Include="Views\Accessories\Detail.cshtml" />
     <Content Include="Views\Accessories\index.cshtml" />
+    <Content Include="Views\Favorites\Index.cshtml" />
+    <Content Include="Views\MedicalConsultation\Index.cshtml" />
+    <Content Include="Views\MyOrder\Detail.cshtml" />
+    <Content Include="Views\MyOrder\Index.cshtml" />
+    <Content Include="Views\OurTeam\Index.cshtml" />
     <Content Include="Views\Products\Index.cshtml" />
     <Content Include="Views\Products\Detail.cshtml" />
     <Content Include="Views\Products\Lenses.cshtml" />
@@ -183,10 +191,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\FavoritesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LensesController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MedicalConsultationController.cs" />
+    <Compile Include="Controllers\MyOrderController.cs" />
     <Compile Include="Controllers\OurTeamController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
@@ -200,8 +210,13 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccessoriesViewModel.cs" />
     <Compile Include="Models\AccessoryDetailViewModel.cs" />
+    <Compile Include="Models\ContactViewModel.cs" />
+    <Compile Include="Models\FavoritesViewModel.cs" />
     <Compile Include="Models\LensesProduct.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\MedicalConsultationModel.cs" />
+    <Compile Include="Models\MyOrderViewModel.cs" />
+    <Compile Include="Models\OurTeamViewModel.cs" />
     <Compile Include="Models\ProductDetailViewModel.cs" />
     <Compile Include="Models\ProductsViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />

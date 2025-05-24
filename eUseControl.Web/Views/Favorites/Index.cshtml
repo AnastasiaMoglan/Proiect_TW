@@ -1,0 +1,76 @@
+@model eUseControl.Web.Models.FavoritesViewModel
+
+@{
+    ViewBag.Title = "My Favorites";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    
+    @if (!Model.FavoriteItems.Any())
+    {
+        <div class="alert alert-info">
+            <p>You don't have any favorites yet. <a href="@Url.Action("Index", "Shop")">Browse our products</a> to add items to your favorites.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var item in Model.FavoriteItems)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="@item.ImageUrl" class="card-img-top" alt="@item.ProductName">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.ProductName</h5>
+                            <p class="card-text">
+                                <strong>Price:</strong> @string.Format("{0:C}", item.Price)<br />
+                                <small class="text-muted">Added on @item.DateAdded.ToString("MMMM dd, yyyy")</small>
+                            </p>
+                            
+                            @if (item.InStock)
+                            {
+                                <span class="badge badge-success mb-2">In Stock</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger mb-2">Out of Stock</span>
+                            }
+                            
+                            <div class="d-flex justify-content-between mt-3">
+                                @using (Html.BeginForm("AddToCart", "Favorites", new { id = item.ProductId }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-primary btn-sm" @(item.InStock ? "" : "disabled")>
+                                        <i class="fa fa-shopping-cart"></i> Add to Cart
+                                    </button>
+                                }
+                                
+                                @using (Html.BeginForm("Remove", "Favorites", new { id = item.ProductId }, FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                                        <i class="fa fa-trash"></i> Remove
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        
+        <div class="text-center mt-3">
+            <a href="@Url.Action("Index", "Shop")" class="btn btn-outline-primary">Continue Shopping</a>
+        </div>
+    }
+</div>

@@ -1,0 +1,96 @@
+@using System.Web.Optimization
+@model eUseControl.Web.Models.MedicalConsultationViewModel
+
+@{
+    ViewBag.Title = "Medical Consultation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Request a Medical Consultation</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Index", "MedicalConsultation", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FullName, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PreferredDate, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.PreferredDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                            @Html.ValidationMessageFor(m => m.PreferredDate, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ConsultationType, new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.ConsultationType, 
+                                new List<SelectListItem>
+                                {
+                                    new SelectListItem { Text = "General Eye Examination", Value = "General" },
+                                    new SelectListItem { Text = "Contact Lens Fitting", Value = "ContactLens" },
+                                    new SelectListItem { Text = "Eye Condition Treatment", Value = "Treatment" },
+                                    new SelectListItem { Text = "Vision Correction Surgery Consultation", Value = "Surgery" }
+                                },
+                                "Select Consultation Type", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.ConsultationType, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.AdditionalNotes, new { @class = "control-label" })
+                            @Html.TextAreaFor(m => m.AdditionalNotes, new { @class = "form-control", rows = 5 })
+                            @Html.ValidationMessageFor(m => m.AdditionalNotes, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="submit" value="Request Consultation" class="btn btn-primary" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Consultation Information</h4>
+                </div>
+                <div class="card-body">
+                    <p>Our medical consultations are conducted by certified ophthalmologists with years of experience in various eye conditions and treatments.</p>
+                    <p>Each consultation takes approximately 30-45 minutes and includes:</p>
+                    <ul>
+                        <li>Comprehensive eye examination</li>
+                        <li>Detailed diagnosis</li>
+                        <li>Treatment recommendations</li>
+                        <li>Follow-up plan</li>
+                    </ul>
+                    <p>For urgent matters, please call our office directly at <strong>(123) 456-7890</strong>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

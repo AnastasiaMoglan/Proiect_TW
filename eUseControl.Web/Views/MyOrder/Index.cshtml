@@ -1,0 +1,74 @@
+@model eUseControl.Web.Models.MyOrderViewModel
+
+@{
+    ViewBag.Title = "My Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    
+    @if (!Model.Orders.Any())
+    {
+        <div class="alert alert-info">
+            <p>You have no orders yet. <a href="@Url.Action("Index", "Shop")">Browse our products</a> to make your first purchase.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Order #</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Orders)
+                    {
+                        <tr>
+                            <td>@order.OrderId</td>
+                            <td>@order.OrderDate.ToString("MMM dd, yyyy")</td>
+                            <td>
+                                @switch (order.OrderStatus)
+                                {
+                                    case "Processing":
+                                        <span class="badge badge-primary">@order.OrderStatus</span>
+                                        break;
+                                    case "Shipped":
+                                        <span class="badge badge-info">@order.OrderStatus</span>
+                                        break;
+                                    case "Delivered":
+                                        <span class="badge badge-success">@order.OrderStatus</span>
+                                        break;
+                                    case "Cancelled":
+                                        <span class="badge badge-danger">@order.OrderStatus</span>
+                                        break;
+                                    default:
+                                        <span class="badge badge-secondary">@order.OrderStatus</span>
+                                        break;
+                                }
+                            </td>
+                            <td>@string.Format("{0:C}", order.TotalAmount)</td>
+                            <td>
+                                <a href="@Url.Action("Details", "MyOrder", new { id = order.OrderId })" class="btn btn-sm btn-primary">View Details</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

@@ -1,0 +1,48 @@
+@model eUseControl.Web.Models.OurTeamViewModel
+
+@{
+    ViewBag.Title = "Our Team";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    
+    <div class="row">
+        <div class="col-md-12">
+            <p class="lead">Meet our dedicated team of eye care professionals committed to providing you with exceptional service and care.</p>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        @foreach (var member in Model.TeamMembers)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="@member.ImageUrl" class="card-img-top" alt="@member.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@member.Name</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@member.Position</h6>
+                        <p class="card-text">@member.Description</p>
+                        <a href="mailto:@member.Email" class="card-link">Contact</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Join Our Team</h4>
+                </div>
+                <div class="card-body">
+                    <p>We're always looking for talented professionals to join our team. If you're passionate about eye care and providing excellent customer service, we'd love to hear from you.</p>
+                    <p>Send your resume to <a href="mailto:careers@eyecare.com">careers@eyecare.com</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

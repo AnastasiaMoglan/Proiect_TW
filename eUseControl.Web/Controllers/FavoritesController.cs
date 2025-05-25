@@ -1,75 +1,121 @@
-using System.Collections.Generic;
+using System;
+using System.Linq;
 using System.Web.Mvc;
+using eUseControl.BusinessLogic.Interfaces;
+using eUseControl.BusinessLogic.Services;
 using eUseControl.Web.Models;
 
 namespace eUseControl.Web.Controllers
 {
+    [Authorize]
     public class FavoritesController : Controller
     {
-        // GET: Favorites
+        private readonly IFavoriteService _favoriteService;
+        private readonly IProductService _productService;
+
+        public FavoritesController(IFavoriteService favoriteService, IProductService productService)
+        {
+            _favoriteService = favoriteService;
+            _productService = productService;
+        }
+
         public ActionResult Index()
         {
-            // In a real application, you would retrieve the user's favorites from a database
-            var model = new FavoritesViewModel
+            try
             {
-                FavoriteItems = GetSampleFavorites()
-            };
-            
-            return View(model);
+                int userId = GetCurrentUserId();
+                var dtoList = _favoriteService.GetUserFavorites(userId);
+
+                var viewModel = new FavoritesViewModel
+                {
+                    FavoriteItems = dtoList.Select(dto => new FavoriteItem
+                    {
+                        ProductId = dto.ProductId,
+                        ProductName = dto.Product?.Name ?? "Unknown",
+                        Price = dto.Product?.Price ?? 0,
+                        ImageUrl = dto.Product?.ImageUrl,
+                        InStock = true,
+                        DateAdded = dto.DateAdded
+                    }).ToList()
+                };
+
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ErrorMessage = "An error occurred while loading favorites.";
+                ViewBag.DetailedError = ex.Message;
+                return View(new FavoritesViewModel());
+            }
         }
-        
-        // POST: Favorites/Remove/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Remove(int id)
+        public ActionResult AddToFavorites(int productId)
         {
-            // In a real application, you would remove the item from the user's favorites in the database
-            
-            TempData["SuccessMessage"] = "Item removed from favorites.";
-            return RedirectToAction("Index");
+            try
+            {
+                int userId = GetCurrentUserId();
+                _favoriteService.AddToFavorites(userId, productId);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
-        
-        // POST: Favorites/AddToCart/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddToCart(int id)
+        public ActionResult RemoveFromFavorites(int productId)
         {
-            // In a real application, you would add the item to the user's cart in the database
-            
-            TempData["SuccessMessage"] = "Item added to cart.";
-            return RedirectToAction("Index");
-        }
-        
-        // Helper method to generate sample data
-        private List<FavoriteItem> GetSampleFavorites()
-        {
-            return new List<FavoriteItem>
+            try
             {
-                new FavoriteItem
-                {
-                    ProductId = 101,
-                    ProductName = "Premium Contact Lenses",
-                    Price = 49.99m,
-                    ImageUrl = "/Content/Lenses/Lentila1.png",
-                    DateAdded = System.DateTime.Now.AddDays(-10)
-                },
-                new FavoriteItem
-                {
-                    ProductId = 305,
-                    ProductName = "Designer Frames - Ray-Ban",
-                    Price = 180.50m,
-                    ImageUrl = "/Content/Frames/rame1.jpg",
-                    DateAdded = System.DateTime.Now.AddDays(-5)
-                },
-                new FavoriteItem
-                {
-                    ProductId = 402,
-                    ProductName = "Deluxe Glasses Case",
-                    Price = 30.00m,
-                    ImageUrl = "/Content/Accessories/Case1.png",
-                    DateAdded = System.DateTime.Now.AddDays(-2)
-                }
-            };
+                int userId = GetCurrentUserId();
+                _favoriteService.RemoveFromFavorites(userId, productId);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ToggleFavorite(int productId)
+        {
+            try
+            {
+                int userId = GetCurrentUserId();
+                _favoriteService.ToggleFavorite(userId, productId);
+                bool isNowFavorite = _favoriteService.IsProductFavorited(userId, productId);
+                return Json(new { success = true, isFavorite = isNowFavorite });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public ActionResult IsFavorite(int productId)
+        {
+            try
+            {
+                int userId = GetCurrentUserId();
+                bool isFavorite = _favoriteService.IsProductFavorited(userId, productId);
+                return Json(new { isFavorite }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        private int GetCurrentUserId()
+        {
+            return Convert.ToInt32(Session["UserId"]);
         }
     }
 }

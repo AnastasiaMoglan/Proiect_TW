@@ -1,0 +1,182 @@
+@model eUseControl.Web.Models.AdminOrderDetailViewModel
+@{
+    ViewBag.Title = "Order Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <a href="@Url.Action("OrderList")" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Orders</a>
+        </div>
+    </div>
+    
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Order #@Model.Order.OrderNumber</h4>
+                        <span class="badge @(Model.Order.OrderStatus == "Processing" ? "badge-primary" : 
+                               (Model.Order.OrderStatus == "Shipped" ? "badge-info" : 
+                               (Model.Order.OrderStatus == "Delivered" ? "badge-success" : 
+                               (Model.Order.OrderStatus == "Cancelled" ? "badge-danger" : "badge-secondary"))))">
+                            @Model.Order.OrderStatus
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Order Date:</strong> @Model.Order.OrderDate.ToString("MMMM dd, yyyy HH:mm")</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Payment Method:</strong> @Model.Order.PaymentMethod</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Payment Status:</strong> @Model.Order.PaymentStatus</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Tracking Number:</strong> @(string.IsNullOrEmpty(Model.Order.TrackingNumber) ? "Not assigned" : Model.Order.TrackingNumber)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <p><strong>Shipping Address:</strong> @Model.Order.ShippingAddress</p>
+                        </div>
+                    </div>
+                    
+                    <h5 class="mb-3">Order Items</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Image</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Order.Items)
+                                {
+                                    <tr>
+                                        <td>@item.ProductName</td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                            {
+                                                <img src="@item.ImageUrl" alt="@item.ProductName" style="max-height: 50px;" />
+                                            }
+                                            else
+                                            {
+                                                <span>No image</span>
+                                            }
+                                        </td>
+                                        <td>@string.Format("{0:C}", item.Price)</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@string.Format("{0:C}", item.Subtotal)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="4" class="text-right">Total:</th>
+                                    <th>@string.Format("{0:C}", Model.Order.TotalAmount)</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Customer Information</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>Name:</strong> @Model.CustomerName</p>
+                    <p><strong>Email:</strong> @Model.CustomerEmail</p>
+                    
+                    <hr />
+                    
+                    <div class="btn-group btn-block">
+                        <a href="mailto:@Model.CustomerEmail" class="btn btn-outline-primary">
+                            <i class="fa fa-envelope"></i> Email Customer
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h4 class="mb-0">Actions</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("UpdateOrderStatus", "Admin", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Order.OrderId" />
+                        
+                        <div class="form-group">
+                            <label for="status">Change Status</label>
+                            <select name="status" id="status" class="form-control">
+                                <option value="Processing" @(Model.Order.OrderStatus == "Processing" ? "selected" : "")>Processing</option>
+                                <option value="Shipped" @(Model.Order.OrderStatus == "Shipped" ? "selected" : "")>Shipped</option>
+                                <option value="Delivered" @(Model.Order.OrderStatus == "Delivered" ? "selected" : "")>Delivered</option>
+                                <option value="Cancelled" @(Model.Order.OrderStatus == "Cancelled" ? "selected" : "")>Cancelled</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-info btn-block">Update Status</button>
+                    }
+                    
+                    <hr />
+                    
+                    @using (Html.BeginForm("UpdateTracking", "Admin", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Order.OrderId" />
+                        
+                        <div class="form-group">
+                            <label for="trackingNumber">Tracking Number</label>
+                            <input type="text" id="trackingNumber" name="trackingNumber" class="form-control" 
+                                   value="@Model.Order.TrackingNumber" placeholder="Enter tracking number" />
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">Update Tracking</button>
+                    }
+                    
+                    <hr />
+                    
+                    @using (Html.BeginForm("DeleteOrder", "Admin", FormMethod.Post, new { onsubmit = "return confirm('Are you sure you want to delete this order? This action cannot be undone.');" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Order.OrderId" />
+                        
+                        <button type="submit" class="btn btn-danger btn-block">Delete Order</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

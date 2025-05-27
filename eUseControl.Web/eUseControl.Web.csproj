@@ -188,10 +188,14 @@
     <Content Include="Views\Account\Account.cshtml" />
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\Admin\List.cshtml" />
+    <Content Include="Views\Admin\OrderDetails.cshtml" />
+    <Content Include="Views\Admin\OrderList.cshtml" />
+    <Content Include="Views\Admin\UpdateOrder.cshtml" />
     <Content Include="Views\Favorites\Index.cshtml" />
     <Content Include="Views\MedicalConsultation\Index.cshtml" />
     <Content Include="Views\MyOrder\Detail.cshtml" />
     <Content Include="Views\MyOrder\Index.cshtml" />
+    <Content Include="Views\MyOrder\Track.cshtml" />
     <Content Include="Views\OurTeam\Index.cshtml" />
     <Content Include="Views\Password\ChangePassword.cshtml" />
     <Content Include="Views\Password\ForgotPassword .cshtml" />
@@ -227,6 +231,8 @@
     </Compile>
     <Compile Include="Models\AccessoriesViewModel.cs" />
     <Compile Include="Models\AccessoryDetailViewModel.cs" />
+    <Compile Include="Models\AdminOrderDetailViewModel.cs" />
+    <Compile Include="Models\AdminOrdersViewModel.cs" />
     <Compile Include="Models\ChangePasswordViewModel.cs" />
     <Compile Include="Models\ContactListViewModel.cs" />
     <Compile Include="Models\ContactViewModel.cs" />
@@ -236,6 +242,11 @@
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\MedicalConsultationModel.cs" />
     <Compile Include="Models\MyOrderViewModel.cs" />
+    <Compile Include="Models\OrderDetailViewModel.cs" />
+    <Compile Include="Models\OrderItemViewModel.cs" />
+    <Compile Include="Models\OrderTrackingViewModel.cs" />
+    <Compile Include="Models\OrderUpdateViewModel.cs" />
+    <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\OurTeamViewModel.cs" />
     <Compile Include="Models\ProductDetailViewModel.cs" />
     <Compile Include="Models\ProductsViewModel.cs" />

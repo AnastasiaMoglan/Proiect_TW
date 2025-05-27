@@ -48,6 +48,17 @@ namespace eUseControl.Web
             // Add these registrations in your Application_Start method
             container.RegisterType<IContactRepository, ContactRepository>();
             container.RegisterType<IContactService, ContactService>();
+            
+            container.RegisterType<IOrderRepository, OrderRepository>();
+            container.RegisterType<IOrderService, OrderService>();
+            
+            // Register MedicalConsultation dependencies
+            container.RegisterType<IMedicalConsultationRepository, MedicalConsultationRepository>();
+            container.RegisterType<IMedicalConsultationService, MedicalConsultationService>();
+            
+            // Register OurTeam dependencies
+            container.RegisterType<ITeamMemberRepository, TeamMemberRepository>();
+            container.RegisterType<ITeamService, TeamService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
 

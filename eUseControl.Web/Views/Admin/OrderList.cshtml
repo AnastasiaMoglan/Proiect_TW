@@ -1,0 +1,142 @@
+@model eUseControl.Web.Models.AdminOrdersViewModel
+@{
+    ViewBag.Title = "Manage Orders";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+    
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Filter Orders</h4>
+                        <span class="badge badge-primary">Total: @Model.TotalOrders</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="btn-group" role="group">
+                        <a href="@Url.Action("OrderList")" class="btn @(string.IsNullOrEmpty(Model.CurrentStatus) ? "btn-primary" : "btn-outline-primary")">All</a>
+                        <a href="@Url.Action("OrderList", new { status = "Processing" })" class="btn @(Model.CurrentStatus == "Processing" ? "btn-primary" : "btn-outline-primary")">Processing</a>
+                        <a href="@Url.Action("OrderList", new { status = "Shipped" })" class="btn @(Model.CurrentStatus == "Shipped" ? "btn-primary" : "btn-outline-primary")">Shipped</a>
+                        <a href="@Url.Action("OrderList", new { status = "Delivered" })" class="btn @(Model.CurrentStatus == "Delivered" ? "btn-primary" : "btn-outline-primary")">Delivered</a>
+                        <a href="@Url.Action("OrderList", new { status = "Cancelled" })" class="btn @(Model.CurrentStatus == "Cancelled" ? "btn-primary" : "btn-outline-primary")">Cancelled</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5>Total Orders</h5>
+                    <h3>@Model.TotalOrders</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5>Total Revenue</h5>
+                    <h3>@string.Format("{0:C}", Model.TotalRevenue)</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Order List</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.Orders != null && Model.Orders.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Order #</th>
+                                        <th>Date</th>
+                                        <th>Customer</th>
+                                        <th>Status</th>
+                                        <th>Payment</th>
+                                        <th>Total</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var order in Model.Orders)
+                                    {
+                                        <tr>
+                                            <td>@order.OrderNumber</td>
+                                            <td>@order.OrderDate.ToString("MMM dd, yyyy")</td>
+                                            <td>
+                                                @if (order.OrderStatus == "Processing")
+                                                {
+                                                    <span class="badge badge-primary">Processing</span>
+                                                }
+                                                else if (order.OrderStatus == "Shipped")
+                                                {
+                                                    <span class="badge badge-info">Shipped</span>
+                                                }
+                                                else if (order.OrderStatus == "Delivered")
+                                                {
+                                                    <span class="badge badge-success">Delivered</span>
+                                                }
+                                                else if (order.OrderStatus == "Cancelled")
+                                                {
+                                                    <span class="badge badge-danger">Cancelled</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-secondary">@order.OrderStatus</span>
+                                                }
+                                            </td>
+                                            <td>@order.PaymentStatus</td>
+                                            <td>@string.Format("{0:C}", order.TotalAmount)</td>
+                                            <td>
+                                                <a href="@Url.Action("OrderDetails", new { id = order.OrderId })" class="btn btn-sm btn-info">View</a>
+                                                <a href="@Url.Action("UpdateOrder", new { id = order.OrderId })" class="btn btn-sm btn-primary">Update</a>
+                                                @using (Html.BeginForm("DeleteOrder", "Admin", new { id = order.OrderId }, FormMethod.Post, new { style = "display:inline" }))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this order?')">Delete</button>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+                            No orders found.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

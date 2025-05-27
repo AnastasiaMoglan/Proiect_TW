@@ -1,0 +1,135 @@
+@model eUseControl.Web.Models.OrderTrackingViewModel
+@{
+    ViewBag.Title = "Track Your Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <h2 class="mb-4">@ViewBag.Title</h2>
+    
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+    
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Enter Order Number</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("Track", "MyOrder", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.OrderNumber, "Order Number")
+                            @Html.TextBoxFor(m => m.OrderNumber, new { @class = "form-control", placeholder = "Enter your order number" })
+                            @Html.ValidationMessageFor(m => m.OrderNumber, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Track Order</button>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            @if (Model.Order != null)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">Tracking Information</h4>
+                    </div>
+                    <div class="card-body">
+                        <h5>Order #@Model.Order.OrderNumber</h5>
+                        <p><strong>Order Date:</strong> @Model.Order.OrderDate.ToString("MMMM dd, yyyy")</p>
+                        <p><strong>Status:</strong> 
+                            <span class="badge @(Model.Order.OrderStatus == "Processing" ? "badge-primary" : 
+                                  (Model.Order.OrderStatus == "Shipped" ? "badge-info" : 
+                                  (Model.Order.OrderStatus == "Delivered" ? "badge-success" : 
+                                  (Model.Order.OrderStatus == "Cancelled" ? "badge-danger" : "badge-secondary"))))">
+                                @Model.Order.OrderStatus
+                            </span>
+                        </p>
+                        
+                        @if (!string.IsNullOrEmpty(Model.Order.TrackingNumber))
+                        {
+                            <p><strong>Tracking Number:</strong> @Model.Order.TrackingNumber</p>
+                        }
+                        
+                        <div class="mt-4">
+                            <h6>Shipping Updates</h6>
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <i class="fa fa-check-circle text-success mr-2"></i> Order Received
+                                    <small class="d-block text-muted">@Model.Order.OrderDate.ToString("MMMM dd, yyyy")</small>
+                                </li>
+                                
+                                @if (Model.Order.OrderStatus == "Processing")
+                                {
+                                    <li class="list-group-item">
+                                        <i class="fa fa-circle-o text-muted mr-2"></i> Order Processing
+                                        <small class="d-block text-muted">Your order is being prepared</small>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="list-group-item">
+                                        <i class="fa fa-check-circle text-success mr-2"></i> Order Processing
+                                        <small class="d-block text-muted">Your order has been processed</small>
+                                    </li>
+                                }
+                                
+                                @if (Model.Order.OrderStatus == "Shipped" || Model.Order.OrderStatus == "Delivered")
+                                {
+                                    <li class="list-group-item">
+                                        <i class="fa fa-check-circle text-success mr-2"></i> Order Shipped
+                                        <small class="d-block text-muted">Your order is on its way</small>
+                                    </li>
+                                }
+                                else if (Model.Order.OrderStatus != "Cancelled")
+                                {
+                                    <li class="list-group-item">
+                                        <i class="fa fa-circle-o text-muted mr-2"></i> Order Shipped
+                                        <small class="d-block text-muted">Pending</small>
+                                    </li>
+                                }
+                                
+                                @if (Model.Order.OrderStatus == "Delivered")
+                                {
+                                    <li class="list-group-item">
+                                        <i class="fa fa-check-circle text-success mr-2"></i> Order Delivered
+                                        <small class="d-block text-muted">Your order has been delivered</small>
+                                    </li>
+                                }
+                                else if (Model.Order.OrderStatus != "Cancelled")
+                                {
+                                    <li class="list-group-item">
+                                        <i class="fa fa-circle-o text-muted mr-2"></i> Order Delivered
+                                        <small class="d-block text-muted">Pending</small>
+                                    </li>
+                                }
+                                
+                                @if (Model.Order.OrderStatus == "Cancelled")
+                                {
+                                    <li class="list-group-item bg-light">
+                                        <i class="fa fa-times-circle text-danger mr-2"></i> Order Cancelled
+                                        <small class="d-block text-muted">This order has been cancelled</small>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <a href="@Url.Action("Details", "MyOrder", new { id = Model.Order.OrderId })" class="btn btn-primary">View Order Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,13 +1,11 @@
 @model eUseControl.Web.Models.MyOrderViewModel
-
 @{
     ViewBag.Title = "My Orders";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container">
-    <h2>@ViewBag.Title</h2>
-    <hr />
+<div class="container py-5">
+    <h2 class="mb-4">@ViewBag.Title</h2>
     
     @if (TempData["SuccessMessage"] != null)
     {
@@ -16,59 +14,93 @@
         </div>
     }
     
-    @if (!Model.Orders.Any())
+    @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-info">
-            <p>You have no orders yet. <a href="@Url.Action("Index", "Shop")">Browse our products</a> to make your first purchase.</p>
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    
+    @if (Model.Orders == null || !Model.Orders.Any())
+    {
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <h4>You haven't placed any orders yet.</h4>
+                <p class="text-muted mt-3">Explore our products and place your first order!</p>
+                <a href="@Url.Action("Index", "Products")" class="btn btn-primary mt-3">Browse Products</a>
+            </div>
         </div>
     }
     else
     {
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Order #</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Total</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var order in Model.Orders)
-                    {
-                        <tr>
-                            <td>@order.OrderId</td>
-                            <td>@order.OrderDate.ToString("MMM dd, yyyy")</td>
-                            <td>
-                                @switch (order.OrderStatus)
-                                {
-                                    case "Processing":
-                                        <span class="badge badge-primary">@order.OrderStatus</span>
-                                        break;
-                                    case "Shipped":
-                                        <span class="badge badge-info">@order.OrderStatus</span>
-                                        break;
-                                    case "Delivered":
-                                        <span class="badge badge-success">@order.OrderStatus</span>
-                                        break;
-                                    case "Cancelled":
-                                        <span class="badge badge-danger">@order.OrderStatus</span>
-                                        break;
-                                    default:
-                                        <span class="badge badge-secondary">@order.OrderStatus</span>
-                                        break;
-                                }
-                            </td>
-                            <td>@string.Format("{0:C}", order.TotalAmount)</td>
-                            <td>
-                                <a href="@Url.Action("Details", "MyOrder", new { id = order.OrderId })" class="btn btn-sm btn-primary">View Details</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <div class="card mb-5">
+            <div class="card-header">
+                <h4 class="mb-0">Your Orders</h4>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Order #</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model.Orders)
+                            {
+                                <tr>
+                                    <td>@order.OrderNumber</td>
+                                    <td>@order.OrderDate.ToString("MMM dd, yyyy")</td>
+                                    <td>
+                                        @if (order.OrderStatus == "Processing")
+                                        {
+                                            <span class="badge badge-primary">Processing</span>
+                                        }
+                                        else if (order.OrderStatus == "Shipped")
+                                        {
+                                            <span class="badge badge-info">Shipped</span>
+                                        }
+                                        else if (order.OrderStatus == "Delivered")
+                                        {
+                                            <span class="badge badge-success">Delivered</span>
+                                        }
+                                        else if (order.OrderStatus == "Cancelled")
+                                        {
+                                            <span class="badge badge-danger">Cancelled</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge badge-secondary">@order.OrderStatus</span>
+                                        }
+                                    </td>
+                                    <td>@string.Format("{0:C}", order.TotalAmount)</td>
+                                    <td>
+                                        <a href="@Url.Action("Details", "MyOrder", new { id = order.OrderId })" class="btn btn-sm btn-info">View Details</a>
+                                        
+                                        @if (order.OrderStatus == "Processing")
+                                        {
+                                            using (Html.BeginForm("Cancel", "MyOrder", new { id = order.OrderId }, FormMethod.Post, new { style = "display:inline" }))
+                                            {
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to cancel this order?')">Cancel</button>
+                                            }
+                                        }
+                                        
+                                        @if (!string.IsNullOrEmpty(order.TrackingNumber))
+                                        {
+                                            <a href="@Url.Action("Track", "MyOrder", new { orderNumber = order.OrderNumber })" class="btn btn-sm btn-outline-primary">Track</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     }
 </div>

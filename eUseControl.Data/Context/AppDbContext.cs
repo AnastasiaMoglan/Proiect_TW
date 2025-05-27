@@ -7,8 +7,14 @@ namespace eUseControl.Data.Context
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext() : base("name=DefaultConnection")
+        public AppDbContext(DbSet<MedicalConsultation> contact) : base("name=DefaultConnection")
         {
+            Contact = contact;
+        }
+
+        public AppDbContext()
+        {
+            throw new System.NotImplementedException();
         }
 
         // DbSet properties – defines which tables you map
@@ -18,6 +24,14 @@ namespace eUseControl.Data.Context
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<Shop> Shops { get; set; }
         public virtual DbSet<Favorite> Favorites { get; set; }
+        
         public virtual DbSet<TransferCard> TransferCards { get; set; }
+        public DbSet<MedicalConsultation> MedicalConsultation { get; set; }
+        
+        public DbSet<MedicalConsultation> Contact { get; set; }
+
+        public DbSet<TeamMember> TeamMember { get; set; }
+
+
     }
 }

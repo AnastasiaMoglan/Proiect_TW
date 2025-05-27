@@ -106,8 +106,11 @@
     <Compile Include="Repository\AccessoryRepository.cs" />
     <Compile Include="Repository\ContactRepository.cs" />
     <Compile Include="Repository\FavoriteRepository.cs" />
+    <Compile Include="Repository\MedicalConsultationRepository.cs" />
+    <Compile Include="Repository\OrderRepository.cs" />
     <Compile Include="Repository\ProductRepository.cs" />
     <Compile Include="Repository\ShopRepository.cs" />
+    <Compile Include="Repository\TeamMemberRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -129,8 +132,11 @@
     <Content Include="Migrations\contact.sql" />
     <Content Include="Migrations\favorite.sql" />
     <Content Include="Migrations\loginrecords.sql" />
+    <Content Include="Migrations\medicalconsultation.sql" />
+    <Content Include="Migrations\orders.sql" />
     <Content Include="Migrations\products.sql" />
     <Content Include="Migrations\shop.sql" />
+    <Content Include="Migrations\teammember.sql" />
     <Content Include="Migrations\users.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

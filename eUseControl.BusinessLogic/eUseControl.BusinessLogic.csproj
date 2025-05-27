@@ -110,9 +110,12 @@
     <Compile Include="Interfaces\IAuthService.cs" />
     <Compile Include="Interfaces\IContactService.cs" />
     <Compile Include="Interfaces\IFavoriteService.cs" />
+    <Compile Include="Interfaces\IMedicalConsultationService.cs" />
+    <Compile Include="Interfaces\IOrderService.cs" />
     <Compile Include="Interfaces\IProductService.cs" />
     <Compile Include="Interfaces\ISession.cs" />
     <Compile Include="Interfaces\IShopService.cs" />
+    <Compile Include="Interfaces\ITeamService.cs" />
     <Compile Include="Interfaces\ITransferService.cs" />
     <Compile Include="Interfaces\IUser.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
@@ -121,8 +124,11 @@
     <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\ContactService.cs" />
     <Compile Include="Services\FavoriteService.cs" />
+    <Compile Include="Services\MedicalConsultationService.cs" />
+    <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Services\ShopService.cs" />
+    <Compile Include="Services\TeamService.cs" />
     <Compile Include="Services\TransferService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="SessionBL.cs" />

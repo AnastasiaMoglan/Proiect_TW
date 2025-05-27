@@ -1,0 +1,66 @@
+@model eUseControl.Web.Models.OrderUpdateViewModel
+@{
+    ViewBag.Title = "Update Order";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <a href="@Url.Action("OrderDetails", new { id = Model.OrderId })" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Back to Order Details</a>
+        </div>
+    </div>
+    
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Update Order #@Model.OrderId</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("UpdateOrder", "Admin", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.OrderId)
+                        
+                        <div class="form-group">
+                            <label for="OrderStatus">Order Status</label>
+                            <select id="OrderStatus" name="OrderStatus" class="form-control">
+                                <option value="Processing" @(Model.OrderStatus == "Processing" ? "selected" : "")>Processing</option>
+                                <option value="Shipped" @(Model.OrderStatus == "Shipped" ? "selected" : "")>Shipped</option>
+                                <option value="Delivered" @(Model.OrderStatus == "Delivered" ? "selected" : "")>Delivered</option>
+                                <option value="Cancelled" @(Model.OrderStatus == "Cancelled" ? "selected" : "")>Cancelled</option>
+                            </select>
+                            @Html.ValidationMessageFor(m => m.OrderStatus, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="PaymentStatus">Payment Status</label>
+                            <select id="PaymentStatus" name="PaymentStatus" class="form-control">
+                                <option value="Pending" @(Model.PaymentStatus == "Pending" ? "selected" : "")>Pending</option>
+                                <option value="Paid" @(Model.PaymentStatus == "Paid" ? "selected" : "")>Paid</option>
+                                <option value="Failed" @(Model.PaymentStatus == "Failed" ? "selected" : "")>Failed</option>
+                                <option value="Refunded" @(Model.PaymentStatus == "Refunded" ? "selected" : "")>Refunded</option>
+                            </select>
+                            @Html.ValidationMessageFor(m => m.PaymentStatus, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="TrackingNumber">Tracking Number</label>
+                            <input type="text" id="TrackingNumber" name="TrackingNumber" class="form-control" value="@Model.TrackingNumber" />
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Update Order</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

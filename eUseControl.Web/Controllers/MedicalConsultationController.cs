@@ -57,7 +57,7 @@ namespace eUseControl.Web.Controllers
                 _consultationService.RequestConsultation(consultation);
 
                 TempData["SuccessMessage"] = "Your consultation request has been submitted successfully. We will contact you shortly to confirm the appointment.";
-                return RedirectToAction("ThankYou");
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {

@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using eUseControl.Data.Services;
+using eUseControl.BusinessLogic.Interfaces;
+using eUseControl.BusinessLogic.Services;
 using eUseControl.Domain.Entities;
+using eUseControl.Domain.Interfaces;
 using eUseControl.Web.Models;
 
 namespace eUseControl.Web.Controllers
@@ -12,43 +14,25 @@ namespace eUseControl.Web.Controllers
     {
         private readonly IAccessoryService _accessoryService;
 
-        public AccessoriesController()
+        public AccessoriesController(IAccessoryService accessoryService)
         {
-            _accessoryService = new AccessoryService();
-            
-            EnsureAccessoriesExist();
+            _accessoryService = accessoryService ?? throw new ArgumentNullException(nameof(accessoryService));
         }
-        
-        private void EnsureAccessoriesExist()
-        {
-            try
-            {
-                _accessoryService.SeedAccessories();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Error seeding accessories: " + ex.ToString());
-            }
-        }
-
         public ActionResult Index()
         {
             try
             {
+                var allAccessories = _accessoryService.GetAllAccessories();
+                var featured = allAccessories
+                    .OrderBy(x => Guid.NewGuid())
+                    .Take(Math.Min(4, allAccessories.Count))
+                    .ToList();
+
                 var viewModel = new AccessoriesViewModel
                 {
-                    AccessoriesByCategory = _accessoryService.GetAccessoriesByCategories()
+                    AccessoriesByCategory = _accessoryService.GetAccessoriesByCategories(),
+                    FeaturedAccessories = featured
                 };
-                
-                var allAccessories = _accessoryService.GetAllAccessories();
-                if (allAccessories.Count > 0)
-                {
-                    Random random = new Random();
-                    viewModel.FeaturedAccessories = allAccessories
-                        .OrderBy(x => random.Next())
-                        .Take(Math.Min(4, allAccessories.Count))
-                        .ToList();
-                }
 
                 return View(viewModel);
             }
@@ -59,13 +43,11 @@ namespace eUseControl.Web.Controllers
                 return View(new AccessoriesViewModel());
             }
         }
-        
+
         public ActionResult Category(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
+            if (string.IsNullOrWhiteSpace(id))
                 return RedirectToAction("Index");
-            }
 
             try
             {
@@ -75,52 +57,51 @@ namespace eUseControl.Web.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while loading accessories for this category.";
+                ViewBag.ErrorMessage = "Error loading category.";
                 ViewBag.DetailedError = ex.Message;
                 return View(new List<Accessory>());
             }
         }
-        
+
         public ActionResult Detail(int id)
         {
             try
             {
                 var accessory = _accessoryService.GetAccessoryById(id);
-                
                 if (accessory == null)
-                {
                     return RedirectToAction("Index");
-                }
+
+                var related = _accessoryService.GetAccessoriesByCategory(accessory.Category)
+                    .Where(a => a.Id != accessory.Id)
+                    .Take(4)
+                    .ToList();
 
                 var viewModel = new AccessoryDetailViewModel
                 {
                     Accessory = accessory,
-                    RelatedAccessories = _accessoryService.GetAccessoriesByCategory(accessory.Category)
-                        .Where(a => a.Id != accessory.Id)
-                        .Take(4)
-                        .ToList()
+                    RelatedAccessories = related
                 };
 
                 return View(viewModel);
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while loading the accessory details.";
+                ViewBag.ErrorMessage = "Error loading accessory details.";
                 ViewBag.DetailedError = ex.Message;
                 return RedirectToAction("Index");
             }
         }
-        
+
         private string GetCategoryDisplayName(string category)
         {
-            switch (category.ToLower())
+            return category?.ToLower() switch
             {
-                case "case": return "Eyewear Cases";
-                case "spray": return "Cleaning Sprays";
-                case "cloth": return "Cleaning Cloths";
-                case "cord": return "Cords & Chains";
-                default: return "Accessories";
-            }
+                "case" => "Eyewear Cases",
+                "spray" => "Cleaning Sprays",
+                "cloth" => "Cleaning Cloths",
+                "cord" => "Cords & Chains",
+                _ => "Accessories"
+            };
         }
     }
 }

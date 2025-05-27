@@ -11,7 +11,7 @@
                     <h2 class="text-center">@ViewBag.Title</h2>
                 </div>
                 <div class="card-body">
-                    @using (Html.BeginForm("Index", "Login", new { ReturnUrl = Request.QueryString["returnUrl"] }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = Request.QueryString["returnUrl"] }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
                         
@@ -31,6 +31,7 @@
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                         </div>
                         
+                        @* Dacă folosești RememberMe în LoginViewModel *@
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
                                 @Html.CheckBoxFor(m => m.RememberMe, new { @class = "custom-control-input", id = "remember-me" })
@@ -45,7 +46,7 @@
                 </div>
                 <div class="card-footer text-center">
                     <p>
-                        Don't have an account? <a href="@Url.Action("Index", "Register")">Register now</a>
+                        Don't have an account? <a href="@Url.Action("Register", "Account")">Register now</a>
                     </p>
                 </div>
             </div>

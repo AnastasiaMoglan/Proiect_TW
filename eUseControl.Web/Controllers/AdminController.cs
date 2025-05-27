@@ -1,36 +1,25 @@
 using System.Web.Mvc;
-using eUseControl.Domain.Models;
-using System.Web;
-using System.Linq;
+using eUseControl.BusinessLogic.Services;
+using eUseControl.Domain.Interfaces;
+using eUseControl.Web.Models;
 
 namespace eUseControl.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            base.OnActionExecuting(filterContext);
+        private readonly ITransferService _transferService;
 
-            // Check if user is logged in and is admin
-            if (Session["UserId"] == null || Session["UserRole"]?.ToString() != "Admin")
-            {
-                filterContext.Result = new RedirectToRouteResult(
-                    new System.Web.Routing.RouteValueDictionary
-                    {
-                        { "controller", "Login" },
-                        { "action", "Index" }
-                    });
-            }
+        public AdminController(ITransferService transferService)
+        {
+            _transferService = transferService;
         }
 
         public ActionResult Dashboard()
         {
-            using (var db = new eUseControl.Web.Data.ApplicationDbContext())
-            {
-                var transfers = db.TransferCards.OrderByDescending(t => t.TransferDate).ToList();
-                ViewBag.A2ATransfers = transfers;
-            }
+            var transfers = _transferService.GetAllTransfers();
+            ViewBag.A2ATransfers = transfers;
             return View();
         }
     }
-} 
+}

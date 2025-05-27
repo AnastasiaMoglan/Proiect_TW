@@ -20,7 +20,7 @@ namespace eUseControl.Data.Initializer
                 
                 // Seed Accessories
                 Console.WriteLine("Seeding accessories...");
-                var accessoryRepository = new AccessoryRepository();
+                var accessoryRepository = new AccessoryRepository(context);
                 accessoryRepository.SeedAccessories();
                 
                 // Seed Products

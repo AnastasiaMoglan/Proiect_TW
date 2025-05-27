@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using eUseControl.Data.Context;
 using eUseControl.Domain.Entities;
+using eUseControl.Domain.Interfaces;
 
 namespace eUseControl.Data.Repository
 {
@@ -18,29 +19,29 @@ namespace eUseControl.Data.Repository
 
         public List<Product> GetAllProducts()
         {
-            return _db.Products.Where(p => p.IsActive).ToList();
+            return _db.Product.Where(p => p.IsActive).ToList();
         }
 
         public List<Product> GetProductsByType(string type)
         {
-            return _db.Products.Where(p => p.Type == type && p.IsActive).ToList();
+            return _db.Product.Where(p => p.Type == type && p.IsActive).ToList();
         }
 
         public Product GetProductById(int id)
         {
-            return _db.Products.FirstOrDefault(p => p.Id == id && p.IsActive);
+            return _db.Product.FirstOrDefault(p => p.Id == id && p.IsActive);
         }
 
         public void AddProduct(Product product)
         {
             product.CreatedAt = DateTime.Now;
-            _db.Products.Add(product);
+            _db.Product.Add(product);
             _db.SaveChanges();
         }
 
         public void UpdateProduct(Product product)
         {
-            var existingProduct = _db.Products.Find(product.Id);
+            var existingProduct = _db.Product.Find(product.Id);
             
             if (existingProduct != null)
             {
@@ -61,7 +62,7 @@ namespace eUseControl.Data.Repository
 
         public void DeleteProduct(int id)
         {
-            var product = _db.Products.Find(id);
+            var product = _db.Product.Find(id);
             
             if (product != null)
             {
@@ -74,7 +75,7 @@ namespace eUseControl.Data.Repository
 
         public void SeedProducts()
         {
-            if (!_db.Products.Any())
+            if (!_db.Product.Any())
             {
                 // Sunglasses
                 var sunglasses = new List<Product>
@@ -108,9 +109,9 @@ namespace eUseControl.Data.Repository
                     new Product { Name = "Eyezen Single Vision", Type = "Lenses", Price = 140, ImageUrl = "~/Content/Lenses/Lentila6.png", Description = "Digital-friendly lenses for daily eye comfort" }
                 };
 
-                _db.Products.AddRange(sunglasses);
-                _db.Products.AddRange(frames);
-                _db.Products.AddRange(lenses);
+                _db.Product.AddRange(sunglasses);
+                _db.Product.AddRange(frames);
+                _db.Product.AddRange(lenses);
                 _db.SaveChanges();
             }
         }
@@ -119,14 +120,14 @@ namespace eUseControl.Data.Repository
         {
             if (minPrice == null)
             { 
-                return _db.Products.Where(p => p.Type == type && p.Price <= maxPrice).ToList();
+                return _db.Product.Where(p => p.Type == type && p.Price <= maxPrice).ToList();
             } else if (maxPrice == null)
             {
-                return _db.Products.Where(p => p.Type == type && p.Price >= minPrice).ToList();
+                return _db.Product.Where(p => p.Type == type && p.Price >= minPrice).ToList();
             }
             else
             {
-                return _db.Products.Where(p => p.Type == type && p.Price >= minPrice && p.Price <= maxPrice).ToList();
+                return _db.Product.Where(p => p.Type == type && p.Price >= minPrice && p.Price <= maxPrice).ToList();
             }
         }
     }

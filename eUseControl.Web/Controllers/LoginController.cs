@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Net;
+using System.Web;
 using System.Web.Mvc;
-using eUseControl.Data.Services;
+using System.Web.Security;
+using eUseControl.BusinessLogic.Interfaces;
 using eUseControl.Domain.Entities;
 using eUseControl.Web.Models;
-using System.Web.Security;
-using System.Web;
-using System.Net;
 
 namespace eUseControl.Web.Controllers
 {
@@ -13,86 +13,59 @@ namespace eUseControl.Web.Controllers
     public class LoginController : Controller
     {
         private readonly IUserService _userService;
-        
-        public LoginController()
+
+        public LoginController(IUserService userService)
         {
-            _userService = new UserService();
-            EnsureAdminExists();
+            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
-        
-        private void EnsureAdminExists()
-        {
-            try
-            {
-                if (!_userService.IsEmailRegistered("admin@admin"))
-                {
-                    _userService.RegisterUser("admin@admin", "Administrator", "admin1");
-                    
-                    var adminUser = _userService.ValidateUser("admin@admin", "admin1");
-                    if (adminUser != null)
-                    {
-                        adminUser.Role = "Admin";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Error ensuring admin exists: " + ex.ToString());
-            }
-        }
-        
+
         private string GetClientIPAddress()
         {
-            string ipAddress = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            string ip = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
 
-            if (string.IsNullOrEmpty(ipAddress))
-            {
-                ipAddress = Request.ServerVariables["REMOTE_ADDR"];
-            }
+            if (string.IsNullOrEmpty(ip))
+                ip = Request.ServerVariables["REMOTE_ADDR"];
 
-            if (string.IsNullOrEmpty(ipAddress))
-            {
-                ipAddress = Request.UserHostAddress;
-            }
+            if (string.IsNullOrEmpty(ip))
+                ip = Request.UserHostAddress;
 
-            if (string.IsNullOrEmpty(ipAddress) || ipAddress == "::1" || ipAddress == "127.0.0.1")
+            if (string.IsNullOrEmpty(ip) || ip == "::1" || ip == "127.0.0.1")
             {
                 try
                 {
                     using (var client = new WebClient())
                     {
-                        ipAddress = client.DownloadString("https://api.ipify.org");
+                        ip = client.DownloadString("https://api.ipify.org");
                     }
                 }
                 catch
                 {
-                    ipAddress = "Unknown";
+                    ip = "Unknown";
                 }
             }
 
-            return ipAddress;
+            return ip;
         }
-        
+
         [HttpGet]
         public ActionResult Index()
         {
-            if (Request.Cookies["UserAuth"] != null)
+            var authCookie = Request.Cookies["UserAuth"];
+            if (authCookie != null)
             {
-                var authCookie = Request.Cookies["UserAuth"];
                 try
                 {
                     var ticket = FormsAuthentication.Decrypt(authCookie.Value);
                     if (ticket != null && !ticket.Expired)
                     {
-                        if (ticket.UserData == "Admin")
-                        {
-                            return RedirectToAction("Dashboard", "Admin");
-                        }
-                        return RedirectToAction("Index", "Home");
+                        return ticket.UserData == "Admin"
+                            ? RedirectToAction("Dashboard", "Admin")
+                            : RedirectToAction("Index", "Home");
                     }
                 }
-                catch (ArgumentException)
+                catch
                 {
+                    // Invalidate corrupted or expired cookie
                     var expiredCookie = new HttpCookie("UserAuth", "")
                     {
                         Expires = DateTime.Now.AddDays(-1),
@@ -102,45 +75,43 @@ namespace eUseControl.Web.Controllers
                     Response.Cookies.Add(expiredCookie);
                 }
             }
+
             return View(new LoginViewModel());
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Index(LoginViewModel model)
         {
             if (!ModelState.IsValid)
-            {
                 return View(model);
-            }
 
             try
             {
                 var user = _userService.ValidateUser(model.Email, model.Password);
-                
+
                 if (user == null)
                 {
                     ModelState.AddModelError("", "Invalid email or password.");
                     return View(model);
                 }
 
-                var authTicket = new FormsAuthenticationTicket(
-                    1,                              
-                    user.Email,                    
-                    DateTime.Now,                   
-                    DateTime.Now.AddDays(7),        
-                    model.RememberMe,               
-                    user.Role                       
+                var ticket = new FormsAuthenticationTicket(
+                    version: 1,
+                    name: user.Email,
+                    issueDate: DateTime.Now,
+                    expiration: DateTime.Now.AddDays(7),
+                    isPersistent: model.RememberMe,
+                    userData: user.Role
                 );
 
-                string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
-
+                var encryptedTicket = FormsAuthentication.Encrypt(ticket);
                 var authCookie = new HttpCookie("UserAuth", encryptedTicket)
                 {
                     HttpOnly = true,
                     Secure = Request.IsSecureConnection
                 };
-                
+
                 if (model.RememberMe)
                 {
                     authCookie.Expires = DateTime.Now.AddDays(7);
@@ -148,45 +119,44 @@ namespace eUseControl.Web.Controllers
 
                 Response.Cookies.Add(authCookie);
 
+                // Store session data
                 Session["UserId"] = user.Id;
                 Session["UserEmail"] = user.Email;
                 Session["UserName"] = user.Username;
                 Session["UserRole"] = user.Role;
 
+                // Redirect based on role or returnUrl
                 if (user.Role == "Admin")
-                {
                     return RedirectToAction("Dashboard", "Admin");
-                }
 
-                string returnUrl = Request.QueryString["returnUrl"];
-                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                {
-                    return Redirect(returnUrl);
-                }
-
-                return RedirectToAction("Index", "Home");
+                var returnUrl = Request.QueryString["returnUrl"];
+                return !string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl)
+                    ? Redirect(returnUrl)
+                    : RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", "An error occurred during login: " + ex.Message);
-                System.Diagnostics.Debug.WriteLine("Login Error: " + ex.ToString());
+                ModelState.AddModelError("", "An error occurred during login. Please try again.");
+                System.Diagnostics.Debug.WriteLine("Login Exception: " + ex);
                 return View(model);
             }
         }
-        
+
+        [HttpGet]
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
 
+            // Remove custom auth cookie
             if (Request.Cookies["UserAuth"] != null)
             {
-                var authCookie = new HttpCookie("UserAuth", "")
+                var expiredCookie = new HttpCookie("UserAuth", "")
                 {
                     Expires = DateTime.Now.AddDays(-1),
                     HttpOnly = true,
                     Secure = Request.IsSecureConnection
                 };
-                Response.Cookies.Add(authCookie);
+                Response.Cookies.Add(expiredCookie);
             }
 
             Session.Clear();

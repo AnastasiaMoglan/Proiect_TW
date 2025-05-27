@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using eUseControl.Data.Services;
+using eUseControl.BusinessLogic.Interfaces;
+using eUseControl.BusinessLogic.Services;
 using eUseControl.Domain.Entities;
+using eUseControl.Domain.Interfaces;
 using eUseControl.Web.Models;
 
 namespace eUseControl.Web.Controllers
@@ -12,25 +14,11 @@ namespace eUseControl.Web.Controllers
     {
         private readonly IProductService _productService;
 
-        public ProductsController()
+        // Dependency Injection via constructor
+        public ProductsController(IProductService productService)
         {
-            _productService = new ProductService();
-            
-            EnsureProductsExist();
+            _productService = productService ?? throw new ArgumentNullException(nameof(productService));
         }
-        
-        private void EnsureProductsExist()
-        {
-            try
-            {
-                _productService.SeedProducts();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Error seeding products: " + ex.ToString());
-            }
-        }
-        
         public ActionResult Index()
         {
             try
@@ -56,16 +44,11 @@ namespace eUseControl.Web.Controllers
         {
             try
             {
-                List<Product> sunglasses;
-                if (minPrice == null && maxPrice == null)
-                {
-                    sunglasses = _productService.GetSunglasses();
-                }
-                else
-                {
-                    sunglasses = _productService.FilterSunglasses(minPrice, maxPrice);
-                }
-                return View("Sunglasses", sunglasses);
+                var sunglasses = (minPrice == null && maxPrice == null)
+                    ? _productService.GetSunglasses()
+                    : _productService.FilterSunglasses(minPrice, maxPrice);
+
+                return View("Sunglasses", sunglasses.ToList());
             }
             catch (Exception ex)
             {
@@ -79,20 +62,15 @@ namespace eUseControl.Web.Controllers
         {
             try
             {
-                List<Product> opticalFrames;;
-                if (minPrice == null && maxPrice == null)
-                {
-                    opticalFrames = _productService.GetOpticalFrames();
-                }
-                else
-                {
-                    opticalFrames = _productService.FilterOpticalFrames(minPrice, maxPrice);
-                }
-                return View("OpticalFrames", opticalFrames);
+                var opticalFrames = (minPrice == null && maxPrice == null)
+                    ? _productService.GetOpticalFrames()
+                    : _productService.FilterOpticalFrames(minPrice, maxPrice);
+
+                return View("OpticalFrames", opticalFrames.ToList());
             }
             catch (Exception ex)
             {
-                ViewBag.ErrorMessage = "An error occurred while filtering OpticalFrames.";
+                ViewBag.ErrorMessage = "An error occurred while filtering Optical Frames.";
                 ViewBag.DetailedError = ex.Message;
                 return View("OpticalFrames", new List<Product>());
             }
@@ -102,16 +80,11 @@ namespace eUseControl.Web.Controllers
         {
             try
             {
-                List<Product> lenses;;
-                if (minPrice == null && maxPrice == null)
-                {
-                    lenses = _productService.GetLenses();
-                }
-                else
-                {
-                    lenses = _productService.FilterLenses(minPrice, maxPrice);
-                }
-                return View("Lenses", lenses);
+                var lenses = (minPrice == null && maxPrice == null)
+                    ? _productService.GetLenses()
+                    : _productService.FilterLenses(minPrice, maxPrice);
+
+                return View("Lenses", lenses.ToList());
             }
             catch (Exception ex)
             {
@@ -120,39 +93,25 @@ namespace eUseControl.Web.Controllers
                 return View("Lenses", new List<Product>());
             }
         }
-        
+
         public ActionResult Detail(int id)
         {
             try
             {
                 var product = _productService.GetProductById(id);
-                
-                if (product == null)
-                {
-                    return RedirectToAction("Index");
-                }
 
-                var relatedProducts = new List<Product>();
-                switch (product.Type)
-                {
-                    case "Sunglasses":
-                        relatedProducts = _productService.GetSunglasses();
-                        break;
-                    case "OpticalFrames":
-                        relatedProducts = _productService.GetOpticalFrames();
-                        break;
-                    case "Lenses":
-                        relatedProducts = _productService.GetLenses();
-                        break;
-                }
+                if (product == null)
+                    return RedirectToAction("Index");
+
+                var relatedProducts = _productService.GetProductsByType(product.Type)
+                    .Where(p => p.Id != product.Id)
+                    .Take(4)
+                    .ToList();
 
                 var viewModel = new ProductDetailViewModel
                 {
                     Product = product,
                     RelatedProducts = relatedProducts
-                        .Where(p => p.Id != product.Id)
-                        .Take(4)
-                        .ToList()
                 };
 
                 return View(viewModel);

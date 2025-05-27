@@ -1,0 +1,103 @@
+@using System.Web.Optimization
+@model eUseControl.Web.Models.ProfileViewModel
+@{
+    ViewBag.Title = "My Account";
+}
+
+<div class="container">
+    <h2 class="my-4">@ViewBag.Title</h2>
+    
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+    
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Profile Summary</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <img src="https://via.placeholder.com/150" alt="Profile Picture" class="rounded-circle" />
+                    </div>
+                    <h4 class="text-center">@Model.FirstName @Model.LastName</h4>
+                    <p class="text-center text-muted">@Model.Username</p>
+                    <hr />
+                    <p><strong>Email:</strong> @Model.Email</p>
+                    <p><strong>Member Since:</strong> @Model.CreatedAt.ToString("MMMM d, yyyy")</p>
+                    <p><strong>Last Login:</strong> @(Model.LastLogin.HasValue ? Model.LastLogin.Value.ToString("MMMM d, yyyy h:mm tt") : "Never")</p>
+                </div>
+                <div class="card-footer">
+                    <div class="d-grid gap-2">
+                        <a href="@Url.Action("ChangePassword", "Auth")" class="btn btn-outline-primary">Change Password</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Edit Profile</h5>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("UpdateProfile", "Auth", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(m => m.Id)
+                        
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.LastName, new { @class = "control-label" })
+                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Phone, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(m => m.Address, new { @class = "control-label" })
+                            @Html.TextAreaFor(m => m.Address, new { @class = "form-control", rows = 3 })
+                            @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

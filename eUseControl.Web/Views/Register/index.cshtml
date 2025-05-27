@@ -11,7 +11,7 @@
                     <h2 class="text-center">@ViewBag.Title</h2>
                 </div>
                 <div class="card-body">
-                    @using (Html.BeginForm("Index", "Register", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
                         
@@ -50,7 +50,7 @@
                 </div>
                 <div class="card-footer text-center">
                     <p>
-                        Already have an account? <a href="@Url.Action("Index", "Login")">Log in</a>
+                        Already have an account? <a href="@Url.Action("Login", "Account")">Log in</a>
                     </p>
                 </div>
             </div>

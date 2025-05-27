@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using eUseControl.Domain.Entities;
 
 namespace eUseControl.Web.Models
 {
     public class FavoritesViewModel
     {
         public List<FavoriteItem> FavoriteItems { get; set; }
+        public List<Favorite> Favorites { get; set; }
 
         public FavoritesViewModel()
         {

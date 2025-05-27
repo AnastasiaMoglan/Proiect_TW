@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 namespace eUseControl.Web.Models
 {
     public class RegisterViewModel
-    {
+    {   
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email format")]
         [Display(Name = "Email")]

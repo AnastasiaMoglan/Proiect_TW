@@ -10,20 +10,16 @@ namespace eUseControl.Domain.Entities
         [Key]
         public int Id { get; set; }
         
-        [Required]
-        [StringLength(100)]
+        [Required, StringLength(100)]
         public string Name { get; set; }
         
-        [Required]
-        [StringLength(200)]
+        [Required, StringLength(200)]
         public string Address { get; set; }
         
-        [Required]
-        [StringLength(50)]
+        [Required, StringLength(50)]
         public string City { get; set; }
         
-        [Required]
-        [StringLength(20)]
+        [Required, StringLength(20)]
         public string PhoneNumber { get; set; }
         
         [StringLength(100)]
@@ -35,14 +31,11 @@ namespace eUseControl.Domain.Entities
         [StringLength(255)]
         public string ImageUrl { get; set; }
         
-        [Required]
-        [StringLength(100)]
+        [Required, StringLength(100)]
         public string OpeningHours { get; set; }
         
-        [Column]
         public decimal Latitude { get; set; }
         
-        [Column]
         public decimal Longitude { get; set; }
         
         public bool HasParkingAvailable { get; set; }

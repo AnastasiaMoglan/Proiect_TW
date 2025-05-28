@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using eUseControl.BusinessLogic.Interfaces;
-using eUseControl.Data.Helpers;
+using eUseControl.BusinessLogic.Helpers;
 using eUseControl.Domain.Entities;
 using eUseControl.Domain.Interfaces;
 
@@ -20,6 +20,7 @@ namespace eUseControl.BusinessLogic.Services
         {
             if (string.IsNullOrEmpty(username))
                 throw new ArgumentException("Username cannot be null or empty.", nameof(username));
+
             return _userRepository.IsUserRegistered(username);
         }
 
@@ -27,6 +28,7 @@ namespace eUseControl.BusinessLogic.Services
         {
             if (string.IsNullOrEmpty(email))
                 throw new ArgumentException("Email cannot be null or empty.", nameof(email));
+
             return _userRepository.IsEmailRegistered(email);
         }
 
@@ -43,14 +45,19 @@ namespace eUseControl.BusinessLogic.Services
 
             if (UserExists(username, email))
             {
-                return this.GetUserByEmail(email);
+                return GetUserByEmail(email);
             }
+
+            var result = PasswordHasher.HashPassword(password);
+            var hash = result.Hash;
+            var salt = result.Salt;
 
             var user = new User
             {
                 Email = email,
                 Username = username,
-                PasswordHash = PasswordHasher.HashPassword(password),
+                PasswordHash = hash,
+                Salt = salt,
                 Role = "User",
                 CreatedAt = DateTime.UtcNow,
                 IsActive = true
@@ -58,6 +65,12 @@ namespace eUseControl.BusinessLogic.Services
 
             var createdUser = _userRepository.CreateUser(user);
             return createdUser;
+        }
+
+        public int RegisterUser(User user)
+        {
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            return _userRepository.RegisterUser(user);
         }
 
         public User ValidateUser(string email, string password)
@@ -69,7 +82,10 @@ namespace eUseControl.BusinessLogic.Services
             if (user == null)
                 return null;
 
-            return PasswordHasher.VerifyPassword(password, user.PasswordHash) ? user : null;
+            if (PasswordHasher.VerifyPassword(password, user.PasswordHash, user.Salt))
+                return user;
+
+            return null;
         }
 
         public User GetUserById(int id)

@@ -1,8 +1,8 @@
+using System;
 using System.Data.Entity.Migrations;
-using eUseControl.Domain.Entities;
-using eUseControl.Domain.Models;
 using System.Linq;
 using eUseControl.Data.Context;
+using eUseControl.Domain.Entities;
 
 namespace eUseControl.Data.Migrations
 {
@@ -16,19 +16,24 @@ namespace eUseControl.Data.Migrations
 
         protected override void Seed(AppDbContext context)
         {
-            // Add a test user if the Users table is empty
+           
             if (!context.Users.Any())
             {
-                context.Users.Add(new User 
-                { 
-                    Username = "Test User",
+                context.Users.Add(new User
+                {
+                    Username = "TestUser",
                     Email = "test@example.com",
-                    PasswordHash = "password123", // In real application, this should be hashed
+                    PasswordHash = "hashed_password_123", // În aplicații reale, folosește hash real
+                    Salt = "random_salt_here",            // Poți genera random sau folosi unul fix pentru test
+                    Role = "Admin",
+                    CreatedAt = DateTime.UtcNow,
+                    IsActive = true,
+                    LoginAttempts = 0,
+                    LastLogin = null
                 });
-                
+
                 context.SaveChanges();
             }
-            
         }
     }
-} 
+}

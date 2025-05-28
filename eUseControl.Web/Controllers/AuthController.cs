@@ -131,7 +131,7 @@ namespace eUseControl.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult Profile()
+        public ActionResult UserProfile()
         {
             try
             {
@@ -174,12 +174,12 @@ namespace eUseControl.Web.Controllers
                 _authService.UpdateUserProfile(userId, model.FirstName, model.LastName, model.Phone, model.Address);
 
                 TempData["SuccessMessage"] = "Your profile has been updated successfully.";
-                return RedirectToAction("Profile");
+                return RedirectToAction("UserProfile");
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = "An error occurred while updating your profile: " + ex.Message;
-                return RedirectToAction("Profile");
+                return RedirectToAction("UserProfile");
             }
         }
 
@@ -204,7 +204,7 @@ namespace eUseControl.Web.Controllers
                 _authService.ChangePassword(userId, model.CurrentPassword, model.NewPassword);
 
                 TempData["SuccessMessage"] = "Your password has been changed successfully.";
-                return RedirectToAction("Profile");
+                return RedirectToAction("UserProfile");
             }
             catch (Exception ex)
             {

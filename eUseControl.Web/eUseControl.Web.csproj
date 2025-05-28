@@ -53,6 +53,18 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Ninject, Version=3.3.3.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.3\lib\net45\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.3.0\lib\net45\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common.WebHost, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.WebHost.3.3.0\lib\net45\Ninject.Web.Common.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.MVC5.3.3.0\lib\net45\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
     </Reference>
@@ -186,6 +198,8 @@
     <Content Include="Views\Accessories\Detail.cshtml" />
     <Content Include="Views\Accessories\index.cshtml" />
     <Content Include="Views\Account\Account.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Admin\Details.cshtml" />
     <Content Include="Views\Admin\List.cshtml" />
     <Content Include="Views\Admin\OrderDetails.cshtml" />
@@ -220,6 +234,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LensesController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\LoginControllerAdmin.cs" />
     <Compile Include="Controllers\MedicalConsultationController.cs" />
     <Compile Include="Controllers\MyOrderController.cs" />
     <Compile Include="Controllers\OurTeamController.cs" />
@@ -250,6 +265,7 @@
     <Compile Include="Models\OurTeamViewModel.cs" />
     <Compile Include="Models\ProductDetailViewModel.cs" />
     <Compile Include="Models\ProductsViewModel.cs" />
+    <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\ShopDetailViewModel.cs" />
     <Compile Include="Models\ShopViewModel.cs" />

@@ -99,8 +99,15 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Context\AppDbContext.cs" />
-    <Compile Include="Helpers\PasswordHasher.cs" />
     <Compile Include="Initializer\DbInitializer.cs" />
+    <Compile Include="Migrations\202505281533141_UpdateUserModel.cs" />
+    <Compile Include="Migrations\202505281533141_UpdateUserModel.Designer.cs">
+      <DependentUpon>202505281533141_UpdateUserModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202505281908510_InitialCreate.cs" />
+    <Compile Include="Migrations\202505281908510_InitialCreate.Designer.cs">
+      <DependentUpon>202505281908510_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AccessoryRepository.cs" />
@@ -126,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Context\Data\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Migrations\accessories.sql" />
@@ -138,6 +146,14 @@
     <Content Include="Migrations\shop.sql" />
     <Content Include="Migrations\teammember.sql" />
     <Content Include="Migrations\users.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202505281533141_UpdateUserModel.resx">
+      <DependentUpon>202505281533141_UpdateUserModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202505281908510_InitialCreate.resx">
+      <DependentUpon>202505281908510_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

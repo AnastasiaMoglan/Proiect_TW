@@ -1,34 +1,84 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
 using eUseControl.BusinessLogic.Services;
-using eUseControl.Domain.Interfaces;
+using eUseControl.Data.Repository;
 using eUseControl.Web.Models;
-using System;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace eUseControl.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class AdminController : Controller
+    [AllowAnonymous]
+    public class LoginController : Controller
     {
-        private readonly ITransferService _transferService;
-        private readonly IOrderService _orderService;
+        private readonly AuthenticationService _authService;
 
-        public AdminController(ITransferService transferService, IOrderService orderService)
+        public LoginController()
         {
-            _transferService = transferService ?? throw new ArgumentNullException(nameof(transferService));
-            _orderService = orderService ?? throw new ArgumentNullException(nameof(orderService));
+            // Instanțiere manuală a dependenței (fără Unity)
+            var userRepository = new UserRepository();
+            _authService = new AuthenticationService(userRepository);
         }
 
-        public ActionResult Dashboard()
+        [HttpGet]
+        public ActionResult Index()
         {
-            var transfers = _transferService.GetAllTransfers();
-            ViewBag.A2ATransfers = transfers;
-            
-            ViewBag.RecentOrders = _orderService.GetRecentOrders(5); // Get 5 most recent orders
-            
-            return View();
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(new LoginViewModel());
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (_authService.IsUserLocked(model.UsernameOrEmail))
+            {
+                ModelState.AddModelError("", "This account is locked due to too many failed attempts. Please contact support.");
+                return View(model);
+            }
+
+            var user = _authService.ValidateUser(model.UsernameOrEmail, model.Password);
+
+            if (user != null)
+            {
+                var authTicket = new FormsAuthenticationTicket(
+                    1,
+                    user.Email,
+                    DateTime.Now,
+                    DateTime.Now.AddDays(model.RememberMe ? 7 : 1),
+                    model.RememberMe,
+                    user.Role
+                );
+
+                string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
+                var authCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+
+                if (model.RememberMe)
+                {
+                    authCookie.Expires = DateTime.Now.AddDays(7);
+                }
+
+                Response.Cookies.Add(authCookie);
+
+                Session["UserId"] = user.Id;
+                Session["UserEmail"] = user.Email;
+                Session["UserName"] = user.Username;
+                Session["UserRole"] = user.Role;
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            ModelState.AddModelError("", "Invalid username/email or password");
+            return View(model);
+        }
     }
 }
